@@ -8,7 +8,7 @@ import lombok.Getter;
 /** 권한 테이블 */
 public class AuthorityVO {
     /** 권한아이디 */
-    private String authorityID;
+    private String authorityId;
     /** 권한명 */
     private String authorityName;
 }
