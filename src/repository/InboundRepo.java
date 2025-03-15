@@ -34,5 +34,22 @@ public interface InboundRepo {
      */
     void registerInboundInfo(List<ProductVO> inboundList);
 
+    /**
+     * [입고 수정, 삭제 기능]
+     * 수정, 삭제할 입고 ID의 입고상태 정보를 가져온다.
+     */
+    String getInboundStatus(int inboundId);
+
+    /**
+     * [입고 수정 기능]
+     * 수정 가능 -> 입고ID, 입고상세 정보를 변경한다(update)
+     */
+    void updateInboundInfo(int inboundId, List<ProductVO> inboundList);
+
+    /**
+     * [입고 취소 기능]
+     * 입고 ID 삭제
+     */
+    void deleteInboundInfo(int inboundId);
 
 }

@@ -27,5 +27,20 @@ public class InboundRepoImpl implements InboundRepo {
 
     }
 
+    @Override
+    public String getInboundStatus(int inboundId) {
+        return null;
+    }
+
+    @Override
+    public void updateInboundInfo(int inboundId, List<ProductVO> inboundList) {
+
+    }
+
+    @Override
+    public void deleteInboundInfo(int inboundId) {
+
+    }
+
 
 }
