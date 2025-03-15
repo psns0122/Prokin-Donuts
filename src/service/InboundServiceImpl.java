@@ -1,6 +1,7 @@
 package service;
 
 import dto.InboundDTO;
+import dto.ProductDTO;
 import repository.InboundRepo;
 
 import java.util.List;
@@ -21,5 +22,20 @@ public class InboundServiceImpl implements InboundService {
     @Override
     public void completedInbound(int inboundId) {
 
+    }
+
+    @Override
+    public List<ProductDTO> getProductMenu() {
+        return null;
+    }
+
+    @Override
+    public void registerInbound(List<ProductDTO> inboundList) {
+
+    }
+
+    @Override
+    public ProductDTO addProduct(ProductDTO productDTO) {
+        return null;
     }
 }
