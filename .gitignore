@@ -44,7 +44,7 @@ lombok.config
 .env
 
 # Database config (Private)
-util/dbinfo.properties
+config/dbinfo.properties
 
 # Javadoc files
 docs/
