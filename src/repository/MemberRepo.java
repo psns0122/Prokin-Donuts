@@ -49,5 +49,24 @@ public interface MemberRepo {
     Optional<MemberDTO> approvalMember(String memberNo);
 
 
+    /*
+     * [회원 간편/상세/권한별 조회 기능]
+     * 총관리자는 회원아이디와 권한을 기준으로 조회할 수 있다.
+     * 창고관리자는 회원아이디로 조회할 수 있다.
+     * 가맹점주는 본인 아이디로 조회할 수 있다.
+     *      ->현재는 조회 기준이 전부 String이라 t가 필요없긴함
+     * 회원이 존재하지 않을 경우  Optional 처리
+     */
+    <T> Optional<MemberDTO> loadMember(T serchValue);
+
+    /*
+     * [전체 회원 조회 기능]
+     * 저장된 전체 회원의 정보를 조회
+     * 회원이 존재하지 않아 리스트가 null값일 경우 Optional처리
+     */
+    Optional<List<MemberDTO>> allLoadMember();
+
+
+
 
 }

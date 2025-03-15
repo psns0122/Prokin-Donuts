@@ -31,4 +31,14 @@ public class MemberRepoImpl implements MemberRepo {
         return Optional.empty();
     }
 
+    @Override
+    public <T> Optional<MemberDTO> loadMember(T serchValue) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<List<MemberDTO>> allLoadMember() {
+        return Optional.empty();
+    }
+
 }
