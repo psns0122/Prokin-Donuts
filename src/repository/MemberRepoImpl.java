@@ -26,4 +26,9 @@ public class MemberRepoImpl implements MemberRepo {
         return false;
     }
 
+    @Override
+    public Optional<MemberDTO> approvalMember(String memberNo) {
+        return Optional.empty();
+    }
+
 }

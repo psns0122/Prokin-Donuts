@@ -40,5 +40,14 @@ public interface MemberRepo {
      */
     boolean requestMember(MemberDTO member);
 
+    /*
+     * [회원 승인 기능]
+     * 본사관리자는 가맹점주의 가입상태를 승인으로 변경
+     * 존재하지 않는 아이디의 경우  Optional 처리
+     * 트리거를 이용해 승인된 회원을 회원테이블에 추가 / 요청테이블에서 삭제
+     */
+    Optional<MemberDTO> approvalMember(String memberNo);
+
+
 
 }
