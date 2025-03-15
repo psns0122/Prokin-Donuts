@@ -8,11 +8,11 @@ import lombok.Getter;
 /** 가맹점 테이블 */
 public class FranchiseVO {
     /** 가맹점 아이디 */
-    private String franchiseID;
+    private String franchiseId;
     /** 가맹점 위치 */
-    private String franchiseAddress;
+    private String franchiseIdLocation;
     /** 회원번호 */
-    private String managerID;
+    private String managerNo;
     /** 권한 아이디 */
-    private String authorityID;
+    private String authorityId;
 }
