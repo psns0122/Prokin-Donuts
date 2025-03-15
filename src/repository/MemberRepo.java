@@ -67,6 +67,13 @@ public interface MemberRepo {
     Optional<List<MemberDTO>> allLoadMember();
 
 
+    /*
+     * [아이디 / 비밀번호 찾기 기능]
+     * 이메일로 아이디를 찾을 수 있다.
+     * 아이디로 비밀번호를 찾을 수 있다.
+     * 회원이 존재하지 않을 경우  Optional 처리
+     */
+    Optional<String>  searchLoginfo(String searchvalue);
 
 
 }

@@ -41,4 +41,10 @@ public class MemberRepoImpl implements MemberRepo {
         return Optional.empty();
     }
 
+    @Override
+    public Optional<String> searchLoginfo(String searchvalue) {
+        return Optional.empty();
+    }
+
+
 }
