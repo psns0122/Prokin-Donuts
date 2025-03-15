@@ -1,6 +1,8 @@
 package repository;
 
 import dto.InboundDTO;
+import dto.ProductDTO;
+import vo.ProductVO;
 
 import java.util.List;
 
@@ -21,9 +23,16 @@ public interface InboundRepo {
     void updateCompletedStatus(int inboundId);
 
     /**
-     *
+     * [입고 요청 기능]
+     * 제품 테이블에서 모든 제품 정보를 가져온다.
      */
+    List<ProductDTO> getProductInfo();
 
+    /**
+     * [입고 요청 기능]
+     * 입고 요청 정보를 입고, 입고상세 테이블에 저장한다.
+     */
+    void registerInboundInfo(List<ProductVO> inboundList);
 
 
 }

@@ -1,6 +1,8 @@
 package repository;
 
 import dto.InboundDTO;
+import dto.ProductDTO;
+import vo.ProductVO;
 
 import java.util.List;
 
@@ -14,4 +16,16 @@ public class InboundRepoImpl implements InboundRepo {
     public void updateCompletedStatus(int inboundId) {
 
     }
+
+    @Override
+    public List<ProductDTO> getProductInfo() {
+        return null;
+    }
+
+    @Override
+    public void registerInboundInfo(List<ProductVO> inboundList) {
+
+    }
+
+
 }
