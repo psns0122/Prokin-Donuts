@@ -112,4 +112,9 @@ public interface MemberService {   /*
      */
      String logOut(String memberid);
 
+     /*
+    [회원가입 요청 조회 기능]
+    repo의 loadRequestMember 호출해 해당 권한의 회원정보 확인
+    */
+     List<MemberDTO> searchRequestMember ();
 }
