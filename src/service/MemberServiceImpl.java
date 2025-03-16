@@ -77,4 +77,14 @@ public class MemberServiceImpl implements MemberService {
     public MemberDTO approvalMember(String memberNo) {
         return null;
     }
+
+    @Override
+    public String logIn(String memberid) {
+        return null;
+    }
+
+    @Override
+    public String logOut(String memberid) {
+        return null;
+    }
 }
