@@ -8,17 +8,17 @@ import java.util.Optional;
 public class MemberRepoImpl implements MemberRepo {
 
     @Override
-    public MemberDTO addMember(MemberDTO member) {
+    public MemberDTO insertMember(MemberDTO member) {
         return null;
     }
 
     @Override
-    public Optional<MemberDTO> updateMember(String memberNo, MemberDTO updateMember) {
+    public Optional<MemberDTO> updateMember(String memberId, MemberDTO updateMember) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<MemberDTO> deleteMember(String memberNo) {
+    public Optional<MemberDTO> deleteMember(String memberId) {
         return Optional.empty();
     }
 
@@ -28,12 +28,12 @@ public class MemberRepoImpl implements MemberRepo {
     }
 
     @Override
-    public Optional<MemberDTO> approvalMember(String memberNo) {
+    public Optional<MemberDTO> approvalMember(String memberId) {
         return Optional.empty();
     }
 
     @Override
-    public <T> Optional<MemberDTO> loadMember(T serchValue) {
+    public <T> Optional<List<MemberDTO>> loadMember(T serchValue) {
         return Optional.empty();
     }
 
@@ -44,6 +44,16 @@ public class MemberRepoImpl implements MemberRepo {
 
     @Override
     public Optional<String> searchLoginfo(String searchValue) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<String> logInnOut(String memberId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<List<MemberDTO>> loadRequestMember() {
         return Optional.empty();
     }
 }
