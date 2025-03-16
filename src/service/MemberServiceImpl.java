@@ -26,4 +26,9 @@ public class MemberServiceImpl implements MemberService {
     public MemberDTO requestMember(MemberDTO member) {
         return null;
     }
+
+    @Override
+    public MemberDTO checkId(String memberNo) {
+        return null;
+    }
 }

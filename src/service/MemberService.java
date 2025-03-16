@@ -32,6 +32,12 @@ public interface MemberService {   /*
      */
     MemberDTO requestMember(MemberDTO member);
 
+    /*
+    [회원아이디 중복검사 기능]
+    repo의 searchLoginfo를 호출 해당 아이디가 존재하는지 확인
+     */
+    MemberDTO checkId (String memberNo);
+
 
 
 }
