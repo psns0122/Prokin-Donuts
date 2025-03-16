@@ -13,7 +13,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDTO updateMember(String memberNo, MemberDTO updateMember) {
+    public MemberDTO updateMember(MemberDTO updateMember) {
         return null;
     }
 

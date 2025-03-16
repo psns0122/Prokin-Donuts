@@ -14,18 +14,16 @@ public interface MemberService {   /*
 
     /*
      * [회원 수정 기능]
-     * repo의 loadMember 호출하여 아이디를 전달해 정보 조회 후
      * repo의 updateMember 호출하여 해당 아이디의 회원정보 update
      */
-    MemberDTO updateMember(String memberNo, MemberDTO updateMember);
+    MemberDTO updateMember(MemberDTO updateMember);
 
 
     /*
      * [회원 삭제 기능]
      * repo의 loadMember 호출하여 아이디를 전달해 정보 조회 후
-     * repo의 deleteMember 호출하여 해당 아이디의 회원정보 update
+     * repo의 deleteMember 호출하여 해당 아이디의 회원정보 delete
      */
     MemberDTO deleteMember(String memberNo);
-
 
 }
