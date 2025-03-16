@@ -19,7 +19,7 @@ public interface MemberRepo {
      * 가맹점주는 본인 정보 수정
      * 수정하려는 회원이 없을 경우  Optional 처리
      */
-    Optional<MemberDTO> updateMember(String memberNo, MemberDTO updatemember);
+    Optional<MemberDTO> updateMember(String memberNo, MemberDTO updateMember);
 
 
     /*
@@ -73,7 +73,7 @@ public interface MemberRepo {
      * 아이디로 비밀번호를 찾을 수 있다.
      * 회원이 존재하지 않을 경우  Optional 처리
      */
-    Optional<String>  searchLoginfo(String searchvalue);
+    Optional<String>  searchLoginfo(String searchValue);
 
 
 }
