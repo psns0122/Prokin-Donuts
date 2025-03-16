@@ -48,7 +48,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDTO searchAll(String memberNo) {
+    public MemberDTO searchAll() {
         return null;
     }
+
+
 }

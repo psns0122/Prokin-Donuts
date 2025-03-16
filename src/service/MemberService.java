@@ -60,7 +60,7 @@ public interface MemberService {   /*
     [전체 회원 조회기능]
     repo의 allLoadMember 호출해 해당 아이디의 모든 회원정보 확인
      */
-    MemberDTO searchAll (String memberNo);
+    MemberDTO searchAll();
 
 
 }
