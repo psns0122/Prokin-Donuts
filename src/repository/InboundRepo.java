@@ -65,5 +65,12 @@ public interface InboundRepo {
      */
     void updateInboundStatus(int inboundId);
 
+    /**
+     * [입고 고지서 출력]
+     * 창고 ID를 통해 모든 입고요청서를 가져온다
+     * (입고 테이블의 모든 정보)
+     */
+    List<InboundDTO> getAllInboundInfo(int warehouseId);
+
 
 }

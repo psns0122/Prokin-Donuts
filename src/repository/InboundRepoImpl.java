@@ -52,5 +52,10 @@ public class InboundRepoImpl implements InboundRepo {
 
     }
 
+    @Override
+    public List<InboundDTO> getAllInboundInfo(int warehouseId) {
+        return null;
+    }
+
 
 }
