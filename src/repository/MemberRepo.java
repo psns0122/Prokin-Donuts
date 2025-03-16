@@ -84,4 +84,11 @@ public interface MemberRepo {
     * 로그아웃 -> 로그인
      */
     Optional<String>  logInnOut(String memberId);
+
+    /*
+     * [회원 가입 요청 조회 기능]
+     * 본사관리자는 가맹점주의 회원가입 요청 목록을 조회
+     * 존재하지 않는 아이디의 경우  Optional 처리
+    */
+    Optional<List<MemberDTO>> loadRequestMember();
 }

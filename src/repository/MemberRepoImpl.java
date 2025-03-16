@@ -51,4 +51,9 @@ public class MemberRepoImpl implements MemberRepo {
     public Optional<String> logInnOut(String memberId) {
         return Optional.empty();
     }
+
+    @Override
+    public Optional<List<MemberDTO>> loadRequestMember() {
+        return Optional.empty();
+    }
 }
