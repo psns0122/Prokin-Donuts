@@ -52,4 +52,18 @@ public interface InboundRepo {
      */
     void deleteInboundInfo(int inboundId);
 
+    // 총관리자(본사)
+    /**
+     * [입고 요청 승인]
+     * (입고요청) 상태인 입고 요청서를 가져온다.
+     */
+    List<InboundDTO> getInboundRequest();
+
+    /**
+     * [입고 요청 승인]
+     * 승인할 입고ID를 입력하면 상태를 (요청 -> 승인) 변경
+     */
+    void updateInboundStatus(int inboundId);
+
+
 }

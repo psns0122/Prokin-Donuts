@@ -42,5 +42,15 @@ public class InboundRepoImpl implements InboundRepo {
 
     }
 
+    @Override
+    public List<InboundDTO> getInboundRequest() {
+        return null;
+    }
+
+    @Override
+    public void updateInboundStatus(int inboundId) {
+
+    }
+
 
 }
