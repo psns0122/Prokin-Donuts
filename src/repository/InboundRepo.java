@@ -54,6 +54,7 @@ public interface InboundRepo {
     void deleteInboundInfo(int inboundId);
 
     // 총관리자(본사)
+
     /**
      * [입고 요청 승인]
      * (입고요청) 상태인 입고 요청서를 가져온다.
