@@ -4,6 +4,7 @@ import dto.InboundDTO;
 import dto.ProductDTO;
 import vo.ProductVO;
 
+import java.util.Date;
 import java.util.List;
 
 public interface InboundRepo {
@@ -67,10 +68,27 @@ public interface InboundRepo {
 
     /**
      * [입고 고지서 출력]
-     * 창고 ID를 통해 모든 입고요청서를 가져온다
+     * 창고 ID를 통해 모든 입고요청서를 가져온다.
      * (입고 테이블의 모든 정보)
      */
     List<InboundDTO> getAllInboundInfo(int warehouseId);
+
+    /**
+     * [입고 현황 조회]
+     * 전체 창고 입고 현황 리스트 출력
+     * 입고와 입고상세 join한 정보를 가져온다.
+     * DTO 추후 변경
+     */
+    List<InboundDTO> getAllInbound();
+
+    /**
+     * [입고 현황 조회]
+     * 전체 창고 기간별 현황 조회
+     * 입고와 입고상세 join한 정보를 가져온다.
+     * DTO 추후 변경
+     */
+
+    List<InboundDTO> getInboundByDate(Date start_date, Date end_date);
 
 
 }
