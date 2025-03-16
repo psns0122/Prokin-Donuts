@@ -50,6 +50,11 @@ public interface MemberService {   /*
      */
     MemberDTO searchDitail (String memberNo);
 
+    /*
+      [권한별 조회 기능]
+      repo의 loadMember 호출해 해당 권한의 회원정보 확인
+       */
+    MemberDTO searchAuthority (String authority);
 
     /*
     [전체 회원 조회기능]

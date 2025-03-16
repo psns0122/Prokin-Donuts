@@ -43,6 +43,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public MemberDTO searchAuthority(String authority) {
+        return null;
+    }
+
+    @Override
     public MemberDTO searchAll(String memberNo) {
         return null;
     }
