@@ -33,9 +33,4 @@ public class InboundServiceImpl implements InboundService {
     public void registerInbound(List<ProductDTO> inboundList) {
 
     }
-
-    @Override
-    public ProductDTO addProduct(ProductDTO productDTO) {
-        return null;
-    }
 }

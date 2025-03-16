@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface InboundService {
 
-    //[입고 검수 Service]
+    // [입고 검수 Service]
 
     /**
      * 입고(승인) 고지서를 반환하는 service
@@ -23,7 +23,7 @@ public interface InboundService {
      */
     void completedInbound(int inboundId);
 
-    //[입고 요청 Service]
+    // [입고 요청 Service]
     /**
      * 입고 요청시 상품 Menu 정보
      */
@@ -33,10 +33,4 @@ public interface InboundService {
      * 입고 요청 등록
      */
     void registerInbound(List<ProductDTO> inboundList);
-
-    /**
-     * 입고 상세 등록 -> 입고 요청 등록에서 사용
-     */
-    ProductDTO addProduct(ProductDTO productDTO);
-
 }
