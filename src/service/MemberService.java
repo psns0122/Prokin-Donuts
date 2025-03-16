@@ -63,4 +63,19 @@ public interface MemberService {   /*
     MemberDTO searchAll();
 
 
+    /*
+     * [아이디 찾기 기능]
+     * searchLoginfo 호출
+     * 이메일로 아이디를 찾을 수 있다.
+     */
+    String findId(String memberEmail);
+
+    /*
+     * [비밀번호 찾기 기능]
+     * searchLoginfo 호출
+     * 아이디로 비밀번호를 찾을 수 있다.
+     */
+    String findPassword(String memberNo);
+
+
 }

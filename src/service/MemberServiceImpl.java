@@ -52,5 +52,15 @@ public class MemberServiceImpl implements MemberService {
         return null;
     }
 
+    @Override
+    public String findId(String memberEmail) {
+        return null;
+    }
+
+    @Override
+    public String findPassword(String memberNo) {
+        return null;
+    }
+
 
 }
