@@ -19,7 +19,7 @@ public interface MemberRepo {
      * 가맹점주는 본인 정보 수정
      * 수정하려는 회원이 없을 경우  Optional 처리
      */
-    Optional<MemberDTO> updateMember(String memberid, MemberDTO updateMember);
+    Optional<MemberDTO> updateMember(String memberId, MemberDTO updateMember);
 
 
     /*
@@ -29,7 +29,7 @@ public interface MemberRepo {
      * 존재하지 않는 아이디의 경우  Optional 처리
      * 삭제된 멤버의 간단한 정보(아이디,이름 등) 리턴
      */
-    Optional<MemberDTO> deleteMember(String memberid);
+    Optional<MemberDTO> deleteMember(String memberId);
 
 
     /*
@@ -46,7 +46,7 @@ public interface MemberRepo {
      * 존재하지 않는 아이디의 경우  Optional 처리
      * 트리거를 이용해 승인된 회원을 회원테이블에 추가 / 회원가입 요청 테이블에서 삭제
      */
-    Optional<MemberDTO> approvalMember(String memberid);
+    Optional<MemberDTO> approvalMember(String memberId);
 
 
     /*
@@ -83,5 +83,5 @@ public interface MemberRepo {
     * 로그인-> 로그아웃
     * 로그아웃 -> 로그인
      */
-    Optional<String>  logInnOut(String memberid);
+    Optional<String>  logInnOut(String memberId);
 }

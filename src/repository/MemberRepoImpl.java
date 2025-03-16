@@ -6,18 +6,19 @@ import java.util.List;
 import java.util.Optional;
 
 public class MemberRepoImpl implements MemberRepo {
+
     @Override
     public MemberDTO insertMember(MemberDTO member) {
         return null;
     }
 
     @Override
-    public Optional<MemberDTO> updateMember(String memberid, MemberDTO updateMember) {
+    public Optional<MemberDTO> updateMember(String memberId, MemberDTO updateMember) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<MemberDTO> deleteMember(String memberid) {
+    public Optional<MemberDTO> deleteMember(String memberId) {
         return Optional.empty();
     }
 
@@ -27,7 +28,7 @@ public class MemberRepoImpl implements MemberRepo {
     }
 
     @Override
-    public Optional<MemberDTO> approvalMember(String memberid) {
+    public Optional<MemberDTO> approvalMember(String memberId) {
         return Optional.empty();
     }
 
@@ -47,7 +48,7 @@ public class MemberRepoImpl implements MemberRepo {
     }
 
     @Override
-    public Optional<String> logInnOut(String memberid) {
+    public Optional<String> logInnOut(String memberId) {
         return Optional.empty();
     }
 }
