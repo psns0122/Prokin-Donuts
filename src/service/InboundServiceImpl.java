@@ -20,6 +20,26 @@ public class InboundServiceImpl implements InboundService {
     }
 
     @Override
+    public void updateInboundInfo(int inboundId, List<ProductDTO> inboundList) {
+
+    }
+
+    @Override
+    public boolean checkInboundDate(int inboundId) {
+        return false;
+    }
+
+    @Override
+    public void deleteInboundInfo(int inboundId) {
+
+    }
+
+    @Override
+    public List<InboundDTO> getApprovalInboundList() {
+        return null;
+    }
+
+    @Override
     public void completedInbound(int inboundId) {
 
     }
