@@ -11,7 +11,7 @@ public interface MemberRepo {
      * [회원 등록 기능]
      * 본사관리자가 신규 창고관리자를 등록
      */
-     MemberDTO addMember(MemberDTO member);
+     MemberDTO insertMember(MemberDTO member);
 
     /*
      * [회원 수정 기능]
@@ -19,7 +19,7 @@ public interface MemberRepo {
      * 가맹점주는 본인 정보 수정
      * 수정하려는 회원이 없을 경우  Optional 처리
      */
-    Optional<MemberDTO> updateMember(String memberNo, MemberDTO updateMember);
+    Optional<MemberDTO> updateMember(String memberid, MemberDTO updateMember);
 
 
     /*
@@ -29,12 +29,12 @@ public interface MemberRepo {
      * 존재하지 않는 아이디의 경우  Optional 처리
      * 삭제된 멤버의 간단한 정보(아이디,이름 등) 리턴
      */
-    Optional<MemberDTO> deleteMember(String memberNo);
+    Optional<MemberDTO> deleteMember(String memberid);
 
 
     /*
      * [회원 가입 기능]
-     * 가맹점주의 회원가입 요청을 요청테이블에 저장
+     * 가맹점주의 회원가입 요청을 회원가입 요청테이블에 저장
      * 요청상태 :승인대기
      * 승인 실패의 경우 : 이미 존재하는 아이디의 경우 예외처리
      */
@@ -42,11 +42,11 @@ public interface MemberRepo {
 
     /*
      * [회원 승인 기능]
-     * 본사관리자는 가맹점주의 가입상태를 승인으로 변경
+     * 본사관리자는 가맹점주의 요청상태를 승인으로 변경
      * 존재하지 않는 아이디의 경우  Optional 처리
-     * 트리거를 이용해 승인된 회원을 회원테이블에 추가 / 요청테이블에서 삭제
+     * 트리거를 이용해 승인된 회원을 회원테이블에 추가 / 회원가입 요청 테이블에서 삭제
      */
-    Optional<MemberDTO> approvalMember(String memberNo);
+    Optional<MemberDTO> approvalMember(String memberid);
 
 
     /*
@@ -57,7 +57,7 @@ public interface MemberRepo {
      *      ->현재는 조회 기준이 전부 String이라 t가 필요없긴함
      * 회원이 존재하지 않을 경우  Optional 처리
      */
-    <T> Optional<MemberDTO> loadMember(T serchValue);
+    <T>  Optional<List<MemberDTO>> loadMember(T serchValue);
 
     /*
      * [전체 회원 조회 기능]
@@ -68,12 +68,20 @@ public interface MemberRepo {
 
 
     /*
-     * [아이디 / 비밀번호 찾기 기능]
+     * [회원 정보 확인 기능]
+     * 아이디찾기 / 비밀번호 찾기 / 로그인상태
      * 이메일로 아이디를 찾을 수 있다.
      * 아이디로 비밀번호를 찾을 수 있다.
+     * 회원의 로그인상태를 구분한다.
      * 회원이 존재하지 않을 경우  Optional 처리
      */
     Optional<String>  searchLoginfo(String searchValue);
 
-
+    /*
+    [로그인/로그아웃 기능]
+    * 회원의 로그상태를 변환한다.
+    * 로그인-> 로그아웃
+    * 로그아웃 -> 로그인
+     */
+    Optional<String>  logInnOut(String memberid);
 }
