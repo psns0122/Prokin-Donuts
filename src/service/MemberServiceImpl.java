@@ -7,7 +7,6 @@ import java.util.List;
 
 public class MemberServiceImpl implements MemberService {
 
-
     @Override
     public MemberDTO addMember(MemberDTO member) {
         return null;
@@ -75,6 +74,21 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberDTO approvalMember(String memberNo) {
+        return null;
+    }
+
+    @Override
+    public String logIn(String memberid) {
+        return null;
+    }
+
+    @Override
+    public String logOut(String memberid) {
+        return null;
+    }
+
+    @Override
+    public List<MemberDTO> searchRequestMember() {
         return null;
     }
 }
