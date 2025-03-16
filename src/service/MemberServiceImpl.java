@@ -62,5 +62,15 @@ public class MemberServiceImpl implements MemberService {
         return null;
     }
 
+    @Override
+    public String randomNumber(String memberEmail) {
+        return null;
+    }
+
+    @Override
+    public boolean checkRandomNumber(String randomNumber) {
+        return false;
+    }
+
 
 }
