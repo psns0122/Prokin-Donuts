@@ -72,5 +72,10 @@ public class MemberServiceImpl implements MemberService {
         return false;
     }
 
+    @Override
+    public MemberDTO approvalMember(String memberNo) {
+        return null;
+    }
+
 
 }
