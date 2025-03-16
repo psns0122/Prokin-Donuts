@@ -4,6 +4,7 @@ import dto.InboundDTO;
 import dto.ProductDTO;
 import repository.InboundRepo;
 
+import java.util.Date;
 import java.util.List;
 
 public class InboundServiceImpl implements InboundService {
@@ -32,6 +33,21 @@ public class InboundServiceImpl implements InboundService {
     @Override
     public void deleteInboundInfo(int inboundId) {
 
+    }
+
+    @Override
+    public List<ProductDTO> getInboundDetail(int inboundId) {
+        return null;
+    }
+
+    @Override
+    public List<InboundDTO> getAllInboundInfo() {
+        return null;
+    }
+
+    @Override
+    public List<InboundDTO> getDateInboundInfo(Date start_date, Date end_date) {
+        return null;
     }
 
     @Override

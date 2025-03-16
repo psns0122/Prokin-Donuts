@@ -3,6 +3,7 @@ package service;
 import dto.InboundDTO;
 import dto.ProductDTO;
 
+import java.util.Date;
 import java.util.List;
 
 public interface InboundService {
@@ -57,5 +58,37 @@ public interface InboundService {
      * 입고ID 입력시 입고 요청 취소
      */
     void deleteInboundInfo(int inboundId);
+
+    // [입고 고지서 출력 Service]
+
+    /**
+     * 입고 요청, 승인 상태 고지서 출력
+     *  getInboundList() 메서드 사용
+     */
+
+    /**
+     * 입고 ID 입력시 입고 상세 정보 출력
+     * 반환 DTO는 추후 수정 예정
+     */
+    List<ProductDTO> getInboundDetail(int inboundId);
+
+    // [입고 현황 조회 Service]
+
+    /**
+     * 입고 테이블 정보 출력
+     */
+    List<InboundDTO> getAllInboundInfo();
+
+    /**
+     * 기간별 입고현황 조회
+     * 기간 입력시 기간별 입고현황 리스트 출력
+     * DTO 추후 수정
+     */
+    List<InboundDTO> getDateInboundInfo(Date start_date, Date end_date);
+
+    /**
+     * 월별 입고 현황 조회 -> 추후 개발
+     */
+
 
 }
