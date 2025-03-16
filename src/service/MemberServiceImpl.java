@@ -31,4 +31,19 @@ public class MemberServiceImpl implements MemberService {
     public MemberDTO checkId(String memberNo) {
         return null;
     }
+
+    @Override
+    public MemberDTO searchSimple(String memberNo) {
+        return null;
+    }
+
+    @Override
+    public MemberDTO searchDitail(String memberNo) {
+        return null;
+    }
+
+    @Override
+    public MemberDTO searchAll(String memberNo) {
+        return null;
+    }
 }

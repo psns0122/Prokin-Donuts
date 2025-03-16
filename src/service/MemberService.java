@@ -38,6 +38,24 @@ public interface MemberService {   /*
      */
     MemberDTO checkId (String memberNo);
 
+    /*
+    [회원아이디 간편조회 기능]
+    repo의 loadMember 호출해 해당 아이디의 아이디/이름/이메일 등 확인
+     */
+    MemberDTO searchSimple (String memberNo);
+
+    /*
+    [회원아이디 상세조회 기능]
+    repo의 loadMember 호출해 해당 아이디의 모든 회원정보 확인
+     */
+    MemberDTO searchDitail (String memberNo);
+
+
+    /*
+    [전체 회원 조회기능]
+    repo의 allLoadMember 호출해 해당 아이디의 모든 회원정보 확인
+     */
+    MemberDTO searchAll (String memberNo);
 
 
 }
