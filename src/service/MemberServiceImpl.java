@@ -3,9 +3,10 @@ package service;
 import dto.MemberDTO;
 import repository.MemberRepo;
 
+import java.util.List;
+
 public class MemberServiceImpl implements MemberService {
-    public MemberServiceImpl(MemberRepo memberRepo) {
-    }
+
 
     @Override
     public MemberDTO addMember(MemberDTO member) {
@@ -48,7 +49,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDTO searchAll() {
+    public List<MemberDTO> searchAll() {
         return null;
     }
 
@@ -76,6 +77,4 @@ public class MemberServiceImpl implements MemberService {
     public MemberDTO approvalMember(String memberNo) {
         return null;
     }
-
-
 }
