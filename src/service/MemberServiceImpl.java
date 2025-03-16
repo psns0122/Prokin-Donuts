@@ -21,4 +21,9 @@ public class MemberServiceImpl implements MemberService {
     public MemberDTO deleteMember(String memberNo) {
         return null;
     }
+
+    @Override
+    public MemberDTO requestMember(MemberDTO member) {
+        return null;
+    }
 }

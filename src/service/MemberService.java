@@ -26,4 +26,12 @@ public interface MemberService {   /*
      */
     MemberDTO deleteMember(String memberNo);
 
+    /*
+     * [회원 가입 기능]
+     * repo의 requestMember 호출하여 데이터를 저장
+     */
+    MemberDTO requestMember(MemberDTO member);
+
+
+
 }
