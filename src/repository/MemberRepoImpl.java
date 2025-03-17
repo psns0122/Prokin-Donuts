@@ -243,12 +243,28 @@ public class MemberRepoImpl implements MemberRepo {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.closeQuietly(rs,cs,conn);
         }
         return Optional.empty();
     }
 
+    //로그인/로그아웃 기능
     @Override
     public Optional<String> logInnOut(String memberId) {
+        conn = DBUtil.getConnection();
+        try {
+            String sql = "{call logInOut(?)}";
+            cs = conn.prepareCall(sql);
+            cs.setString(1,memberId);
+            int rs = cs.executeUpdate();
+            if(rs>0) return Optional.of(memberId);
+            else return Optional.empty();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
         return Optional.empty();
     }
 
