@@ -1,9 +1,9 @@
 package vo.memberVO;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 @AllArgsConstructor
 /** 회원 테이블 */
 public class MemberVO {
@@ -23,4 +23,7 @@ public class MemberVO {
     private String id;
     /** 회원 비밀번호 */
     private String password;
+    /* 로그인 상태 */
+    private String logstatus;
+    public MemberVO() {}
 }

@@ -10,6 +10,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ public class MemberRepoImpl implements MemberRepo {
 
     Connection conn = null;
     CallableStatement cs = null;
+    ResultSet rs = null;
 
     // 회원 등록 메서드
     @Override
@@ -158,8 +160,37 @@ public class MemberRepoImpl implements MemberRepo {
         return Optional.empty();
     }
 
+    //회원 검색 메서드
     @Override
-    public <T> Optional<List<MemberVO>> loadMember(String searchAttribute, T serchValue) {
+    public Optional<List<MemberVO>> loadMember(String searchAttribute, String serchValue) {
+        List<MemberVO> loadMember = new ArrayList<>();
+        conn = DBUtil.getConnection();
+        try {
+            String sql = "{call searchMember(?,?)}";
+            cs = conn.prepareCall(sql);
+            cs.setString(1,searchAttribute);
+            cs.setString(2, serchValue);
+
+            rs = cs.executeQuery();
+            MemberVO memberVO = new MemberVO();
+            while (rs.next()){
+                memberVO.setMemberNo(rs.getInt("memberNo"));
+                memberVO.setAuthorityId(rs.getInt("authorityId"));
+                memberVO.setName(rs.getString("name"));
+                memberVO.setPhoneNumber(rs.getString("phoneNumber"));
+                memberVO.setEmail(rs.getString("email"));
+                memberVO.setAddress(rs.getString("address"));
+                memberVO.setId(rs.getString("id"));
+                memberVO.setPassword(rs.getString("password"));
+                memberVO.setLogstatus(rs.getString("logstatus"));
+                loadMember.add(memberVO);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeQuietly(rs,cs,conn);
+        }
         return Optional.empty();
     }
 

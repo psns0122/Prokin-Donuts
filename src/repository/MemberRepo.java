@@ -57,10 +57,9 @@ public interface MemberRepo {
      * 총관리자는 회원아이디와 권한을 기준으로 조회할 수 있다.
      * 창고관리자는 회원아이디로 조회할 수 있다.
      * 가맹점주는 본인 아이디로 조회할 수 있다.
-     *      ->현재는 조회 기준이 전부 String이라 t가 필요없긴함
      * 회원이 존재하지 않을 경우  Optional 처리
      */
-    <T>  Optional<List<MemberVO>> loadMember(String searchAttribut,T serchValue);
+    Optional<List<MemberVO>> loadMember(String searchAttribut,String serchValue);
 
     /*
      * [전체 회원 조회 기능]
