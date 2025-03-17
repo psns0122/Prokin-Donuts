@@ -8,9 +8,9 @@ import lombok.Getter;
 /** 회원 테이블 */
 public class MemberVO {
     /** 회원번호 */
-    private String memberNo;
+    private int memberNo;
     /** 권한 아이디 */
-    private String authorityId;
+    private int authorityId;
     /** 회원 이름 */
     private String name;
     /** 회원 전화번호 */

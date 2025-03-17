@@ -1,8 +1,13 @@
 package vo.memberVO;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class memberreauestVO {
     /** 권한 아이디 */
-    private String authorityId;
+    private int authorityId;
     /** 회원 이름 */
     private String name;
     /** 회원 전화번호 */
