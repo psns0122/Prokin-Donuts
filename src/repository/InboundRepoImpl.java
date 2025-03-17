@@ -50,8 +50,14 @@ public class InboundRepoImpl implements InboundRepo {
         }
     }
 
+    /**
+     * [입고 검수 기능]
+     * 입고 ID의 상태 (승인 -> 완료)를 변경
+     * @param inboundId
+     */
     @Override
     public void updateCompletedStatus(int inboundId) {
+        
 
     }
 
