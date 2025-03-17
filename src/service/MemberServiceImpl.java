@@ -2,55 +2,60 @@ package service;
 
 import dto.memberDTO.MemberDTO;
 import repository.MemberRepo;
+import vo.memberVO.MemberVO;
 
 import java.util.List;
 
 public class MemberServiceImpl implements MemberService {
+    MemberRepo memberRepo;
+
     public MemberServiceImpl(MemberRepo memberRepo) {
+        this.memberRepo = memberRepo;
     }
 
+    //회원 등록 기능
     @Override
-    public MemberDTO addMember(MemberDTO member) {
+    public MemberVO addMember(MemberVO member) {
         return null;
     }
 
     @Override
-    public MemberDTO updateMember(MemberDTO updateMember) {
+    public MemberVO updateMember(MemberVO updateMember) {
         return null;
     }
 
     @Override
-    public MemberDTO deleteMember(String memberNo) {
+    public MemberVO deleteMember(String memberNo) {
         return null;
     }
 
     @Override
-    public MemberDTO requestMember(MemberDTO member) {
+    public MemberVO requestMember(MemberVO member) {
         return null;
     }
 
     @Override
-    public MemberDTO checkId(String memberNo) {
+    public MemberVO checkId(String memberNo) {
         return null;
     }
 
     @Override
-    public MemberDTO searchSimple(String memberNo) {
+    public MemberVO searchSimple(String memberNo) {
         return null;
     }
 
     @Override
-    public MemberDTO searchDitail(String memberNo) {
+    public MemberVO searchDitail(String memberNo) {
         return null;
     }
 
     @Override
-    public MemberDTO searchAuthority(String authority) {
+    public MemberVO searchAuthority(String authority) {
         return null;
     }
 
     @Override
-    public List<MemberDTO> searchAll() {
+    public List<MemberVO> searchAll() {
         return null;
     }
 
@@ -75,7 +80,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDTO approvalMember(String memberNo) {
+    public MemberVO approvalMember(String memberNo) {
         return null;
     }
 
@@ -90,7 +95,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<MemberDTO> searchRequestMember() {
+    public List<MemberVO> searchRequestMember() {
         return null;
     }
 }
