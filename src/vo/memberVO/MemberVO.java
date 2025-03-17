@@ -1,4 +1,4 @@
-package vo;
+package vo.memberVO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
