@@ -1,11 +1,14 @@
 package service;
 
 import dto.MemberDTO;
+import repository.FranchiseRepo;
 import repository.MemberRepo;
 
 import java.util.List;
 
 public class MemberServiceImpl implements MemberService {
+    public MemberServiceImpl(MemberRepo memberRepo) {
+    }
 
     @Override
     public MemberDTO addMember(MemberDTO member) {
