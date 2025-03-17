@@ -71,7 +71,11 @@ public class InboundServiceImpl implements InboundService {
         inboundRepo.registerInboundDetailInfo(inboundList);
     }
 
-
+    /**
+     * [입고 요청 수정]
+     * 입고 요청 리스트 출력 (요청, 승인) 상태
+     * @return 입고 요청 리스트
+     */
     @Override
     public List<InboundDTO> getInboundList() {
         return null;

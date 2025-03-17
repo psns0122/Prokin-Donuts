@@ -157,12 +157,12 @@ public class InboundRepoImpl implements InboundRepo {
 
     /**
      * [입고 수정, 삭제 기능]
-     * 수정, 삭제할 입고 ID의 입고 상태 정보를 가져온다.
+     * 수정, 삭제할 입고 ID의 입고 요청을 가져온다.
      *
      * @param inboundId
      * @return '입고상태'
      */
-
+/*
     @Override
     public Optional<String> getInboundStatus(int inboundId) {
         try {
@@ -179,7 +179,7 @@ public class InboundRepoImpl implements InboundRepo {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     /**
      * [입고 수정 기능]
