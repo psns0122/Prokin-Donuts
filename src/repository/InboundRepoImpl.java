@@ -3,7 +3,6 @@ package repository;
 import config.DBUtil;
 import dto.inbound.InboundDTO;
 import dto.inbound.ProductDTO;
-import vo.ProductVO;
 import vo.inbound.InboundVO;
 import vo.inbound.InboundDetailVO;
 
@@ -44,8 +43,7 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(inboundVO);
             }
-            rs.close();
-            cs.close();
+            DBUtil.closeQuietly(rs, cs, conn);
             return Optional.of(list);
 
         } catch (SQLException e) {
@@ -67,7 +65,7 @@ public class InboundRepoImpl implements InboundRepo {
             cs = conn.prepareCall("{call updateCompletedStatus(?)}");
             cs.setInt(1, inboundId);
             cs.execute();
-            cs.close();
+            DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -97,8 +95,7 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(productDTO);
             }
-            rs.close();
-            pstmt.close();
+            DBUtil.closeQuietly(rs, cs, conn);
             return Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -128,9 +125,7 @@ public class InboundRepoImpl implements InboundRepo {
                     throw new RuntimeException(e);
                 }
             });
-            conn.commit();
-            cs.close();
-            conn.close();
+            DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -153,8 +148,7 @@ public class InboundRepoImpl implements InboundRepo {
             cs.execute();
             conn.commit();
 
-            cs.close();
-            conn.close();
+            DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -179,6 +173,7 @@ public class InboundRepoImpl implements InboundRepo {
             if (rs.next()) {
                 status = rs.getString("inboundStatus");
             }
+            DBUtil.closeQuietly(rs, cs, conn);
             return Optional.ofNullable(status);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -260,7 +255,7 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(inboundVO);
             }
-            rs.close();
+            DBUtil.closeQuietly(rs, null, conn);
             pstmt.close();
             return Optional.of(list);
 
@@ -282,6 +277,7 @@ public class InboundRepoImpl implements InboundRepo {
             cs.setInt(1, inboundId);
             cs.execute();
             cs.close();
+            DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -315,7 +311,7 @@ public class InboundRepoImpl implements InboundRepo {
             throw new RuntimeException(e);
         }
     }
-
+    // 입고 현황 조회 추후 개발 예정
     @Override
     public Optional<List<InboundDTO>> getAllInbound() {
         return Optional.empty();
