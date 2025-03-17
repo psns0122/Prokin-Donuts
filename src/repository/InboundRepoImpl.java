@@ -287,9 +287,33 @@ public class InboundRepoImpl implements InboundRepo {
         }
     }
 
+    /**
+     * [입고 고지서 출력]
+     * @param warehouseId
+     * @return
+     */
     @Override
-    public Optional<List<InboundDTO>> getAllInboundInfo(int warehouseId) {
-        return Optional.empty();
+    public Optional<List<InboundVO>> getAllInboundInfo(int warehouseId) {
+        List<InboundVO> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM InboundDTO";
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                InboundVO inboundVO = InboundVO.builder()
+                        .inboundId(rs.getInt("inboundId"))
+                        .inboundDate(rs.getDate("inboundDate"))
+                        .status(rs.getString("inboundStatus"))
+                        .warehouseId(rs.getInt("warehouseId"))
+                        .build();
+                list.add(inboundVO);
+            }
+            DBUtil.closeQuietly(rs, cs, conn);
+            return Optional.of(list);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
