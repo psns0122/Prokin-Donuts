@@ -83,9 +83,11 @@ public class MemberServiceImpl implements MemberService {
         return result.orElse(Collections.emptyList());
     }
 
+    //전체 회원 조회기능
     @Override
     public List<MemberDTO> searchAll() {
-        return null;
+        Optional<List<MemberDTO>> result = memberRepo.allLoadMember();
+        return result.orElse(Collections.emptyList());
     }
 
     @Override
