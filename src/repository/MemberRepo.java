@@ -57,7 +57,7 @@ public interface MemberRepo {
      *      ->현재는 조회 기준이 전부 String이라 t가 필요없긴함
      * 회원이 존재하지 않을 경우  Optional 처리
      */
-    <T>  Optional<List<MemberDTO>> loadMember(T serchValue);
+    <T>  Optional<List<MemberDTO>> loadMember(String searchAttribut,T serchValue);
 
     /*
      * [전체 회원 조회 기능]
