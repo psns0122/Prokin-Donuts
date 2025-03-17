@@ -90,15 +90,18 @@ public class MemberServiceImpl implements MemberService {
         return result.orElse(Collections.emptyList());
     }
 
+    //아이디 찾기 기능
     @Override
     public String findId(String memberEmail) {
-        return null;
+        Optional<String> result = memberRepo.searchLoginfo("id","email",memberEmail);
+        return result.orElse(null);
     }
 
+    //비밀번호 찾기 기능
     @Override
-    public String findPassword(String memberNo) {
-        return null;
-    }
+    public String findPassword(String memberId) {
+        Optional<String> result = memberRepo.searchLoginfo("password","id",memberId);
+        return result.orElse(null); }
 
     @Override
     public String randomNumber(String memberEmail) {

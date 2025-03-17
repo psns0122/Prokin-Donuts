@@ -74,7 +74,7 @@ public interface MemberService {   /*
      * searchLoginfo 호출
      * 아이디로 비밀번호를 찾을 수 있다.
      */
-    String findPassword(String memberNo);
+    String findPassword(String memberId);
 
     /*
      * [인증번호 생성 기능]
