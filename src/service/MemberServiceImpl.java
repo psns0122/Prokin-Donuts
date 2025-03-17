@@ -121,18 +121,29 @@ public class MemberServiceImpl implements MemberService {
         else return "fail";
     }
 
+    //로그인 기능
     @Override
-    public String logIn(String memberid) {
-        return null;
+    public String logIn(String memberId) {
+        Optional<String> result = memberRepo.logInnOut(memberId);
+        return result.orElse(null);
     }
 
+    //로그아웃 기능
     @Override
-    public String logOut(String memberid) {
-        return null;
+    public String logOut(String memberId) {
+        Optional<String> result = memberRepo.logInnOut(memberId);
+        return result.orElse(null);
     }
 
     @Override
     public List<MemberDTO> searchRequestMember() {
         return null;
+    }
+
+    //로그인 상태 확인 기능
+    @Override
+    public String logstatus(String memberId){
+        Optional<String> result = memberRepo.searchLoginfo("logstatus","id",memberId);
+        return result.orElse(null);
     }
 }
