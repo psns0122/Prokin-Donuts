@@ -33,7 +33,7 @@ public class MemberRepoImpl implements MemberRepo {
     }
 
     @Override
-    public <T> Optional<List<MemberDTO>> loadMember(T serchValue) {
+    public <T> Optional<List<MemberDTO>> loadMember(String searchAttribute, T serchValue) {
         return Optional.empty();
     }
 
