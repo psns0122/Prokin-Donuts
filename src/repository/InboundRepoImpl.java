@@ -4,12 +4,14 @@ import dto.InboundDTO;
 import dto.ProductDTO;
 import vo.ProductVO;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class InboundRepoImpl implements InboundRepo {
     @Override
-    public List<InboundDTO> findByApprovedStatus() {
-        return null;
+    public Optional<List<InboundDTO>> findByApprovedStatus() {
+        return Optional.empty();
     }
 
     @Override
@@ -18,8 +20,8 @@ public class InboundRepoImpl implements InboundRepo {
     }
 
     @Override
-    public List<ProductDTO> getProductInfo() {
-        return null;
+    public Optional<List<ProductDTO>> getProductInfo() {
+        return Optional.empty();
     }
 
     @Override
@@ -28,8 +30,8 @@ public class InboundRepoImpl implements InboundRepo {
     }
 
     @Override
-    public String getInboundStatus(int inboundId) {
-        return null;
+    public Optional<String> getInboundStatus(int inboundId) {
+        return Optional.empty();
     }
 
     @Override
@@ -40,6 +42,31 @@ public class InboundRepoImpl implements InboundRepo {
     @Override
     public void deleteInboundInfo(int inboundId) {
 
+    }
+
+    @Override
+    public Optional<List<InboundDTO>> getInboundRequest() {
+        return Optional.empty();
+    }
+
+    @Override
+    public void updateInboundStatus(int inboundId) {
+
+    }
+
+    @Override
+    public Optional<List<InboundDTO>> getAllInboundInfo(int warehouseId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<List<InboundDTO>> getAllInbound() {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<List<InboundDTO>> getInboundByDate(Date start_date, Date end_date) {
+        return Optional.empty();
     }
 
 
