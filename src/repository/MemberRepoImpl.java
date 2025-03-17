@@ -141,7 +141,7 @@ public class MemberRepoImpl implements MemberRepo {
 
     //회원 승인 메서드
     @Override
-    public Optional<String> approvalMember(String memberId) {
+    public boolean approvalMember(String memberId) {
         conn = DBUtil.getConnection();
 
         try {
@@ -151,14 +151,14 @@ public class MemberRepoImpl implements MemberRepo {
             cs.setString(1,memberId);
             int rs = cs.executeUpdate();
 
-            if (rs > 0 ) return Optional.of(memberId);
-            else return Optional.empty();
+            if (rs > 0 ) return true;
+            else return false;
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
             DBUtil.closeQuietly(null,cs,conn);
         }
-        return Optional.empty();
+        return false;
     }
 
     //회원 검색 메서드

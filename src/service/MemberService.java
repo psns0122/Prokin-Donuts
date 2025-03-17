@@ -93,7 +93,7 @@ public interface MemberService {   /*
      * [회원 승인 기능]
      * repo의 approvalMember 호출하여 해당  가맹점주의 가입상태를 승인으로 변경
      */
-    MemberDTO approvalMember(String memberNo);
+    String approvalMember(String memberNo);
 
     /*
     [로그인 기능]

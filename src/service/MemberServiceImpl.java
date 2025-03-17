@@ -113,9 +113,12 @@ public class MemberServiceImpl implements MemberService {
         return false;
     }
 
+    //회원 승인 기능
     @Override
-    public MemberDTO approvalMember(String memberNo) {
-        return null;
+    public String approvalMember(String memberId) {
+        boolean approval = memberRepo.approvalMember(memberId);
+        if (approval) return "success";
+        else return "fail";
     }
 
     @Override
