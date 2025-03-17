@@ -13,7 +13,7 @@ public interface MemberRepo {
      * [회원 등록 기능]
      * 본사관리자가 신규 창고관리자를 등록
      */
-    MemberVO insertMember(MemberVO member);
+    Optional<MemberVO>insertMember(MemberVO member);
 
     /*
      * [회원 수정 기능]
