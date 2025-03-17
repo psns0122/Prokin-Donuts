@@ -1,6 +1,7 @@
 package repository;
 
 import dto.memberDTO.MemberDTO;
+import dto.memberDTO.MemberRequestDTO;
 import vo.memberVO.MemberReauestVO;
 import vo.memberVO.MemberVO;
 
@@ -14,7 +15,7 @@ public interface MemberRepo {
      * [회원 등록 기능]
      * 본사관리자가 신규 창고관리자를 등록
      */
-    Optional<MemberVO>insertMember(MemberVO member);
+    Optional<MemberDTO>insertMember(MemberDTO member);
 
     /*
      * [회원 수정 기능]
@@ -22,7 +23,7 @@ public interface MemberRepo {
      * 가맹점주는 본인 정보 수정
      * 수정하려는 회원이 없을 경우  Optional 처리
      */
-    Optional<MemberVO> updateMember(MemberVO updateMember);
+    Optional<MemberDTO> updateMember(MemberDTO updateMember);
 
 
     /*
@@ -41,7 +42,7 @@ public interface MemberRepo {
      * 요청상태 :승인대기
      * 승인 실패의 경우 : 이미 존재하는 아이디의 경우 예외처리
      */
-    Optional<MemberReauestVO> requestMember(MemberReauestVO member);
+    Optional<MemberRequestDTO> requestMember(MemberRequestDTO member);
 
     /*
      * [회원 승인 기능]
@@ -49,7 +50,7 @@ public interface MemberRepo {
      * 존재하지 않는 아이디의 경우  Optional 처리
      * 트리거를 이용해 승인된 회원을 회원테이블에 추가 / 회원가입 요청 테이블에서 삭제
      */
-    Optional<String> approvalMember(String memberId);
+    boolean approvalMember(String memberId);
 
 
     /*
@@ -59,14 +60,14 @@ public interface MemberRepo {
      * 가맹점주는 본인 아이디로 조회할 수 있다.
      * 회원이 존재하지 않을 경우  Optional 처리
      */
-    Optional<List<MemberVO>> loadMember(String searchAttribut,String serchValue);
+    <T> Optional<List<MemberDTO>> loadMember(String searchAttribut,T serchValue);
 
     /*
      * [전체 회원 조회 기능]
      * 저장된 전체 회원의 정보를 조회
      * 회원이 존재하지 않아 리스트가 null값일 경우 Optional처리
      */
-    Optional<List<MemberVO>> allLoadMember();
+    Optional<List<MemberDTO>> allLoadMember();
 
 
     /*
@@ -92,5 +93,5 @@ public interface MemberRepo {
      * 본사관리자는 가맹점주의 회원가입 요청 목록을 조회
      * 존재하지 않는 아이디의 경우  Optional 처리
     */
-    Optional<List<MemberReauestVO>> loadRequestMember(String memberId);
+    Optional<List<MemberRequestDTO>> loadRequestMember();
 }

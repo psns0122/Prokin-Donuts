@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class MemberReauestVO {
     /** 권한 아이디 */
     private int authorityId;
@@ -23,6 +22,4 @@ public class MemberReauestVO {
     /** 회원 승인요청 상태 **/
     private String request;
 
-    public MemberReauestVO() {
-    }
 }
