@@ -1,8 +1,6 @@
 package config;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 /**
@@ -52,5 +50,12 @@ public class DBUtil {
             System.out.println("연결 실패");
             return null;
         }
+    }
+
+
+    public static void closeQuietly(ResultSet rs, CallableStatement cs, Connection conn) {
+        try { if (rs != null) rs.close(); } catch (SQLException e) { /* 로깅 가능 */ }
+        try { if (cs != null) cs.close(); } catch (SQLException e) { /* 로깅 가능 */ }
+        try { if (conn != null) conn.close(); } catch (SQLException e) { /* 로깅 가능 */ }
     }
 }
