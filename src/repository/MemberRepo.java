@@ -1,6 +1,7 @@
 package repository;
 
 import dto.memberDTO.MemberDTO;
+import vo.memberVO.MemberReauestVO;
 import vo.memberVO.MemberVO;
 
 import java.sql.SQLException;
@@ -21,7 +22,7 @@ public interface MemberRepo {
      * 가맹점주는 본인 정보 수정
      * 수정하려는 회원이 없을 경우  Optional 처리
      */
-    Optional<MemberVO> updateMember(String memberId, MemberVO updateMember);
+    Optional<MemberVO> updateMember(MemberVO updateMember);
 
 
     /*
@@ -40,7 +41,7 @@ public interface MemberRepo {
      * 요청상태 :승인대기
      * 승인 실패의 경우 : 이미 존재하는 아이디의 경우 예외처리
      */
-    boolean requestMember(MemberVO member);
+    Optional<MemberReauestVO> requestMember(MemberReauestVO member);
 
     /*
      * [회원 승인 기능]
