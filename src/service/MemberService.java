@@ -81,13 +81,13 @@ public interface MemberService {   /*
      * 이메일을 입력받고 -> 2차에서 이메일 발송까지 구현 예정
      * 랜덤한 인증번호 6자리를 생성한다.
      */
-    String randomNumber ();
+    String randomNumber (String memberEmail);
 
     /*
      * [인증번호 유효왁인 기능]
      * 사용자가 입력한 인증번호가 유효한지 확인한다.
      */
-    boolean checkRandomNumber (String randomNumber);
+    boolean checkRandomNumber (String memberEmail,String userRandomNumber);
 
     /*
      * [회원 승인 기능]

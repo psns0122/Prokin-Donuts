@@ -4,14 +4,11 @@ import dto.memberDTO.MemberDTO;
 import dto.memberDTO.MemberRequestDTO;
 import repository.MemberRepo;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 public class MemberServiceImpl implements MemberService {
     MemberRepo memberRepo;
-    private String randomNumber;
+    private Map<String, String> randomNumber = new HashMap<>();
 
     public MemberServiceImpl(MemberRepo memberRepo) {
         this.memberRepo = memberRepo;
@@ -107,18 +104,20 @@ public class MemberServiceImpl implements MemberService {
 
     //인증번호 생성 기능
     @Override
-    public String randomNumber() {
+    public String randomNumber(String memberEmail) {
         // 6자리 랜덤 숫자 생성
         // 100000~999999 사이의 랜덤 숫자 생성
-        randomNumber = String.valueOf((int) (Math.random() * 900000) + 100000);
-        return randomNumber;
+        String random = String.valueOf((int) (Math.random() * 900000) + 100000);
+        randomNumber.put(memberEmail,random);
+        return random;
     }
 
     //인증번호 유효왁인 기능
     @Override
-    public boolean checkRandomNumber(String userrandomNumber) {
-        if (userrandomNumber.equals(randomNumber)) {
-            randomNumber = null; // 인증번호 폐기
+    public boolean checkRandomNumber(String memberEmail, String userRandomNumber) {
+        //email(키)가 존재하고, 키의 값(인증번호)이 유저가 입력한 인증번호와 같다면, 인증번호 폐기 후 true 리턴
+        if (randomNumber.containsKey(memberEmail) && randomNumber.get(memberEmail).equals(userRandomNumber)) {
+           randomNumber.remove(memberEmail); // 인증번호 폐기
             return true;
         }
         return false;
