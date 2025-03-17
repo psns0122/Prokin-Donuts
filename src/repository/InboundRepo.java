@@ -52,9 +52,9 @@ public interface InboundRepo {
 
     /**
      * [입고 수정 기능]
-     * 수정 가능 -> 입고ID, 입고상세 정보를 변경한다(update)
+     * 입고상세 정보를 변경한다(update)
      */
-    void updateInboundInfo(int inboundId, List<ProductVO> inboundList);
+    void updateInboundInfo(List<InboundDetailVO> inboundList);
 
     /**
      * [입고 취소 기능]

@@ -185,9 +185,33 @@ public class InboundRepoImpl implements InboundRepo {
         }
     }
 
+    /**
+     * [입고 수정 기능]
+     * 수정 기능 -> 입고 상세 정보를 변경한다.
+     * 입고ID, 상품ID, 수량 정보
+     * @param inboundList
+     */
     @Override
-    public void updateInboundInfo(int inboundId, List<ProductVO> inboundList) {
-
+    public void updateInboundInfo(List<InboundDetailVO> inboundList) {
+        try {
+            conn.setAutoCommit(false);
+            inboundList.forEach(inbound -> {
+                try {
+                    cs = conn.prepareCall("{call update_InboundDetatil_Info(?,?,?,?)}");
+                    cs.setInt(1, inbound.getQuantity());
+                    cs.setInt(2, inbound.getInboundId());
+                    cs.setInt(3, inbound.getProductId());
+                    cs.setInt(4, inbound.getInboundDetailId());
+                    cs.execute();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            conn.commit();
+            DBUtil.closeQuietly(null, cs, conn);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
