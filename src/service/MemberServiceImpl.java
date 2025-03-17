@@ -2,7 +2,6 @@ package service;
 
 import dto.memberDTO.MemberDTO;
 import repository.MemberRepo;
-import vo.memberVO.MemberVO;
 
 import java.util.List;
 
@@ -15,47 +14,47 @@ public class MemberServiceImpl implements MemberService {
 
     //회원 등록 기능
     @Override
-    public MemberVO addMember(MemberVO member) {
+    public MemberDTO addMember(MemberDTO member) {
         return null;
     }
 
     @Override
-    public MemberVO updateMember(MemberVO updateMember) {
+    public MemberDTO updateMember(MemberDTO updateMember) {
         return null;
     }
 
     @Override
-    public MemberVO deleteMember(String memberNo) {
+    public MemberDTO deleteMember(String memberNo) {
         return null;
     }
 
     @Override
-    public MemberVO requestMember(MemberVO member) {
+    public MemberDTO requestMember(MemberDTO member) {
         return null;
     }
 
     @Override
-    public MemberVO checkId(String memberNo) {
+    public MemberDTO checkId(String memberNo) {
         return null;
     }
 
     @Override
-    public MemberVO searchSimple(String memberNo) {
+    public MemberDTO searchSimple(String memberNo) {
         return null;
     }
 
     @Override
-    public MemberVO searchDitail(String memberNo) {
+    public MemberDTO searchDitail(String memberNo) {
         return null;
     }
 
     @Override
-    public MemberVO searchAuthority(String authority) {
+    public MemberDTO searchAuthority(String authority) {
         return null;
     }
 
     @Override
-    public List<MemberVO> searchAll() {
+    public List<MemberDTO> searchAll() {
         return null;
     }
 
@@ -80,7 +79,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberVO approvalMember(String memberNo) {
+    public MemberDTO approvalMember(String memberNo) {
         return null;
     }
 
@@ -95,7 +94,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<MemberVO> searchRequestMember() {
+    public List<MemberDTO> searchRequestMember() {
         return null;
     }
 }

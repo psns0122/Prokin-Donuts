@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 /** 회원 테이블 */
 public class MemberVO {
     /** 회원번호 */
@@ -25,5 +24,4 @@ public class MemberVO {
     private String password;
     /* 로그인 상태 */
     private String logstatus;
-    public MemberVO() {}
 }

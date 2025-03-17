@@ -1,22 +1,21 @@
 package service;
 
 import dto.memberDTO.MemberDTO;
-import vo.memberVO.MemberVO;
 
 import java.util.List;
 
 public interface MemberService {   /*
 
     /* [회원 등록 기능]
-    * repo의 insertMember 호출하여 데이터를 저장
+    * repo의 insertMemberap 호출하여 데이터를 저장
     */
-    MemberVO addMember(MemberVO member);
+    MemberDTO addMember(MemberDTO member);
 
     /*
      * [회원 수정 기능]
      * repo의 updateMember 호출하여 해당 아이디의 회원정보 update
      */
-    MemberVO updateMember(MemberVO updateMember);
+    MemberDTO updateMember(MemberDTO updateMember);
 
 
     /*
@@ -24,43 +23,43 @@ public interface MemberService {   /*
      * repo의 loadMember 호출하여 아이디를 전달해 정보 조회 후
      * repo의 deleteMember 호출하여 해당 아이디의 회원정보 delete
      */
-    MemberVO deleteMember(String memberNo);
+    MemberDTO deleteMember(String memberNo);
 
     /*
      * [회원 가입 기능]
      * repo의 requestMember 호출하여 데이터를 저장
      */
-    MemberVO requestMember(MemberVO member);
+    MemberDTO requestMember(MemberDTO member);
 
     /*
     [회원아이디 중복검사 기능]
     repo의 searchLoginfo를 호출 해당 아이디가 존재하는지 확인
      */
-    MemberVO checkId (String memberNo);
+    MemberDTO checkId (String memberNo);
 
     /*
     [회원아이디 간편조회 기능]
     repo의 loadMember 호출해 해당 아이디의 아이디/이름/이메일 등 확인
      */
-    MemberVO searchSimple (String memberNo);
+    MemberDTO searchSimple (String memberNo);
 
     /*
     [회원아이디 상세조회 기능]
     repo의 loadMember 호출해 해당 아이디의 모든 회원정보 확인
      */
-    MemberVO searchDitail (String memberNo);
+    MemberDTO searchDitail (String memberNo);
 
     /*
       [권한별 조회 기능]
       repo의 loadMember 호출해 해당 권한의 회원정보 확인
        */
-    MemberVO searchAuthority (String authority);
+    MemberDTO searchAuthority (String authority);
 
     /*
     [전체 회원 조회기능]
     repo의 allLoadMember 호출해 해당 아이디의 모든 회원정보 확인
      */
-    List<MemberVO> searchAll();
+    List<MemberDTO> searchAll();
 
 
     /*
@@ -94,7 +93,7 @@ public interface MemberService {   /*
      * [회원 승인 기능]
      * repo의 approvalMember 호출하여 해당  가맹점주의 가입상태를 승인으로 변경
      */
-    MemberVO approvalMember(String memberNo);
+    MemberDTO approvalMember(String memberNo);
 
     /*
     [로그인 기능]
@@ -116,5 +115,5 @@ public interface MemberService {   /*
     [회원가입 요청 조회 기능]
     repo의 loadRequestMember 호출해 해당 권한의 회원정보 확인
     */
-     List<MemberVO> searchRequestMember ();
+     List<MemberDTO> searchRequestMember ();
 }
