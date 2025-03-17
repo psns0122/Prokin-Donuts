@@ -53,12 +53,20 @@ public class InboundRepoImpl implements InboundRepo {
     /**
      * [입고 검수 기능]
      * 입고 ID의 상태 (승인 -> 완료)를 변경
+     * 상태가 (승인 -> 완료) 되면 해당 입고 품목 재고에 반영 (트리거)
      * @param inboundId
      */
     @Override
     public void updateCompletedStatus(int inboundId) {
-        
-
+        try {
+            conn.setAutoCommit(false);
+            cs = conn.prepareCall("{call updateCompletedStatus(?)}");
+            cs.setInt(1, inboundId);
+            cs.execute();
+            cs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
