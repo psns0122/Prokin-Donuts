@@ -2,6 +2,7 @@ package service;
 
 import dto.inbound.InboundDTO;
 import dto.ProductDTO;
+import vo.inbound.InboundVO;
 
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ public interface InboundService {
      *
      * @return 입고승인 리스트
      */
-    List<InboundDTO> getApprovalInboundList();
+    List<InboundVO> getApprovalInboundList(int warehouseId);
 
     /**
      * 입고(승인) ok 되면 입고 완료! service

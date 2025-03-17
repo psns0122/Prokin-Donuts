@@ -1,8 +1,9 @@
 package service;
 
-import dto.inbound.InboundDTO;
 import dto.ProductDTO;
+import dto.inbound.InboundDTO;
 import repository.InboundRepo;
+import vo.inbound.InboundVO;
 
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,40 @@ public class InboundServiceImpl implements InboundService {
 
     public InboundServiceImpl(InboundRepo inboundRepo) {
         this.inboundRepo = inboundRepo;
+    }
+
+    //창고 관리자
+
+    /**
+     * [입고 검수 기능]
+     * 입고(승인) 상태의 입고테이블 정보를 반환
+     * @return 입고(승인) 리스트
+     */
+    @Override
+    public List<InboundVO> getApprovalInboundList(int warehouseId) {
+        return inboundRepo.findByApprovedStatus(warehouseId).orElseThrow(
+                () -> new IllegalArgumentException("~~")
+        );
+
+    }
+
+    /**
+     * 해당 입고 ID 상태 변경 (승인 -> 완료)
+     * @param inboundId 입고 아이디
+     */
+    @Override
+    public void completedInbound(int inboundId) {
+        inboundRepo.updateCompletedStatus(inboundId);
+    }
+
+    @Override
+    public List<ProductDTO> getProductMenu() {
+        return null;
+    }
+
+    @Override
+    public void registerInbound(List<ProductDTO> inboundList) {
+
     }
 
 
@@ -75,23 +110,5 @@ public class InboundServiceImpl implements InboundService {
         return null;
     }
 
-    @Override
-    public List<InboundDTO> getApprovalInboundList() {
-        return null;
-    }
 
-    @Override
-    public void completedInbound(int inboundId) {
-
-    }
-
-    @Override
-    public List<ProductDTO> getProductMenu() {
-        return null;
-    }
-
-    @Override
-    public void registerInbound(List<ProductDTO> inboundList) {
-
-    }
 }
