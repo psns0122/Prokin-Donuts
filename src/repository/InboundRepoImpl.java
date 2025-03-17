@@ -1,14 +1,24 @@
 package repository;
 
-import dto.InboundDTO;
+import dto.inbound.InboundDTO;
 import dto.ProductDTO;
 import vo.ProductVO;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 public class InboundRepoImpl implements InboundRepo {
+
+    Connection conn = DBUtil.getConnection();
+    PreparedStatement pstmt = null;
+    CallableStatement cs = null;
+    ResultSet rs = null;
+
     @Override
     public Optional<List<InboundDTO>> findByApprovedStatus() {
         return Optional.empty();
