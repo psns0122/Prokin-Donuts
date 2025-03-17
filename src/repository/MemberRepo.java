@@ -49,7 +49,7 @@ public interface MemberRepo {
      * 존재하지 않는 아이디의 경우  Optional 처리
      * 트리거를 이용해 승인된 회원을 회원테이블에 추가 / 회원가입 요청 테이블에서 삭제
      */
-    Optional<MemberVO> approvalMember(String memberId);
+    Optional<String> approvalMember(String memberId);
 
 
     /*

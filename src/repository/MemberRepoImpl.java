@@ -97,10 +97,11 @@ public class MemberRepoImpl implements MemberRepo {
                 return Optional.of(memberId);
             } else return Optional.empty();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }finally {
             DBUtil.closeQuietly(null,cs,conn);
         }
+        return Optional.empty();
     }
 
     // 회원 가입 요청 메서드
@@ -135,8 +136,25 @@ public class MemberRepoImpl implements MemberRepo {
         return Optional.empty();
     }
 
+    //회원 승인 메서드
     @Override
-    public Optional<MemberVO> approvalMember(String memberId) {
+    public Optional<String> approvalMember(String memberId) {
+        conn = DBUtil.getConnection();
+
+        try {
+            String sql = "{call Approval(?)}";
+            cs = conn.prepareCall(sql);
+
+            cs.setString(1,memberId);
+            int rs = cs.executeUpdate();
+
+            if (rs > 0 ) return Optional.of(memberId);
+            else return Optional.empty();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
         return Optional.empty();
     }
 
