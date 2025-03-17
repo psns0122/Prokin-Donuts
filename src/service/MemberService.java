@@ -115,7 +115,7 @@ public interface MemberService {   /*
     [회원가입 요청 조회 기능]
     repo의 loadRequestMember 호출해 해당 권한의 회원정보 확인
     */
-     List<MemberDTO> searchRequestMember ();
+     List<MemberRequestDTO> searchRequestMember ();
 
      /*
      [로그인 상태 확인 기능]

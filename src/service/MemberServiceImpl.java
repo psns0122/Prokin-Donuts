@@ -135,9 +135,11 @@ public class MemberServiceImpl implements MemberService {
         return result.orElse(null);
     }
 
+    //회원가입 요청 조회 기능
     @Override
-    public List<MemberDTO> searchRequestMember() {
-        return null;
+    public List<MemberRequestDTO> searchRequestMember() {
+        Optional<List<MemberRequestDTO>> result = memberRepo.loadRequestMember();
+        return result.orElse(Collections.emptyList());
     }
 
     //로그인 상태 확인 기능

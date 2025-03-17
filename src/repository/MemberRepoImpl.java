@@ -293,13 +293,12 @@ public class MemberRepoImpl implements MemberRepo {
 
     //회원 가입 요청 조회 기능
     @Override
-    public Optional<List<MemberRequestDTO>> loadRequestMember(String memberId) {
+    public Optional<List<MemberRequestDTO>> loadRequestMember() {
         List<MemberRequestDTO> allLoadRequestMemberList = new ArrayList<>();
         conn =DBUtil.getConnection();
         try {
-            String sql = "{call loadRequestMember(?)}";
+            String sql = "{call loadRequestMember()}";
             cs = conn.prepareCall(sql);
-            cs.setString(1,memberId);
             rs = cs.executeQuery();
             while (rs.next()){
                 MemberRequestDTO MemberReauestDTO = new MemberRequestDTO();
