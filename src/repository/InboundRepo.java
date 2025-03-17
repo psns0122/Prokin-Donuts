@@ -1,8 +1,10 @@
 package repository;
 
-import dto.InboundDTO;
-import dto.ProductDTO;
+import dto.inbound.InboundDTO;
+import dto.inbound.ProductDTO;
 import vo.ProductVO;
+import vo.inbound.InboundVO;
+import vo.inbound.InboundDetailVO;
 
 import java.util.Date;
 import java.util.List;
@@ -15,7 +17,7 @@ public interface InboundRepo {
      * 입고테이블에서 입고승인 상태인 행을 가져온다.
      * null 인 경우도 생각
      */
-    Optional<List<InboundDTO>> findByApprovedStatus();
+    Optional<List<InboundVO>> findByApprovedStatus(int warehouseId);
 
     /**
      * [입고 검수 기능]
@@ -34,7 +36,13 @@ public interface InboundRepo {
      * [입고 요청 기능]
      * 입고 요청 정보를 입고, 입고상세 테이블에 저장한다.
      */
-    void registerInboundInfo(List<ProductVO> inboundList);
+    void registerInboundDetailInfo(List<InboundDetailVO> inboundList);
+
+    /**
+     * [입고 요청 기능]
+     * 입고 정보를 테이블에 저장한다.
+     */
+    void registerInboundInfo(InboundVO inboundVO);
 
     /**
      * [입고 수정, 삭제 기능]
@@ -44,9 +52,9 @@ public interface InboundRepo {
 
     /**
      * [입고 수정 기능]
-     * 수정 가능 -> 입고ID, 입고상세 정보를 변경한다(update)
+     * 입고상세 정보를 변경한다(update)
      */
-    void updateInboundInfo(int inboundId, List<ProductVO> inboundList);
+    void updateInboundInfo(List<InboundDetailVO> inboundList);
 
     /**
      * [입고 취소 기능]
@@ -60,7 +68,7 @@ public interface InboundRepo {
      * [입고 요청 승인]
      * (입고요청) 상태인 입고 요청서를 가져온다.
      */
-    Optional<List<InboundDTO>> getInboundRequest();
+    Optional<List<InboundVO>> getInboundRequest();
 
     /**
      * [입고 요청 승인]
@@ -73,7 +81,7 @@ public interface InboundRepo {
      * 창고 ID를 통해 모든 입고요청서를 가져온다.
      * (입고 테이블의 모든 정보)
      */
-    Optional<List<InboundDTO>> getAllInboundInfo(int warehouseId);
+    Optional<List<InboundVO>> getAllInboundInfo(int warehouseId);
 
     /**
      * [입고 현황 조회]

@@ -1,6 +1,6 @@
 package service;
 
-import dto.InboundDTO;
+import dto.inbound.InboundDTO;
 import dto.ProductDTO;
 
 import java.util.Date;
