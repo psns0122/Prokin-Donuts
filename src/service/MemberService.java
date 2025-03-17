@@ -35,7 +35,7 @@ public interface MemberService {   /*
     [회원아이디 중복검사 기능]
     repo의 searchLoginfo를 호출 해당 아이디가 존재하는지 확인
      */
-    String checkId (String memberId);
+    boolean checkId (String memberId);
 
     /*
     [회원아이디 간편조회 기능]

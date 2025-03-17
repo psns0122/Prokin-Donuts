@@ -46,9 +46,8 @@ public class MemberServiceImpl implements MemberService {
 
     //회원아이디 중복검사 기능
     @Override
-    public String checkId(String memberId) {
-        Optional<String> result = memberRepo.searchLoginfo("memberNo","id",memberId);
-        return result.isPresent() ? "존재하는 아이디" : "존재하지 않는 아이디";
+    public boolean  checkId(String memberId) {
+        return memberRepo.searchLoginfo("memberNo","id",memberId).isPresent();
     }
 
     //회원아이디 간편조회 기능
