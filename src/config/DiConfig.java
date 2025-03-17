@@ -44,7 +44,7 @@ public class DiConfig {
     private final MemberRepo memberRepo = new MemberRepoImpl();
 
     //service
-    private final MemberService memberService = new MemberServiceImpl(memberRepo);
+    private final MemberService memberService = new MemberServiceImpl();
 
     //controller
     private final MemberController memberController = new MemberControllerImpl(memberService);
