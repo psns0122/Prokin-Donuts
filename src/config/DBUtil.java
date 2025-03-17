@@ -1,12 +1,12 @@
 package config;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class DBUtil {
-    /** 데이터베이스 정보가 포함된 ResourceBundle 객체 */
+    /**
+     * 데이터베이스 정보가 포함된 ResourceBundle 객체
+     */
     private static ResourceBundle bundle;
 
     static {
@@ -36,4 +36,21 @@ public class DBUtil {
             return null;
         }
     }
+
+    public static void closeQuietly(ResultSet rs, CallableStatement cs, Connection conn) {
+        try {
+            if (rs != null) rs.close();
+        } catch (SQLException e) { /* 로깅 가능 */ }
+        try {
+            if (cs != null) cs.close();
+        } catch (SQLException e) { /* 로깅 가능 */ }
+        try {
+            if (conn != null) conn.close();
+        } catch (SQLException e) { /* 로깅 가능 */ }
+    }
 }
+
+
+
+
+

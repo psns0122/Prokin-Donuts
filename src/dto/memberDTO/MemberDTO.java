@@ -1,4 +1,4 @@
-package dto;
+package dto.memberDTO;
 
 public class MemberDTO {
 }
