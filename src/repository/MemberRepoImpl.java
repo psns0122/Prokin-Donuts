@@ -228,9 +228,22 @@ public class MemberRepoImpl implements MemberRepo {
 
     //회원 정보 확인 기능
     @Override
-    public Optional<String> searchLoginfo(String searchValue) {
+    public Optional<String> searchLoginfo(String findField, String searchField, String searchValue) {
+        conn = DBUtil.getConnection();
+        try {
+            String sql = "{call searchStatusMember(?,?,?)}";
+            cs = conn.prepareCall(sql);
+            cs.setString(1,findField);
+            cs.setString(2,searchField);
+            cs.setString(3,searchValue);
 
+            String rs = String.valueOf(cs.executeQuery());
+            if(!rs.isEmpty()) return Optional.of(rs);
+            else return Optional.empty();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return Optional.empty();
     }
 

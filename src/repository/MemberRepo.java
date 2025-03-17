@@ -77,7 +77,7 @@ public interface MemberRepo {
      * 회원의 로그인상태를 구분한다.
      * 회원이 존재하지 않을 경우  Optional 처리
      */
-    Optional<String>  searchLoginfo(String searchValue);
+    Optional<String>  searchLoginfo(String findField, String searchField, String searchValue);
 
     /*
     [로그인/로그아웃 기능]
