@@ -134,6 +134,7 @@ public class InboundRepoImpl implements InboundRepo {
     /**
      * [입고 요청 기능]
      * 입고 요청 정보를 입고 테이블에 저장한다.
+     * 고지서
      */
     @Override
     public void registerInboundInfo(InboundVO inboundVO) {

@@ -1,7 +1,9 @@
 package service;
 
 import dto.inbound.InboundDTO;
-import dto.ProductDTO;
+
+import dto.inbound.ProductDTO;
+import vo.inbound.InboundDetailVO;
 import vo.inbound.InboundVO;
 
 import java.util.Date;
@@ -36,7 +38,12 @@ public interface InboundService {
     /**
      * 입고 요청 등록
      */
-    void registerInbound(List<ProductDTO> inboundList);
+    void registerInbound(InboundVO inboundVO);
+
+    /**
+     * 입고 요청 상세 등록
+     */
+    void registerDetailInfo(List<InboundDetailVO> inboundList);
 
 
     // [입고 요청 수정 Service]

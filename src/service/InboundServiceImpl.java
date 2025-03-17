@@ -1,8 +1,11 @@
 package service;
 
-import dto.ProductDTO;
+
 import dto.inbound.InboundDTO;
+
+import dto.inbound.ProductDTO;
 import repository.InboundRepo;
+import vo.inbound.InboundDetailVO;
 import vo.inbound.InboundVO;
 
 import java.util.Date;
@@ -39,14 +42,33 @@ public class InboundServiceImpl implements InboundService {
         inboundRepo.updateCompletedStatus(inboundId);
     }
 
+    /**
+     * 입고 요청시 필요한 상품 메뉴 반환
+     * @return 상품 리스트
+     */
     @Override
     public List<ProductDTO> getProductMenu() {
-        return null;
+        return inboundRepo.getProductInfo().orElseThrow(
+                () -> new IllegalArgumentException("~~")
+        );
     }
 
+    /**
+     * 입고 요청 등록
+     * @param inboundVO
+     */
     @Override
-    public void registerInbound(List<ProductDTO> inboundList) {
+    public void registerInbound(InboundVO inboundVO) {
+        inboundRepo.registerInboundInfo(inboundVO);
+    }
 
+    /**
+     * 입고 요청 상세 등록
+     * @param inboundList
+     */
+    @Override
+    public void registerDetailInfo(List<InboundDetailVO> inboundList) {
+        inboundRepo.registerInboundDetailInfo(inboundList);
     }
 
 
