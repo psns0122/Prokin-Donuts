@@ -1,6 +1,7 @@
 package service;
 
 import dto.memberDTO.MemberDTO;
+import dto.memberDTO.MemberRequestDTO;
 import repository.MemberRepo;
 
 import java.util.List;
@@ -36,9 +37,11 @@ public class MemberServiceImpl implements MemberService {
         return result.orElse(null);
     }
 
+    //회원 가입 기능
     @Override
-    public MemberDTO requestMember(MemberDTO member) {
-        return null;
+    public MemberRequestDTO requestMember(MemberRequestDTO member) {
+        Optional<MemberRequestDTO> result = memberRepo.requestMember(member);
+        return result.orElse(null);
     }
 
     @Override

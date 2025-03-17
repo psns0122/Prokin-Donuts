@@ -1,6 +1,7 @@
 package service;
 
 import dto.memberDTO.MemberDTO;
+import dto.memberDTO.MemberRequestDTO;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface MemberService {   /*
 
     /*
      * [회원 삭제 기능]
-    * repo의 deleteMember 호출하여 해당 아이디의 회원정보 delete
+     * repo의 deleteMember 호출하여 해당 아이디의 회원정보 delete
      */
     String deleteMember(String memberId);
 
@@ -28,7 +29,7 @@ public interface MemberService {   /*
      * [회원 가입 기능]
      * repo의 requestMember 호출하여 데이터를 저장
      */
-    MemberDTO requestMember(MemberDTO member);
+    MemberRequestDTO requestMember(MemberRequestDTO member);
 
     /*
     [회원아이디 중복검사 기능]
