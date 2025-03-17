@@ -7,9 +7,11 @@ import repository.MemberRepo;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 public class MemberServiceImpl implements MemberService {
     MemberRepo memberRepo;
+    private String randomNumber;
 
     public MemberServiceImpl(MemberRepo memberRepo) {
         this.memberRepo = memberRepo;
@@ -103,13 +105,22 @@ public class MemberServiceImpl implements MemberService {
         Optional<String> result = memberRepo.searchLoginfo("password","id",memberId);
         return result.orElse(null); }
 
+    //인증번호 생성 기능
     @Override
-    public String randomNumber(String memberEmail) {
-        return null;
+    public String randomNumber() {
+        // 6자리 랜덤 숫자 생성
+        // 100000~999999 사이의 랜덤 숫자 생성
+        randomNumber = String.valueOf((int) (Math.random() * 900000) + 100000);
+        return randomNumber;
     }
 
+    //인증번호 유효왁인 기능
     @Override
-    public boolean checkRandomNumber(String randomNumber) {
+    public boolean checkRandomNumber(String userrandomNumber) {
+        if (userrandomNumber.equals(randomNumber)) {
+            randomNumber = null; // 인증번호 폐기
+            return true;
+        }
         return false;
     }
 
