@@ -6,6 +6,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class MemberDTO {
+    public MemberDTO() {
+    }
+
     /** 회원번호 */
     private int memberNo;
     /** 권한 아이디 */

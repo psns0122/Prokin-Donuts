@@ -24,7 +24,7 @@ public class MemberRepoImpl implements MemberRepo {
 
     // 회원 등록 메서드
     @Override
-    public Optional<MemberVO> insertMember(MemberVO member) {
+    public Optional<MemberDTO> insertMember(MemberDTO member) {
         conn = DBUtil.getConnection();
 
         try {
@@ -56,7 +56,7 @@ public class MemberRepoImpl implements MemberRepo {
 
     // 회원 수정 메서드
     @Override
-    public Optional<MemberVO> updateMember(MemberVO updateMember) {
+    public Optional<MemberDTO> updateMember(MemberDTO updateMember) {
         conn =DBUtil.getConnection();
 
         try {
@@ -109,7 +109,7 @@ public class MemberRepoImpl implements MemberRepo {
 
     // 회원 가입 요청 메서드
     @Override
-    public Optional<MemberReauestVO> requestMember(MemberReauestVO member) {
+    public Optional<MemberRequestDTO> requestMember(MemberRequestDTO member) {
         conn = DBUtil.getConnection();
 
         try {
@@ -163,8 +163,8 @@ public class MemberRepoImpl implements MemberRepo {
 
     //회원 검색 메서드
     @Override
-    public Optional<List<MemberVO>> loadMember(String searchAttribute, String searchValue) {
-        List<MemberVO> loadMemberList = new ArrayList<>();
+    public Optional<List<MemberDTO>> loadMember(String searchAttribute, String searchValue) {
+        List<MemberDTO> loadMemberList = new ArrayList<>();
         conn = DBUtil.getConnection();
         try {
             String sql = "{call searchMember(?,?)}";
@@ -175,17 +175,17 @@ public class MemberRepoImpl implements MemberRepo {
             rs = cs.executeQuery();
 
             while (rs.next()){
-                MemberVO memberVO = new MemberVO();
-                memberVO.setMemberNo(rs.getInt("memberNo"));
-                memberVO.setAuthorityId(rs.getInt("authorityId"));
-                memberVO.setName(rs.getString("name"));
-                memberVO.setPhoneNumber(rs.getString("phoneNumber"));
-                memberVO.setEmail(rs.getString("email"));
-                memberVO.setAddress(rs.getString("address"));
-                memberVO.setId(rs.getString("id"));
-                memberVO.setPassword(rs.getString("password"));
-                memberVO.setLogstatus(rs.getString("logstatus"));
-                loadMemberList.add(memberVO);
+                MemberDTO memberDTO = new MemberDTO();
+                memberDTO.setMemberNo(rs.getInt("memberNo"));
+                memberDTO.setAuthorityId(rs.getInt("authorityId"));
+                memberDTO.setName(rs.getString("name"));
+                memberDTO.setPhoneNumber(rs.getString("phoneNumber"));
+                memberDTO.setEmail(rs.getString("email"));
+                memberDTO.setAddress(rs.getString("address"));
+                memberDTO.setId(rs.getString("id"));
+                memberDTO.setPassword(rs.getString("password"));
+                memberDTO.setLogstatus(rs.getString("logstatus"));
+                loadMemberList.add(memberDTO);
             }
 
             if (!loadMemberList.isEmpty()) {
@@ -203,8 +203,8 @@ public class MemberRepoImpl implements MemberRepo {
 
     //전체 회원 조회 기능
     @Override
-    public Optional<List<MemberVO>> allLoadMember() {
-        List<MemberVO> allLoadMemberList = new ArrayList<>();
+    public Optional<List<MemberDTO>> allLoadMember() {
+        List<MemberDTO> allLoadMemberList = new ArrayList<>();
         conn = DBUtil.getConnection();
         try {
             String sql = "{call loadMember()}";
@@ -212,17 +212,17 @@ public class MemberRepoImpl implements MemberRepo {
             rs = cs.executeQuery();
 
             while (rs.next()){
-                MemberVO memberVO = new MemberVO();
-                memberVO.setMemberNo(rs.getInt("memberNo"));
-                memberVO.setAuthorityId(rs.getInt("authorityId"));
-                memberVO.setName(rs.getString("name"));
-                memberVO.setPhoneNumber(rs.getString("phoneNumber"));
-                memberVO.setEmail(rs.getString("email"));
-                memberVO.setAddress(rs.getString("address"));
-                memberVO.setId(rs.getString("id"));
-                memberVO.setPassword(rs.getString("password"));
-                memberVO.setLogstatus(rs.getString("logstatus"));
-                allLoadMemberList.add(memberVO);
+                MemberDTO memberDTO = new MemberDTO();
+                memberDTO.setMemberNo(rs.getInt("memberNo"));
+                memberDTO.setAuthorityId(rs.getInt("authorityId"));
+                memberDTO.setName(rs.getString("name"));
+                memberDTO.setPhoneNumber(rs.getString("phoneNumber"));
+                memberDTO.setEmail(rs.getString("email"));
+                memberDTO.setAddress(rs.getString("address"));
+                memberDTO.setId(rs.getString("id"));
+                memberDTO.setPassword(rs.getString("password"));
+                memberDTO.setLogstatus(rs.getString("logstatus"));
+                allLoadMemberList.add(memberDTO);
             }
 
 
@@ -286,8 +286,8 @@ public class MemberRepoImpl implements MemberRepo {
 
     //회원 가입 요청 조회 기능
     @Override
-    public Optional<List<MemberReauestVO>> loadRequestMember(String memberId) {
-        List<MemberReauestVO> allLoadRequestMemberList = new ArrayList<>();
+    public Optional<List<MemberRequestDTO>> loadRequestMember(String memberId) {
+        List<MemberRequestDTO> allLoadRequestMemberList = new ArrayList<>();
         conn =DBUtil.getConnection();
         try {
             String sql = "{call loadRequestMember(?)}";
@@ -295,16 +295,16 @@ public class MemberRepoImpl implements MemberRepo {
             cs.setString(1,memberId);
             rs = cs.executeQuery();
             while (rs.next()){
-                MemberReauestVO MemberReauestVO = new MemberReauestVO();
-                MemberReauestVO.setAuthorityId(rs.getInt("authorityId"));
-                MemberReauestVO.setName(rs.getString("name"));
-                MemberReauestVO.setPhoneNumber(rs.getString("phoneNumber"));
-                MemberReauestVO.setEmail(rs.getString("email"));
-                MemberReauestVO.setAddress(rs.getString("address"));
-                MemberReauestVO.setId(rs.getString("id"));
-                MemberReauestVO.setPassword(rs.getString("password"));
-                MemberReauestVO.setRequest(rs.getString("request"));
-                allLoadRequestMemberList.add(MemberReauestVO);
+                MemberRequestDTO MemberReauestDTO = new MemberRequestDTO();
+                MemberReauestDTO.setAuthorityId(rs.getInt("authorityId"));
+                MemberReauestDTO.setName(rs.getString("name"));
+                MemberReauestDTO.setPhoneNumber(rs.getString("phoneNumber"));
+                MemberReauestDTO.setEmail(rs.getString("email"));
+                MemberReauestDTO.setAddress(rs.getString("address"));
+                MemberReauestDTO.setId(rs.getString("id"));
+                MemberReauestDTO.setPassword(rs.getString("password"));
+                MemberReauestDTO.setRequest(rs.getString("request"));
+                allLoadRequestMemberList.add(MemberReauestDTO);
             }
         } catch (SQLException e) {
             e.printStackTrace();
