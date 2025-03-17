@@ -10,15 +10,11 @@ import java.util.Date;
 /** 입고 테이블 */
 public class InboundVO {
     /** 입고 아이디 */
-    private String inboundId;
+    private int inboundId;
     /** 입고일 */
     private Date inboundDate;
-    /** 창고아이디 */
-    private String warehouseId;
-    /** 제품아이디 */
-    private String productId;
-    /** 세션아이디 */
-    private String sectionId;
-    /** 권한아이디 */
-    private String authorityId;
+    /** 입고상태 */
+    private String status;
+    /** 창고 아이디 */
+    private int warehouseId;
 }
