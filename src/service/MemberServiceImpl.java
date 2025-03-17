@@ -29,9 +29,11 @@ public class MemberServiceImpl implements MemberService {
         return result.orElse(null);
     }
 
+    //회원 삭제 기능
     @Override
-    public MemberDTO deleteMember(String memberNo) {
-        return null;
+    public String deleteMember(String memberId) {
+        Optional<String> result = memberRepo.deleteMember(memberId);
+        return result.orElse(null);
     }
 
     @Override
