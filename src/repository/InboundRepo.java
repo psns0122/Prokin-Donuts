@@ -68,7 +68,7 @@ public interface InboundRepo {
      * [입고 요청 승인]
      * (입고요청) 상태인 입고 요청서를 가져온다.
      */
-    Optional<List<InboundDTO>> getInboundRequest();
+    Optional<List<InboundVO>> getInboundRequest();
 
     /**
      * [입고 요청 승인]

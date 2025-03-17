@@ -235,14 +235,56 @@ public class InboundRepoImpl implements InboundRepo {
         }
     }
 
+    // 총관리자(본사)
+
+    /**
+     * [입고 요청 승인]
+     * (입고요청) 상태인 입고 요청서를 가져온다.
+     * @return
+     */
     @Override
-    public Optional<List<InboundDTO>> getInboundRequest() {
-        return Optional.empty();
+    public Optional<List<InboundVO>> getInboundRequest() {
+        List<InboundVO> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM inbound WHERE inboundStatus = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, "입고완료");
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                InboundVO inboundVO = InboundVO.builder()
+                        .inboundId(rs.getInt("inboundId"))
+                        .inboundDate(rs.getDate("inboundDate"))
+                        .status(rs.getString("inboundStatus"))
+                        .warehouseId(rs.getInt("warehouseId"))
+                        .build();
+                list.add(inboundVO);
+            }
+            rs.close();
+            pstmt.close();
+            return Optional.of(list);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    /**
+     * [입고 요청 승인]
+     * 입고 ID 상태 변경 (요청 -> 승인)
+     * @param inboundId
+     */
     @Override
     public void updateInboundStatus(int inboundId) {
-
+        try {
+            conn.setAutoCommit(false);
+            cs = conn.prepareCall("{call updateApprovedStatus(?)}");
+            cs.setInt(1, inboundId);
+            cs.execute();
+            cs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
