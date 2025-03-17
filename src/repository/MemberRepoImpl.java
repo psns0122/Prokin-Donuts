@@ -163,7 +163,7 @@ public class MemberRepoImpl implements MemberRepo {
     //회원 검색 메서드
     @Override
     public Optional<List<MemberVO>> loadMember(String searchAttribute, String serchValue) {
-        List<MemberVO> loadMember = new ArrayList<>();
+        List<MemberVO> loadMemberList = new ArrayList<>();
         conn = DBUtil.getConnection();
         try {
             String sql = "{call searchMember(?,?)}";
@@ -172,8 +172,9 @@ public class MemberRepoImpl implements MemberRepo {
             cs.setString(2, serchValue);
 
             rs = cs.executeQuery();
-            MemberVO memberVO = new MemberVO();
+
             while (rs.next()){
+                MemberVO memberVO = new MemberVO();
                 memberVO.setMemberNo(rs.getInt("memberNo"));
                 memberVO.setAuthorityId(rs.getInt("authorityId"));
                 memberVO.setName(rs.getString("name"));
@@ -183,7 +184,7 @@ public class MemberRepoImpl implements MemberRepo {
                 memberVO.setId(rs.getString("id"));
                 memberVO.setPassword(rs.getString("password"));
                 memberVO.setLogstatus(rs.getString("logstatus"));
-                loadMember.add(memberVO);
+                loadMemberList.add(memberVO);
             }
 
         } catch (SQLException e) {
@@ -194,8 +195,34 @@ public class MemberRepoImpl implements MemberRepo {
         return Optional.empty();
     }
 
+    //전체 회원 조회 기능
     @Override
     public Optional<List<MemberVO>> allLoadMember() {
+        List<MemberVO> allLoadMemberList = new ArrayList<>();
+        conn = DBUtil.getConnection();
+        try {
+            String sql = "{call loadMember()}";
+            cs = conn.prepareCall(sql);
+            rs = cs.executeQuery();
+
+            while (rs.next()){
+                MemberVO memberVO = new MemberVO();
+                memberVO.setMemberNo(rs.getInt("memberNo"));
+                memberVO.setAuthorityId(rs.getInt("authorityId"));
+                memberVO.setName(rs.getString("name"));
+                memberVO.setPhoneNumber(rs.getString("phoneNumber"));
+                memberVO.setEmail(rs.getString("email"));
+                memberVO.setAddress(rs.getString("address"));
+                memberVO.setId(rs.getString("id"));
+                memberVO.setPassword(rs.getString("password"));
+                memberVO.setLogstatus(rs.getString("logstatus"));
+                allLoadMemberList.add(memberVO);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
         return Optional.empty();
     }
 
