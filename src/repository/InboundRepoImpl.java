@@ -214,9 +214,25 @@ public class InboundRepoImpl implements InboundRepo {
         }
     }
 
+    /**
+     * [입고 취소 기능]
+     * 입고 테이블의 해당 ID 행 삭제
+     * -> Trigger 통해서 입고상세의 일치하는 입고 ID 부분도 같이 삭제하자
+     * @param inboundId
+     */
     @Override
     public void deleteInboundInfo(int inboundId) {
+        try {
+            conn.setAutoCommit(false);
+            cs = conn.prepareCall("{call delete_Inbound_Info(?)}");
+            cs.setInt(1, inboundId);
 
+            cs.execute();
+            conn.commit();
+            DBUtil.closeQuietly(null, cs, conn);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
