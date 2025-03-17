@@ -1,16 +1,15 @@
-package vo;
+package dto.inbound;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
-import java.util.Date;
-
 @Getter
+@Builder
 @AllArgsConstructor
-/** 제품 테이블 */
-public class ProductVO {
+public class ProductDTO {
     /** 제품 아이디 */
-    private String productId;
+    private int productId;
     /** 제품명 */
     private String productName;
     /** 제품 단가 */

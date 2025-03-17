@@ -1,7 +1,7 @@
 package repository;
 
 import dto.inbound.InboundDTO;
-import dto.ProductDTO;
+import dto.inbound.ProductDTO;
 import vo.ProductVO;
 import vo.inbound.InboundVO;
 

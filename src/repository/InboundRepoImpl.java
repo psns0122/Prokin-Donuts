@@ -2,9 +2,10 @@ package repository;
 
 import config.DBUtil;
 import dto.inbound.InboundDTO;
-import dto.ProductDTO;
-import vo.inbound.InboundVO;
+import dto.inbound.ProductDTO;
 import vo.ProductVO;
+import vo.inbound.InboundVO;
+
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -69,9 +70,34 @@ public class InboundRepoImpl implements InboundRepo {
         }
     }
 
+    /**
+     * 제품 테이블의 모든 정보를 가져온다.
+     * 프로시저 사용 X
+     * @return 창고관리자가 입고를 주문할 때 보는 상품 메뉴
+     */
     @Override
     public Optional<List<ProductDTO>> getProductInfo() {
-        return Optional.empty();
+        List<ProductDTO> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Product";
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while(rs.next()) {
+                ProductDTO productDTO = ProductDTO.builder()
+                        .productId(rs.getInt("productId"))
+                        .productName(rs.getString("productName"))
+                        .productPrice(rs.getInt("categoryId"))
+                        .productType(rs.getString("productType"))
+                        .build();
+                list.add(productDTO);
+            }
+            rs.close();
+            pstmt.close();
+            return Optional.of(list);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
