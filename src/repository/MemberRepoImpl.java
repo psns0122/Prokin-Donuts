@@ -17,9 +17,7 @@ public class MemberRepoImpl implements MemberRepo {
     Connection conn = null;
     CallableStatement cs = null;
 
-    /* 회원 등록 메서드
-    * 총관리자는 창고관리자를 등록한다.
-    * */
+    // 회원 등록 메서드
     @Override
     public Optional<MemberVO> insertMember(MemberVO member) {
         conn = DBUtil.getConnection();
@@ -52,6 +50,7 @@ public class MemberRepoImpl implements MemberRepo {
         return Optional.empty();
     }
 
+    // 회원 수정 메서드
     @Override
     public Optional<MemberVO> updateMember(String memberId, MemberVO updateMember) {
         conn =DBUtil.getConnection();
@@ -81,11 +80,29 @@ public class MemberRepoImpl implements MemberRepo {
         return Optional.empty();
     }
 
+    //회원 삭제 메서드
     @Override
     public Optional<String> deleteMember(String memberId) {
-        return Optional.empty();
+        conn = DBUtil.getConnection();
+
+        try {
+            String sql = "{call deleteMember(?)}";
+            cs = conn.prepareCall(sql);
+            cs.setString(1,memberId);
+
+            int rs = cs.executeUpdate();
+
+            if(rs>0) {
+                return Optional.of(memberId);
+            } else return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
     }
 
+    //회원 가입 메서드
     @Override
     public boolean requestMember(MemberVO member) {
         return false;
