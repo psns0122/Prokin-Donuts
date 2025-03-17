@@ -4,6 +4,7 @@ import dto.InboundDTO;
 import dto.ProductDTO;
 import vo.ProductVO;
 
+import java.util.Date;
 import java.util.List;
 
 public interface InboundRepo {
@@ -51,5 +52,44 @@ public interface InboundRepo {
      * 입고 ID 삭제
      */
     void deleteInboundInfo(int inboundId);
+
+    // 총관리자(본사)
+
+    /**
+     * [입고 요청 승인]
+     * (입고요청) 상태인 입고 요청서를 가져온다.
+     */
+    List<InboundDTO> getInboundRequest();
+
+    /**
+     * [입고 요청 승인]
+     * 승인할 입고ID를 입력하면 상태를 (요청 -> 승인) 변경
+     */
+    void updateInboundStatus(int inboundId);
+
+    /**
+     * [입고 고지서 출력]
+     * 창고 ID를 통해 모든 입고요청서를 가져온다.
+     * (입고 테이블의 모든 정보)
+     */
+    List<InboundDTO> getAllInboundInfo(int warehouseId);
+
+    /**
+     * [입고 현황 조회]
+     * 전체 창고 입고 현황 리스트 출력
+     * 입고와 입고상세 join한 정보를 가져온다.
+     * DTO 추후 변경
+     */
+    List<InboundDTO> getAllInbound();
+
+    /**
+     * [입고 현황 조회]
+     * 전체 창고 기간별 현황 조회
+     * 입고와 입고상세 join한 정보를 가져온다.
+     * DTO 추후 변경
+     */
+
+    List<InboundDTO> getInboundByDate(Date start_date, Date end_date);
+
 
 }

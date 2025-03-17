@@ -51,6 +51,31 @@ public class InboundServiceImpl implements InboundService {
     }
 
     @Override
+    public List<InboundDTO> getInboundRequest() {
+        return null;
+    }
+
+    @Override
+    public void updateInboundStatus(int inbound) {
+
+    }
+
+    @Override
+    public List<InboundDTO> getAllInboundInfo(int warehouseId) {
+        return null;
+    }
+
+    @Override
+    public List<InboundDTO> getAllInbound() {
+        return null;
+    }
+
+    @Override
+    public List<InboundDTO> getInboundByDate(Date start_date, Date end_date) {
+        return null;
+    }
+
+    @Override
     public List<InboundDTO> getApprovalInboundList() {
         return null;
     }

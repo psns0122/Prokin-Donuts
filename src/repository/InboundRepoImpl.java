@@ -4,6 +4,7 @@ import dto.InboundDTO;
 import dto.ProductDTO;
 import vo.ProductVO;
 
+import java.util.Date;
 import java.util.List;
 
 public class InboundRepoImpl implements InboundRepo {
@@ -40,6 +41,31 @@ public class InboundRepoImpl implements InboundRepo {
     @Override
     public void deleteInboundInfo(int inboundId) {
 
+    }
+
+    @Override
+    public List<InboundDTO> getInboundRequest() {
+        return null;
+    }
+
+    @Override
+    public void updateInboundStatus(int inboundId) {
+
+    }
+
+    @Override
+    public List<InboundDTO> getAllInboundInfo(int warehouseId) {
+        return null;
+    }
+
+    @Override
+    public List<InboundDTO> getAllInbound() {
+        return null;
+    }
+
+    @Override
+    public List<InboundDTO> getInboundByDate(Date start_date, Date end_date) {
+        return null;
     }
 
 

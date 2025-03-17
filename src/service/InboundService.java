@@ -20,11 +20,13 @@ public interface InboundService {
 
     /**
      * 입고(승인) ok 되면 입고 완료! service
+     *
      * @param inboundId 입고 아이디
      */
     void completedInbound(int inboundId);
 
     // [입고 요청 Service]
+
     /**
      * 입고 요청시 상품 Menu 정보
      */
@@ -37,6 +39,7 @@ public interface InboundService {
 
 
     // [입고 요청 수정 Service]
+
     /**
      * 입고 요청 리스트 출력(요청, 승인 상태인 경우에만 가능)
      */
@@ -54,6 +57,7 @@ public interface InboundService {
     boolean checkInboundDate(int inboundId);
 
     // [입고 요청 취소 Service]
+
     /**
      * 입고ID 입력시 입고 요청 취소
      */
@@ -89,6 +93,40 @@ public interface InboundService {
     /**
      * 월별 입고 현황 조회 -> 추후 개발
      */
+
+    //총관리자(본사)
+
+    /**
+     * (입고요청) 상태인 입고요청서를 가져온다.
+     */
+    List<InboundDTO> getInboundRequest();
+
+    /**
+     * 입고 요청 승인
+     * 입고상태 (요청 -> 승인) 변경
+     */
+    void updateInboundStatus(int inbound);
+
+    /**
+     * 입고 고지서 출력
+     * 창고 ID를 통해 모든 입고 요청서를 가져온다.
+     */
+    List<InboundDTO> getAllInboundInfo(int warehouseId);
+
+    /**
+     * 입고 현황 조회
+     * (전체 창고 입고현황 리스트)
+     * 추후 DTO 변경
+     */
+    List<InboundDTO> getAllInbound();
+
+    /**
+     * 입고 현황 조회
+     * (전체 창고 기간별 현황 조회)
+     * 추후 DTO 변경
+     */
+
+    List<InboundDTO> getInboundByDate(Date start_date, Date end_date);
 
 
 }
