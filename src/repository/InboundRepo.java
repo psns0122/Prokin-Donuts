@@ -4,6 +4,7 @@ import dto.inbound.InboundDTO;
 import dto.inbound.ProductDTO;
 import vo.ProductVO;
 import vo.inbound.InboundVO;
+import vo.inbound.InboundDetailVO;
 
 import java.util.Date;
 import java.util.List;
@@ -35,7 +36,13 @@ public interface InboundRepo {
      * [입고 요청 기능]
      * 입고 요청 정보를 입고, 입고상세 테이블에 저장한다.
      */
-    void registerInboundInfo(List<ProductVO> inboundList);
+    void registerInboundDetailInfo(List<InboundDetailVO> inboundList);
+
+    /**
+     * [입고 요청 기능]
+     * 입고 정보를 테이블에 저장한다.
+     */
+    void registerInboundInfo(InboundVO inboundVO);
 
     /**
      * [입고 수정, 삭제 기능]

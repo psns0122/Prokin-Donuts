@@ -5,6 +5,7 @@ import dto.inbound.InboundDTO;
 import dto.inbound.ProductDTO;
 import vo.ProductVO;
 import vo.inbound.InboundVO;
+import vo.inbound.InboundDetailVO;
 
 
 import java.sql.*;
@@ -71,6 +72,7 @@ public class InboundRepoImpl implements InboundRepo {
     }
 
     /**
+     * [입고 요청 기능]
      * 제품 테이블의 모든 정보를 가져온다.
      * 프로시저 사용 X
      * @return 창고관리자가 입고를 주문할 때 보는 상품 메뉴
@@ -100,10 +102,60 @@ public class InboundRepoImpl implements InboundRepo {
         }
     }
 
+    /**
+     * [입고 요청 기능]
+     * 입고 요청 입고 상세 테이블에 저장한다.
+     * @param inboundList
+     */
     @Override
-    public void registerInboundInfo(List<ProductVO> inboundList) {
-
+    public void registerInboundDetailInfo(List<InboundDetailVO> inboundList) {
+       try {
+           conn.setAutoCommit(false);
+           inboundList.forEach(inbound -> {
+               try {
+                   cs = conn.prepareCall("{call register_Inbound_Info(?,?,?,?,?)}");
+                   cs.setInt(1, inbound.getInboundDetailId());
+                   cs.setInt(2, inbound.getQuantity());
+                   cs.setInt(3, inbound.getInboundId());
+                   cs.setInt(4, inbound.getProductId());
+                   cs.setInt(5, inbound.getSectionId());
+                   cs.execute();
+               } catch (SQLException e) {
+                   throw new RuntimeException(e);
+               }
+           });
+           conn.commit();
+           cs.close();
+           conn.close();
+       } catch (SQLException e) {
+           throw new RuntimeException(e);
+       }
     }
+
+    /**
+     * [입고 요청 기능]
+     * 입고 요청 정보를 입고 테이블에 저장한다.
+     */
+    @Override
+    public void registerInboundInfo(InboundVO inboundVO) {
+        try {
+            conn.setAutoCommit(false);
+            cs = conn.prepareCall("{call register_Inbound_Info(?,?,?,?)}");
+            cs.setInt(1, inboundVO.getInboundId());
+            cs.setDate(2, (java.sql.Date) inboundVO.getInboundDate());
+            cs.setString(3, inboundVO.getStatus());
+            cs.setInt(4, inboundVO.getWarehouseId());
+
+            cs.execute();
+            conn.commit();
+
+            cs.close();
+            conn.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     @Override
     public Optional<String> getInboundStatus(int inboundId) {
