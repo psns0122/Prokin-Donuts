@@ -3,6 +3,7 @@ package repository;
 import dto.inbound.InboundDTO;
 import dto.ProductDTO;
 import vo.ProductVO;
+import vo.inbound.InboundVO;
 
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,7 @@ public interface InboundRepo {
      * 입고테이블에서 입고승인 상태인 행을 가져온다.
      * null 인 경우도 생각
      */
-    Optional<List<InboundDTO>> findByApprovedStatus();
+    Optional<List<InboundVO>> findByApprovedStatus(int warehouseId);
 
     /**
      * [입고 검수 기능]

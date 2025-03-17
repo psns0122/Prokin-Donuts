@@ -1,11 +1,13 @@
-package vo;
+package vo.inbound;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Date;
 
 @Getter
+@Builder
 @AllArgsConstructor
 /** 입고 테이블 */
 public class InboundVO {
