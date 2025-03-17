@@ -220,9 +220,9 @@ public class MemberRepoImpl implements MemberRepo {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }finally {
+            DBUtil.closeQuietly(rs,cs,conn);
         }
-
-
         return Optional.empty();
     }
 
