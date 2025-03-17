@@ -219,15 +219,18 @@ public class MemberRepoImpl implements MemberRepo {
                 allLoadMemberList.add(memberVO);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }finally {
             DBUtil.closeQuietly(rs,cs,conn);
         }
         return Optional.empty();
     }
 
+    //회원 정보 확인 기능
     @Override
     public Optional<String> searchLoginfo(String searchValue) {
+
+
         return Optional.empty();
     }
 
