@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -162,14 +163,14 @@ public class MemberRepoImpl implements MemberRepo {
 
     //회원 검색 메서드
     @Override
-    public Optional<List<MemberVO>> loadMember(String searchAttribute, String serchValue) {
+    public Optional<List<MemberVO>> loadMember(String searchAttribute, String searchValue) {
         List<MemberVO> loadMemberList = new ArrayList<>();
         conn = DBUtil.getConnection();
         try {
             String sql = "{call searchMember(?,?)}";
             cs = conn.prepareCall(sql);
             cs.setString(1,searchAttribute);
-            cs.setString(2, serchValue);
+            cs.setString(2, searchValue);
 
             rs = cs.executeQuery();
 
@@ -187,6 +188,11 @@ public class MemberRepoImpl implements MemberRepo {
                 loadMemberList.add(memberVO);
             }
 
+            if (!loadMemberList.isEmpty()) {
+                return Optional.of(loadMemberList);
+            } else {
+                return Optional.of(Collections.emptyList());
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
@@ -218,6 +224,14 @@ public class MemberRepoImpl implements MemberRepo {
                 memberVO.setLogstatus(rs.getString("logstatus"));
                 allLoadMemberList.add(memberVO);
             }
+
+
+            if (!allLoadMemberList.isEmpty()) {
+                return Optional.of(allLoadMemberList);
+            } else {
+                return Optional.of(Collections.emptyList());
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
@@ -237,8 +251,10 @@ public class MemberRepoImpl implements MemberRepo {
             cs.setString(2,searchField);
             cs.setString(3,searchValue);
 
-            String rs = String.valueOf(cs.executeQuery());
-            if(!rs.isEmpty()) return Optional.of(rs);
+            rs = cs.executeQuery();
+            if (rs.next()) {
+                return Optional.of(rs.getString(1)); // 첫 번째 컬럼 값 반환
+            }
             else return Optional.empty();
 
         } catch (SQLException e) {
@@ -275,6 +291,7 @@ public class MemberRepoImpl implements MemberRepo {
         conn =DBUtil.getConnection();
         try {
             String sql = "{call loadRequestMember(?)}";
+            cs = conn.prepareCall(sql);
             cs.setString(1,memberId);
             rs = cs.executeQuery();
             while (rs.next()){
