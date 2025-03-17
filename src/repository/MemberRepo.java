@@ -60,7 +60,7 @@ public interface MemberRepo {
      * 가맹점주는 본인 아이디로 조회할 수 있다.
      * 회원이 존재하지 않을 경우  Optional 처리
      */
-    Optional<List<MemberDTO>> loadMember(String searchAttribut,String serchValue);
+    <T> Optional<List<MemberDTO>> loadMember(String searchAttribut,T serchValue);
 
     /*
      * [전체 회원 조회 기능]

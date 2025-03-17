@@ -4,6 +4,7 @@ import dto.memberDTO.MemberDTO;
 import dto.memberDTO.MemberRequestDTO;
 import repository.MemberRepo;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,19 +52,35 @@ public class MemberServiceImpl implements MemberService {
         return result.isPresent() ? "존재하는 아이디" : "존재하지 않는 아이디";
     }
 
+    //회원아이디 간편조회 기능
     @Override
-    public MemberDTO searchSimple(String memberNo) {
-        return null;
+    public MemberDTO searchSimple(String memberId) {
+        Optional<List<MemberDTO>> result = memberRepo.loadMember("id",memberId);
+        return result.filter(list -> !list.isEmpty())
+                .map(list -> list.get(0))  // 첫 번째 객체를 꺼냄
+                .orElse(null);
     }
 
+    //회원아이디 상세조회 기능
     @Override
-    public MemberDTO searchDitail(String memberNo) {
-        return null;
+    public MemberDTO searchDitail(String memberId) {
+        Optional<List<MemberDTO>> result = memberRepo.loadMember("id",memberId);
+        return result.filter(list -> !list.isEmpty())
+                .map(list -> list.get(0))
+                .orElse(null);
     }
 
+    //권한별 조회 기능
     @Override
-    public MemberDTO searchAuthority(String authority) {
-        return null;
+    public List<MemberDTO> searchAuthority(String authority) {
+        int authorityId = 0;
+
+        if (authority.equals("총관리자")) authorityId = 1;
+        else if (authority.equals("창고관리자"))authorityId = 2;
+        else authorityId = 3;
+
+        Optional<List<MemberDTO>> result = memberRepo.loadMember("authorityId", authorityId);
+        return result.orElse(Collections.emptyList());
     }
 
     @Override

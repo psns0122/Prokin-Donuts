@@ -163,14 +163,20 @@ public class MemberRepoImpl implements MemberRepo {
 
     //회원 검색 메서드
     @Override
-    public Optional<List<MemberDTO>> loadMember(String searchAttribute, String searchValue) {
+    public <T> Optional<List<MemberDTO>> loadMember(String searchAttribute, T searchValue) {
         List<MemberDTO> loadMemberList = new ArrayList<>();
         conn = DBUtil.getConnection();
         try {
             String sql = "{call searchMember(?,?)}";
             cs = conn.prepareCall(sql);
             cs.setString(1,searchAttribute);
-            cs.setString(2, searchValue);
+
+            //타입검사
+            //Integer 타입일 경우
+            if (searchValue instanceof Integer) {
+                cs.setInt(2, (Integer) searchValue);
+            } else cs.setString(2, (String) searchValue);
+
 
             rs = cs.executeQuery();
 
@@ -193,6 +199,7 @@ public class MemberRepoImpl implements MemberRepo {
             } else {
                 return Optional.of(Collections.emptyList());
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {

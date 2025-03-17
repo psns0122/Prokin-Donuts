@@ -41,19 +41,19 @@ public interface MemberService {   /*
     [회원아이디 간편조회 기능]
     repo의 loadMember 호출해 해당 아이디의 아이디/이름/이메일 등 확인
      */
-    MemberDTO searchSimple (String memberNo);
+    MemberDTO searchSimple (String memberId);
 
     /*
     [회원아이디 상세조회 기능]
     repo의 loadMember 호출해 해당 아이디의 모든 회원정보 확인
      */
-    MemberDTO searchDitail (String memberNo);
+    MemberDTO searchDitail (String memberId);
 
     /*
       [권한별 조회 기능]
       repo의 loadMember 호출해 해당 권한의 회원정보 확인
        */
-    MemberDTO searchAuthority (String authority);
+    List<MemberDTO>  searchAuthority (String authority);
 
     /*
     [전체 회원 조회기능]
