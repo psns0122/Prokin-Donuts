@@ -31,7 +31,7 @@ public interface MemberRepo {
      * 존재하지 않는 아이디의 경우  Optional 처리
      * 삭제된 멤버의 간단한 정보(아이디,이름 등) 리턴
      */
-    Optional<MemberVO> deleteMember(String memberId);
+    Optional<String> deleteMember(String memberId);
 
 
     /*
