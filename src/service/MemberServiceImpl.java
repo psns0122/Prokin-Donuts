@@ -1,7 +1,6 @@
 package service;
 
 import dto.MemberDTO;
-import repository.FranchiseRepo;
 import repository.MemberRepo;
 
 import java.util.List;
