@@ -268,8 +268,32 @@ public class MemberRepoImpl implements MemberRepo {
         return Optional.empty();
     }
 
+    //회원 가입 요청 조회 기능
     @Override
-    public Optional<List<MemberVO>> loadRequestMember() {
+    public Optional<List<MemberReauestVO>> loadRequestMember(String memberId) {
+        List<MemberReauestVO> allLoadRequestMemberList = new ArrayList<>();
+        conn =DBUtil.getConnection();
+        try {
+            String sql = "{call loadRequestMember(?)}";
+            cs.setString(1,memberId);
+            rs = cs.executeQuery();
+            while (rs.next()){
+                MemberReauestVO MemberReauestVO = new MemberReauestVO();
+                MemberReauestVO.setAuthorityId(rs.getInt("authorityId"));
+                MemberReauestVO.setName(rs.getString("name"));
+                MemberReauestVO.setPhoneNumber(rs.getString("phoneNumber"));
+                MemberReauestVO.setEmail(rs.getString("email"));
+                MemberReauestVO.setAddress(rs.getString("address"));
+                MemberReauestVO.setId(rs.getString("id"));
+                MemberReauestVO.setPassword(rs.getString("password"));
+                MemberReauestVO.setRequest(rs.getString("request"));
+                allLoadRequestMemberList.add(MemberReauestVO);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeQuietly(rs,cs,conn);
+        }
         return Optional.empty();
     }
 }

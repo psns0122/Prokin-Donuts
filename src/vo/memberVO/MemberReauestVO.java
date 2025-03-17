@@ -22,4 +22,7 @@ public class MemberReauestVO {
     private String password;
     /** 회원 승인요청 상태 **/
     private String request;
+
+    public MemberReauestVO() {
+    }
 }

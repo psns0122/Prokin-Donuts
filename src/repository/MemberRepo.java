@@ -92,5 +92,5 @@ public interface MemberRepo {
      * 본사관리자는 가맹점주의 회원가입 요청 목록을 조회
      * 존재하지 않는 아이디의 경우  Optional 처리
     */
-    Optional<List<MemberVO>> loadRequestMember();
+    Optional<List<MemberReauestVO>> loadRequestMember(String memberId);
 }
