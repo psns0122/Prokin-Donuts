@@ -8,17 +8,15 @@ import java.util.ResourceBundle;
 /**
  *
  * TODO:데이터베이스 설정
- * dbinfo 파일 설정
- * 다음과 같이 util/dbinfo.properties 파일을 생성하고, 본인의 데이터베이스 설정에 맞게 YOURDATA 부분을 변경하세요.
+ *
+ * 다음과 같이 config/dbinfo.properties 파일을 생성하고, 본인의 데이터베이스 설정에 맞게 YOURDATA 부분을 변경하세요.
  *
  * driver=com.mysql.cj.jdbc.Driver
  * url=jdbc:mysql://localhost:3306/YOURDATA?serverTimezone=YOURDATA
  * user=YOURDATA
  * password=YOURDATA
  *
- *
  */
-
 
 /**
  * {@code DBUtil} 클래스는 데이터베이스 연결을 관리하기 위한 유틸리티 클래스입니다.
@@ -29,7 +27,7 @@ public class DBUtil {
     private static ResourceBundle bundle;
 
     static {
-        bundle = ResourceBundle.getBundle("util/dbinfo");
+        bundle = ResourceBundle.getBundle("config/dbinfo");
 
         try {
             Class.forName(bundle.getString("driver"));

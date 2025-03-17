@@ -6,7 +6,9 @@ package common.warehouse;
 public enum WarehouseErrorCode {
     DB_INSERT_ERROR("[DB]: 정보를 저장할 수 없습니다."),
 
-    NUMBER_NOT_FOUND("[Service]: 창고 번호를 찾을 수 없습니다");
+    NUMBER_NOT_FOUND("[Service]: 창고 번호를 찾을 수 없습니다"),
+
+    INPUT_ERROR("잘못된 입력입니다.");
 
     private final String text;
 
