@@ -8,11 +8,9 @@ import lombok.Getter;
 /** 섹션 테이블 */
 public class SectionVO {
     /** 섹션 아이디 */
-    private String sessionId;
+    private int sectionId;
     /** 창고 아이디 */
-    private String warehouseId;
-    /** 권한 아이디 */
-    private String authorityId;
+    private int warehouseId;
     /** 적재량 */
     private int storageCapacity;
     /** 보관타입 */

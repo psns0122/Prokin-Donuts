@@ -10,11 +10,9 @@ import java.util.Date;
 /** 창고 테이블 */
 public class WarehouseVO {
     /** 창고 아이디 */
-    private String warehouseId;
+    private int warehouseId;
     /** 주소 */
     private String address;
-    /** 담당 관리자 */
-    private String manager;
     /** 창고이름 */
     private String warehouseName;
     /** 생성일 */
@@ -23,6 +21,4 @@ public class WarehouseVO {
     private int capacityLimit;
     /** 회원번호 */
     private String memberNo;
-    /** 권한 아이디 */
-    private String authorityId;
 }
