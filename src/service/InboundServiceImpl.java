@@ -74,26 +74,48 @@ public class InboundServiceImpl implements InboundService {
     /**
      * [입고 요청 수정]
      * 입고 요청 리스트 출력 (요청, 승인) 상태
+     *
      * @return 입고 요청 리스트
      */
     @Override
-    public List<InboundDTO> getInboundList() {
-        return null;
+    public List<InboundVO> getInboundList(int warehouseId) {
+        return inboundRepo.getInboundStatus(warehouseId).orElseThrow(
+                () -> new IllegalArgumentException("ee")
+        );
     }
 
+    /**
+     * [입고 요청 수정]
+     * 입고 요청 수정 ID 입력, 변경 데이터 update
+     * -->>>>>>>> 수정 사항 존재
+     * 매개변수 값 추후 수정
+     * @param inboundId
+     * @param inboundList
+     */
     @Override
-    public void updateInboundInfo(int inboundId, List<ProductDTO> inboundList) {
-
+    public void updateInboundInfo(int inboundId, List<InboundDetailVO> inboundList) {
+        inboundRepo.updateInboundInfo(inboundList);
     }
 
+    /**
+     * 입고 예정 날짜 확인 후 수정 및 취소 가능 여부 판단
+     * 입고ID -> 입고 상세 테이블의 예정입고일 확인
+     * --> 추후 개발 예정
+     * @param inboundId
+     * @return
+     */
     @Override
     public boolean checkInboundDate(int inboundId) {
         return false;
     }
 
+    /**
+     * 입고ID 입력시 입고 요청 취소
+     * @param inboundId
+     */
     @Override
     public void deleteInboundInfo(int inboundId) {
-
+        inboundRepo.deleteInboundInfo(inboundId);
     }
 
     @Override

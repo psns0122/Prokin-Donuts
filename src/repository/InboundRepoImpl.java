@@ -159,27 +159,32 @@ public class InboundRepoImpl implements InboundRepo {
      * [입고 수정, 삭제 기능]
      * 수정, 삭제할 입고 ID의 입고 요청을 가져온다.
      *
-     * @param inboundId
-     * @return '입고상태'
+     * @param warehouseId
+     * @return '수정, 삭제 가능한 입고 리스트'
      */
-/*
     @Override
-    public Optional<String> getInboundStatus(int inboundId) {
+    public Optional<List<InboundVO>> getInboundStatus(int warehouseId) {
+        List<InboundVO> list = new ArrayList<>();
         try {
             conn.setAutoCommit(false);
-            cs = conn.prepareCall("{call updateCompletedStatus(?)}");
-            cs.setInt(1, inboundId);
+            cs = conn.prepareCall("{call getfixpossible(?)}");
+            cs.setInt(1, warehouseId);
             rs = cs.executeQuery();
-            String status = null;
-            if (rs.next()) {
-                status = rs.getString("inboundStatus");
+            while(rs.next()) {
+                InboundVO inboundVO = InboundVO.builder()
+                        .inboundId(rs.getInt("inboundId"))
+                        .inboundDate(rs.getDate("inboundDate"))
+                        .status(rs.getString("inboundStatus"))
+                        .warehouseId(rs.getInt("warehouseId"))
+                        .build();
+                list.add(inboundVO);
             }
             DBUtil.closeQuietly(rs, cs, conn);
-            return Optional.ofNullable(status);
+            return Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }*/
+    }
 
     /**
      * [입고 수정 기능]

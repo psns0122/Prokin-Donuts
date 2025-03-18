@@ -47,9 +47,9 @@ public interface InboundRepo {
 
     /**
      * [입고 수정, 삭제 기능]
-     * 수정, 삭제할 입고 ID의 입고상태 정보를 가져온다.
+     * 수정, 삭제할 입고 ID의 입고 요청을 가져온다.
      */
-    /*Optional<String> getInboundStatus(int inboundId);*/
+    Optional<List<InboundVO>> getInboundStatus(int warehouseId);
 
     /**
      * [입고 수정 기능]

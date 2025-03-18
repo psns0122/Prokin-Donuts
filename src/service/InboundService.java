@@ -51,12 +51,12 @@ public interface InboundService {
     /**
      * 입고 요청 리스트 출력(요청, 승인 상태인 경우에만 가능)
      */
-    List<InboundDTO> getInboundList();
+    List<InboundVO> getInboundList(int warehouseId);
 
     /**
      * 입고 요청 수정 ID 입력, 변경 데이터 update
      */
-    void updateInboundInfo(int inboundId, List<ProductDTO> inboundList);
+    void updateInboundInfo(int inboundId, List<InboundDetailVO> inboundList);
 
     /**
      * 입고 예정 날짜 확인 후 수정 및 취소 가능 여부 판단
