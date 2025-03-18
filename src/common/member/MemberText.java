@@ -99,7 +99,7 @@ public enum MemberText {
 
 
     /** 가맹점주 조회 메뉴 */
-    FM_MEMBER_ADD_MENU("\n[가맹점주> 회원 관리 > 회원조회]\n" +
+    FM_MEMBER_SEARCH_MENU("\n[가맹점주> 회원 관리 > 회원조회]\n" +
                                 "1. 간편 조회\n" +
                                 "2. 상세 조회\n" +
                                 "3. 뒤로 가기(\"exit\"입력)"+

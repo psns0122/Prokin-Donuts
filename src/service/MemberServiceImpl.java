@@ -52,21 +52,13 @@ public class MemberServiceImpl implements MemberService {
 
     //회원아이디 간편조회 기능
     @Override
-    public MemberDTO searchSimple(String memberId) {
+    public MemberDTO searchMember(String memberId) {
         Optional<List<MemberDTO>> result = memberRepo.loadMember("id",memberId);
         return result.filter(list -> !list.isEmpty())
                 .map(list -> list.get(0))  // 첫 번째 객체를 꺼냄
                 .orElse(null);
     }
 
-    //회원아이디 상세조회 기능
-    @Override
-    public MemberDTO searchDitail(String memberId) {
-        Optional<List<MemberDTO>> result = memberRepo.loadMember("id",memberId);
-        return result.filter(list -> !list.isEmpty())
-                .map(list -> list.get(0))
-                .orElse(null);
-    }
 
     //권한별 조회 기능
     @Override

@@ -2,6 +2,7 @@ package controller;
 
 import common.member.MemberText;
 import common.util.InputUtil;
+import common.util.LoginUtil;
 import common.util.MenuUtil;
 import dto.memberDTO.MemberDTO;
 import service.MemberService;
@@ -75,15 +76,15 @@ public class MemberControllerImpl implements MemberController {
 
     public Map<Integer,Runnable> setFMMenu(){
         FMSearchMenu = setFMSearchMenu();
-        FMMenu.put(1,()->MenuUtil.handleMenuSelection(MemberText.FM_MEMBER_ADD_MENU.getText(),FMSearchMenu));
-        FMMenu.put(2,()->updateMenu());
-        FMMenu.put(3,()->deleteMenu());
+        FMMenu.put(1,()->MenuUtil.handleMenuSelection(MemberText.FM_MEMBER_SEARCH_MENU.getText(),FMSearchMenu));
+        FMMenu.put(2,()->loginMemberUpdate());
+        FMMenu.put(3,()->loginMemberDelete());
         return FMMenu;
     }
 
     public Map<Integer,Runnable> setFMSearchMenu(){
-        FMMenu.put(1,()->searchSimpleMenu());
-        FMMenu.put(2,()->searchDitailMenu());
+        FMMenu.put(1,()->loginMemberSimpleSearch());
+        FMMenu.put(2,()->loginMemberDetailSearch());
         return FMMenu;
     }
 
@@ -146,12 +147,12 @@ public class MemberControllerImpl implements MemberController {
 
     public void searchSimpleMenu(){
         MemberText.SEARCH_MEMBER_SIMPLE_HEADER.getText();
-        MemberDTO result = memberService.searchSimple(InputUtil.getInput(MemberText.SEARCH_MEMBER_ID.getText()).get());
+        MemberDTO result = memberService.searchMember(InputUtil.getInput(MemberText.SEARCH_MEMBER_ID.getText()).get());
         System.out.println(result.getName()+" "+result.getId()+" "+result.getEmail());
     }
     public void searchDitailMenu(){
         MemberText.SEARCH_MEMBER_DETAIL_HEADER.getText();
-        MemberDTO result = memberService.searchDitail(InputUtil.getInput(MemberText.SEARCH_MEMBER_ID.getText()).get());
+        MemberDTO result = memberService.searchMember(InputUtil.getInput(MemberText.SEARCH_MEMBER_ID.getText()).get());
         System.out.println(result);
     }
     public void searchAuthorityMenu(){
@@ -189,6 +190,35 @@ public class MemberControllerImpl implements MemberController {
         updateMember.setPassword(InputUtil.getInput(MemberText.UPDATE_MEMBER.getText()+MemberText.MEMBER_PASSWORD.getText()).get());
         return updateMember;
     }
+
+    //로그인한 회원의 회원정보 수정
+    public void loginMemberUpdate(){
+       int loginMember = LoginUtil.getLoginMember().getMemberNo();
+       MemberDTO updateMember= updateMember();
+       updateMember().setMemberNo(loginMember);
+       memberService.updateMember(updateMember);
+    }
+
+    //로그인한 회원의 탈퇴
+    public void loginMemberDelete(){
+       String loginMember = LoginUtil.getLoginMember().getId();
+        memberService.deleteMember(loginMember);
+    }
+
+    //로그인한 회원의 간편조회
+    public void loginMemberSimpleSearch(){
+       String loginMember = LoginUtil.getLoginMember().getId();
+        MemberDTO result = memberService.searchMember(loginMember);
+        System.out.println(result.getName()+" "+result.getId()+" "+result.getEmail());
+    }
+
+    //로그인한 회원의 상세조회
+    public void loginMemberDetailSearch(){
+       String loginMember = LoginUtil.getLoginMember().getId();
+        MemberDTO result  = memberService.searchMember(loginMember);
+        System.out.println(result);
+    }
+
 
 }
 
