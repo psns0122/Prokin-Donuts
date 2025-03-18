@@ -14,4 +14,6 @@ public interface OrderController {
     OrderStatisticsDTO getOrderStatisticsByFranchiseAndMonth(String franchiseId, int year, int month);
 
     void approveOrder(String orderId);
+
+    void shipOrder(String orderId);
 }

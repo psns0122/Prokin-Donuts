@@ -65,4 +65,10 @@ public class OrderServiceImpl implements OrderService {
         return orderRepo.findOrderDetailsByOrderId(orderId);
     }
 
+    @Override
+    public void shipOrder(String orderId) {
+        outboundService.processOutbound(orderId);
+    }
+
+
 }

@@ -8,7 +8,7 @@ import vo.OrderStatisticsDTO;
 import java.util.List;
 
 public class OrderControllerImpl implements OrderController {
-    private OrderService orderService;
+    private final OrderService orderService;
 
     public OrderControllerImpl(OrderService orderService) {
         this.orderService = orderService;
@@ -37,6 +37,11 @@ public class OrderControllerImpl implements OrderController {
     @Override
     public void approveOrder(String orderId) {
         orderService.approveOrder(orderId);
+    }
+
+    @Override
+    public void shipOrder(String orderId) {
+        orderService.shipOrder(orderId);
     }
 
 }
