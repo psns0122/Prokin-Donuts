@@ -35,6 +35,7 @@ public class OrderMain {
         System.out.println("=== 역할 선택 ===");
         System.out.println("1. 점장 (발주 요청 제출/상태 확인, 통계)");
         System.out.println("2. 본사 (발주 승인)");
+        System.out.println("3. 창고 관리자 (출고 처리)");
         System.out.println("4. 종료");
         System.out.println("========================================");
         MenuUtil.handleMenuSelection("메뉴 선택 (숫자 입력, 종료: exit): ", mainMenuActions);
@@ -59,6 +60,11 @@ public class OrderMain {
         OrderDTO dto = new OrderDTO(franchiseId, items);
         String orderId = controller.submitOrder(dto);
         System.out.println("발주 요청 제출 완료. 발주 ID: " + orderId);
+    }
+
+    private static void handleShipOrder() {
+        String orderId = getInputOrExit("출고 처리할 발주 ID 입력: ");
+        controller.shipOrder(orderId);
     }
 
     private static List<OrderItemDTO> buildOrderItems() {
