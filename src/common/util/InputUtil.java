@@ -1,9 +1,8 @@
 package common.util;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class InputUtil {
     private static final Scanner scanner = new Scanner(System.in);
