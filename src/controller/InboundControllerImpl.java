@@ -29,17 +29,25 @@ public class InboundControllerImpl implements InboundController {
      * @param warehouseId
      */
     void warehouseManager(int warehouseId) {
-        Map<Integer, Runnable> menuActions = new HashMap<>();
-        menuActions.put(1, () -> inspect(warehouseId));
-        menuActions.put(2, () -> request(warehouseId));
-        menuActions.put(3, () -> inboundUpdate(warehouseId));
-        menuActions.put(4, () -> inboundDelete(warehouseId));
-        menuActions.put(5, () -> receipt(warehouseId));
-        /** menuActions.put(6, () -> Status()); */
+        while(true) {
+            System.out.println("1. 입고검수");
+            System.out.println("2. 입고요청");
+            System.out.println("3. 입고요청 수정");
+            System.out.println("4. 입고요청 취소");
+            System.out.println("5. 입고고지서 출력");
+            System.out.println("6. 입고 현황");
 
+            Map<Integer, Runnable> menuActions = new HashMap<>();
+            menuActions.put(1, () -> inspect(warehouseId));
+            menuActions.put(2, () -> request(warehouseId));
+            menuActions.put(3, () -> inboundUpdate(warehouseId));
+            menuActions.put(4, () -> inboundDelete(warehouseId));
+            menuActions.put(5, () -> receipt(warehouseId));
+            /** menuActions.put(6, () -> Status()); */
 
+            MenuUtil.handleMenuSelection("메뉴 선택 (숫자 입력, 종료: exit): ", menuActions);
+        }
 
-        MenuUtil.handleMenuSelection("메뉴 선택 (숫자 입력, 종료: exit): ", menuActions);
     }
 
     /**
@@ -85,7 +93,7 @@ public class InboundControllerImpl implements InboundController {
         // 상품 메뉴 출력
         printProductMenu();
         // 다음 입고 번호를 가져오는 기능  // 테스트 완료
-        int inboundId = inboundService.getNextInboundId();
+        int inboundId = inboundService.getNextInboundId()+1;
         // Refactoring 필요 !
         while (true) {
             // 입고할 상품과 수량 선택
