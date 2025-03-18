@@ -89,7 +89,7 @@ public interface InboundRepo {
      * 창고 ID를 통해 모든 입고요청서를 가져온다.
      * (입고 테이블의 모든 정보)
      */
-    Optional<List<InboundVO>> getAllInboundInfo(int warehouseId);
+    Optional<List<InboundVO>> getAllInboundInfo();
 
     /**
      * [입고 현황 조회]
@@ -97,7 +97,7 @@ public interface InboundRepo {
      * 입고와 입고상세 join한 정보를 가져온다.
      * DTO 추후 변경
      */
-    Optional<List<InboundDTO>> getAllInbound();
+    Optional<List<InboundVO>> getAllInbound();
 
     /**
      * [입고 현황 조회]

@@ -88,8 +88,9 @@ public interface InboundService {
 
     /**
      * 입고 테이블 정보 출력
+     * 총관리자 고지서 출력에도 사용
      */
-    List<InboundDTO> getAllInboundInfo();
+    List<InboundVO> getAllInboundInfo();
 
     /**
      * 기간별 입고현황 조회
@@ -117,9 +118,9 @@ public interface InboundService {
 
     /**
      * 입고 고지서 출력
-     * 창고 ID를 통해 모든 입고 요청서를 가져온다.
+     * 모든 입고 요청서를 가져온다 (총관리자)
      */
-    List<InboundDTO> getAllInboundInfo(int warehouseId);
+    //getAllInboundInfo() 사용
 
     /**
      * 입고 현황 조회

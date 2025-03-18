@@ -129,10 +129,7 @@ public class InboundServiceImpl implements InboundService {
         return null;
     }
 
-    @Override
-    public List<InboundDTO> getAllInboundInfo() {
-        return null;
-    }
+
 
     @Override
     public List<InboundDTO> getDateInboundInfo(Date start_date, Date end_date) {
@@ -163,10 +160,16 @@ public class InboundServiceImpl implements InboundService {
         inboundRepo.updateInboundStatus(inbound);
     }
 
+    /**
+     * 총관리자 고지서 출력
+     * @return 모든 창고의 입고 고지서
+     */
     @Override
-    public List<InboundDTO> getAllInboundInfo(int warehouseId) {
-        return null;
-    }
+    public List<InboundVO> getAllInboundInfo() {
+        return inboundRepo.getAllInboundInfo().orElseThrow(
+                () -> new IllegalArgumentException("d")
+        );
+     }
 
     @Override
     public List<InboundDTO> getAllInbound() {

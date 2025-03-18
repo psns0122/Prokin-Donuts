@@ -322,11 +322,10 @@ public class InboundRepoImpl implements InboundRepo {
 
     /**
      * [입고 고지서 출력]
-     * @param warehouseId
      * @return
      */
     @Override
-    public Optional<List<InboundVO>> getAllInboundInfo(int warehouseId) {
+    public Optional<List<InboundVO>> getAllInboundInfo() {
         List<InboundVO> list = new ArrayList<>();
         try {
             String sql = "SELECT * FROM InboundDTO";
@@ -350,7 +349,7 @@ public class InboundRepoImpl implements InboundRepo {
     }
     // 입고 현황 조회 추후 개발 예정
     @Override
-    public Optional<List<InboundDTO>> getAllInbound() {
+    public Optional<List<InboundVO>> getAllInbound() {
         return Optional.empty();
     }
 
