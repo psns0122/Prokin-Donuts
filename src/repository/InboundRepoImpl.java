@@ -311,7 +311,7 @@ public class InboundRepoImpl implements InboundRepo {
         try {
             String sql = "SELECT * FROM inbound WHERE inboundStatus = ?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, "입고완료");
+            pstmt.setString(1, "입고요청");
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -345,6 +345,7 @@ public class InboundRepoImpl implements InboundRepo {
             cs = conn.prepareCall("{call updateApprovedStatus(?)}");
             cs.setInt(1, inboundId);
             cs.execute();
+            conn.commit();
             cs.close();
             //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {

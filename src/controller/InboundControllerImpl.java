@@ -14,7 +14,8 @@ import java.util.*;
 public class InboundControllerImpl implements InboundController {
     public static void main(String[] args) {
         InboundControllerImpl inboundController = new InboundControllerImpl(new InboundServiceImpl(new InboundRepoImpl()));
-        inboundController.warehouseManager(1);
+        //inboundController.warehouseManager(1);
+        inboundController.Headquarters();
     }
     private final InboundService inboundService;
 
@@ -182,14 +183,33 @@ public class InboundControllerImpl implements InboundController {
     }
 
 
-
-
-
-
-
     // 총관리자 호출
     void Headquarters() {
+        while(true) {
+            System.out.println("1. 입고요청 승인");
+            System.out.println("2. 입고 고지서 출력");
 
+            Map<Integer, Runnable> menuActions = new HashMap<>();
+            menuActions.put(1, () -> approved());
+            //menuActions.put(2, () -> printInbound());
+
+            /** menuActions.put(6, () -> Status()); */
+
+            MenuUtil.handleMenuSelection("메뉴 선택 (숫자 입력, 종료: exit): ", menuActions);
+        }
+    }
+
+    /**
+     * 총관리자의 입고 요청 승인 기능 (테스트 완료)
+     */
+    private void approved() {
+        // 입고 '요청'상태인 입고요청 리스트 출력
+        List<InboundVO> list = inboundService.getInboundRequest();
+        list.forEach(System.out::println);
+
+        // 입고를 승인할 입고 ID를 입력 받으면 해당 입고 ID의 상태를 (요청 -> 승인) 상태로 변경한다.
+        int inboundId = InputUtil.getIntegerInput("입고를 승인할 입고 ID를 입력하세요.");
+        inboundService.updateInboundStatus(inboundId);
     }
 
 }
