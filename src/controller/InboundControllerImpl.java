@@ -30,8 +30,8 @@ public class InboundControllerImpl implements InboundController {
         Map<Integer, Runnable> menuActions = new HashMap<>();
         menuActions.put(1, () -> inspect(warehouseId));
         menuActions.put(2, () -> request(warehouseId));
-        /*menuActions.put(3, () -> inboundUpdate());
-        menuActions.put(4, () -> inboundDelete());
+        menuActions.put(3, () -> inboundUpdate());
+        /*menuActions.put(4, () -> inboundDelete());
         menuActions.put(5, () -> receipt());
         menuActions.put(6, () -> Status());*/
 
@@ -119,6 +119,20 @@ public class InboundControllerImpl implements InboundController {
         List<ProductDTO> list = inboundService.getProductMenu();
         list.forEach(System.out::println);
     }
+
+    /**
+     * 입고 요청 수정
+     * --> 추후 개발 예정 
+     */
+    private void inboundUpdate() {
+    }
+
+
+
+
+
+
+
 
 
     // 총관리자 호출
