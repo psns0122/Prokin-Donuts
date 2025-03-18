@@ -7,7 +7,7 @@ public class DBUtil {
     /**
      * 데이터베이스 정보가 포함된 ResourceBundle 객체
      */
-    private static ResourceBundle bundle;
+    private static ResourceBundle bundle = ResourceBundle.getBundle("config/dbinfo");
 
     static {
 
