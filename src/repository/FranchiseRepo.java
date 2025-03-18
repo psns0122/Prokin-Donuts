@@ -4,8 +4,6 @@ import dto.OrderDTO;
 import dto.franchise.FranchiseDTO;
 import dto.franchise.ProductCategoryDTO;
 import dto.franchise.ProductDTO;
-import dto.memberDTO.MemberDTO;
-import vo.franchise.FranchiseVO;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +14,7 @@ public interface FranchiseRepo {
      * [가맹점 등록 기능]
      * 본사관리자가 신규 가맹점을 등록
      */
-    Optional<FranchiseDTO> insertFranchise(FranchiseDTO franchise);
+    Optional<String> insertFranchise(FranchiseDTO franchise);
 
     /**
      * [가맹점 수정 기능]
@@ -29,7 +27,6 @@ public interface FranchiseRepo {
      * [가맹점 삭제 기능]
      * 본사관리자는 가맹점 아이디로 가맹점을 삭제
      * 존재하지 않는 아이디일 경우 Optional 처리
-     * TODO : 가능하다면 삭제된 가맹점의 정보를 리턴
      */
     Optional<FranchiseDTO> deleteFranchise(int franchiseId);
 
@@ -69,15 +66,14 @@ public interface FranchiseRepo {
      * 본사관리자는 제품의 정보를 수정할 수 있다
      * 수정하려는 제품이 없을 경우 Optional 처리
      */
+    Optional<ProductDTO> updateProduct(ProductDTO productDTO);
 
     /**
      * [제품 삭제 기능]
      * 본사관리자는 제품아이디로 제품을 삭제
      * 삭제하려는 제품이 없을 경우 Optional 처리
-     * TODO : 가능하다면 삭제된 제품의 정보를 리턴
      */
-
-    /** TODO : 가능하다면 카테고리 삭제 기능 추가 */
+    Optional<ProductDTO> deleteProduct(ProductDTO productDTO);
 
     /**
      * [전체 제품 조회 기능]
