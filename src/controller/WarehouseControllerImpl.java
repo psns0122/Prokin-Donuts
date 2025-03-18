@@ -2,7 +2,7 @@ package controller;
 
 import common.warehouse.WarehouseErrorCode;
 import common.warehouse.WarehouseText;
-import dto.WarehouseDTO;
+import dto.warehouse.WarehouseDTO;
 import service.WarehouseService;
 
 import java.util.Scanner;
