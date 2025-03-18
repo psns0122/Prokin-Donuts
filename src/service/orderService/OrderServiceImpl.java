@@ -37,4 +37,32 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderId;
     }
+
+    @Override
+    public void approveOrder(String orderId) {
+        OrderVO order = orderRepo.findOrderById(orderId);
+        if (order == null) {
+            System.out.println("발주가 존재하지 않습니다: " + orderId);
+            return;
+        }
+        if (!order.getOrderStatus().equals("발주 승인 대기중")) {
+            System.out.println("현재 상태에서는 승인할 수 없습니다: " + order.getOrderStatus());
+            return;
+        }
+        // 주문 상태를 "발주 승인"으로 업데이트
+        OrderVO updated = new OrderVO(order.getOrderId(), order.getOrderDate(), "발주 승인", order.getMemberNo(), order.getAuthorityId());
+        orderRepo.updateOrder(updated);
+        System.out.println("발주 승인 완료: " + orderId);
+    }
+
+    @Override
+    public OrderVO getOrder(String orderId) {
+        return orderRepo.findOrderById(orderId);
+    }
+
+    @Override
+    public List<OrderDetailVO> getOrderDetails(String orderId) {
+        return orderRepo.findOrderDetailsByOrderId(orderId);
+    }
+
 }
