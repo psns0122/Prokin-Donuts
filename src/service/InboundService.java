@@ -107,7 +107,7 @@ public interface InboundService {
     /**
      * (입고요청) 상태인 입고요청서를 가져온다.
      */
-    List<InboundDTO> getInboundRequest();
+    List<InboundVO> getInboundRequest();
 
     /**
      * 입고 요청 승인

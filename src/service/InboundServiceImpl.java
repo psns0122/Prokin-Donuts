@@ -139,14 +139,28 @@ public class InboundServiceImpl implements InboundService {
         return null;
     }
 
+    // 총관리자(본사)
+
+    /**
+     * (입고요청) 상태인 입고요청서를 가져온다.
+     *
+     * @return
+     */
     @Override
-    public List<InboundDTO> getInboundRequest() {
-        return null;
+    public List<InboundVO> getInboundRequest() {
+        return inboundRepo.getInboundRequest().orElseThrow(
+                () -> new IllegalArgumentException("d")
+        );
     }
 
+    /**
+     * 입고 요청 승인
+     * 입고상태 (요청 -> 승인) 변경
+     * @param inbound
+     */
     @Override
     public void updateInboundStatus(int inbound) {
-
+        inboundRepo.updateInboundStatus(inbound);
     }
 
     @Override
