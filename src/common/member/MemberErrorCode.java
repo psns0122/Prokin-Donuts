@@ -5,8 +5,14 @@ package common.member;
  */
 public enum MemberErrorCode {
     DB_INSERT_ERROR("[DB]: 정보를 저장할 수 없습니다."),
+    DB_UPDATE_ERROR("[DB]: 정보를 수정할 수 없습니다."),
+    DB_DELETE_ERROR("[DB]: 정보를 삭제할 수 없습니다."),
 
-    NUMBER_NOT_FOUND("[Service]: 직원 번호를 찾을 수 없습니다");
+    ID_NOT_FOUND("[Service]: 존재하지 않는 ID입니다. "),
+    ID_FOUND("[Service]: 이미 존재하는 ID입니다."),
+
+    MEMBER_NOT_FOUND("[Service]: 해당 회원이 존재하지 않습니다. "),;
+
 
     private final String text;
 

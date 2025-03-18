@@ -5,7 +5,8 @@ package common.inbound;
  */
 public class InboundValidCheck {
 
-    private static final String MENU_NUMBER_REGEX = "~~~";
+    private static final String NUMBER = "^\\d+$\n";
+
 
 
 

@@ -7,10 +7,9 @@ import lombok.Getter;
 import java.util.Date;
 @Getter
 @Builder
-@AllArgsConstructor
 public class InboundDTO {
     /** 입고 아이디 */
-    private int inboundId;
+    private Integer inboundId;
     /** 입고일 */
     private Date inboundDate;
     /** 입고상태 */

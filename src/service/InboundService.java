@@ -79,6 +79,7 @@ public interface InboundService {
      */
 
     /**
+     * --> 필요 없을 듯
      * 입고 ID 입력시 입고 상세 정보 출력
      * 입고ID
      */
