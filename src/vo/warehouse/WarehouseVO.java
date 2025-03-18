@@ -1,4 +1,4 @@
-package vo;
+package vo.warehouse;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

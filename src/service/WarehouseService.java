@@ -1,6 +1,6 @@
 package service;
 
-import dto.WarehouseDTO;
+import dto.warehouse.WarehouseDTO;
 
 import java.util.ArrayList;
 

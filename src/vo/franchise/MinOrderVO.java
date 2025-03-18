@@ -1,4 +1,4 @@
-package vo;
+package vo.franchise;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
