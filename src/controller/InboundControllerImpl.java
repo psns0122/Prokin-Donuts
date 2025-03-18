@@ -44,7 +44,7 @@ public class InboundControllerImpl implements InboundController {
             menuActions.put(3, () -> inboundUpdate(warehouseId));
             menuActions.put(4, () -> inboundDelete(warehouseId));
             menuActions.put(5, () -> receipt(warehouseId));
-            /** menuActions.put(6, () -> Status()); */
+            menuActions.put(6, () -> Status(warehouseId));
 
             MenuUtil.handleMenuSelection("메뉴 선택 (숫자 입력, 종료: exit): ", menuActions);
         }
@@ -177,6 +177,15 @@ public class InboundControllerImpl implements InboundController {
     private void receipt(int warehouseId) {
         // 입고 요청, 승인 상태인 입고고지서를 가져와 출력한다.
         List<InboundVO> list = inboundService.getInboundList(warehouseId);
+        list.forEach(System.out::println);
+    }
+
+    /**
+     * 창고 관리자 입고 현황 조회
+     * (입고 상세 정보 출력)
+     */
+    private void Status(int warehouseId) {
+        List<InboundDetailVO> list = inboundService.getInboundDetail(warehouseId);
         list.forEach(System.out::println);
     }
 

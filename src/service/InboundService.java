@@ -88,7 +88,7 @@ public interface InboundService {
      * 입고 ID 입력시 입고 상세 정보 출력
      * 입고ID
      */
-    List<InboundDetailVO> getInboundDetail(int inboundId);
+    List<InboundDetailVO> getInboundDetail(int warehouseId);
 
     // [입고 현황 조회 Service]
 
