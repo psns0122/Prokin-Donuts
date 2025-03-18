@@ -108,4 +108,8 @@ public interface InboundRepo {
     Optional<List<InboundDTO>> getInboundByDate(Date start_date, Date end_date);
 
 
+    /**
+     * 다음 입고 ID 번호 가져오기
+     */
+    Optional<Integer> getNextInboundId();
 }

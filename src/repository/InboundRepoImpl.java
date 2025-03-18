@@ -43,7 +43,7 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(inboundVO);
             }
-            DBUtil.closeQuietly(rs, cs, conn);
+            //DBUtil.closeQuietly(rs, cs, conn);
             return Optional.of(list);
 
         } catch (SQLException e) {
@@ -65,7 +65,8 @@ public class InboundRepoImpl implements InboundRepo {
             cs = conn.prepareCall("{call updateCompletedStatus(?)}");
             cs.setInt(1, inboundId);
             cs.execute();
-            DBUtil.closeQuietly(null, cs, conn);
+            conn.commit();
+            //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -90,12 +91,13 @@ public class InboundRepoImpl implements InboundRepo {
                 ProductDTO productDTO = ProductDTO.builder()
                         .productId(rs.getInt("productId"))
                         .productName(rs.getString("productName"))
-                        .productPrice(rs.getInt("categoryId"))
-                        .productType(rs.getString("productType"))
+                        .productPrice(rs.getInt("productPrice"))
+                        .categoryId(rs.getString("categoryId"))
+                        .storedType(rs.getString("storedType"))
                         .build();
                 list.add(productDTO);
             }
-            DBUtil.closeQuietly(rs, cs, conn);
+            //DBUtil.closeQuietly(rs, cs, conn);
             return Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -125,7 +127,7 @@ public class InboundRepoImpl implements InboundRepo {
                     throw new RuntimeException(e);
                 }
             });
-            DBUtil.closeQuietly(null, cs, conn);
+            //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -149,7 +151,7 @@ public class InboundRepoImpl implements InboundRepo {
             cs.execute();
             conn.commit();
 
-            DBUtil.closeQuietly(null, cs, conn);
+            //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -179,7 +181,7 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(inboundVO);
             }
-            DBUtil.closeQuietly(rs, cs, conn);
+            //DBUtil.closeQuietly(rs, cs, conn);
             return Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -209,7 +211,7 @@ public class InboundRepoImpl implements InboundRepo {
                 }
             });
             conn.commit();
-            DBUtil.closeQuietly(null, cs, conn);
+            //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -230,7 +232,7 @@ public class InboundRepoImpl implements InboundRepo {
 
             cs.execute();
             conn.commit();
-            DBUtil.closeQuietly(null, cs, conn);
+            //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -260,7 +262,7 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(inboundDetailVO);
             }
-            DBUtil.closeQuietly(rs, cs, conn);
+            //DBUtil.closeQuietly(rs, cs, conn);
             return Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -293,7 +295,7 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(inboundVO);
             }
-            DBUtil.closeQuietly(rs, null, conn);
+           // DBUtil.closeQuietly(rs, null, conn);
             pstmt.close();
             return Optional.of(list);
 
@@ -315,7 +317,7 @@ public class InboundRepoImpl implements InboundRepo {
             cs.setInt(1, inboundId);
             cs.execute();
             cs.close();
-            DBUtil.closeQuietly(null, cs, conn);
+            //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -343,7 +345,7 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(inboundVO);
             }
-            DBUtil.closeQuietly(rs, cs, conn);
+            //DBUtil.closeQuietly(rs, cs, conn);
             return Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -358,6 +360,24 @@ public class InboundRepoImpl implements InboundRepo {
     @Override
     public Optional<List<InboundDTO>> getInboundByDate(Date start_date, Date end_date) {
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<Integer> getNextInboundId() {
+        try {
+            String sql = "SELECT MAX(inboundId) FROM inbound";
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            int index = 0;
+            if(rs.next()) {
+                index = rs.getInt(1);
+            }
+
+            //DBUtil.closeQuietly(rs, cs, conn);
+            return Optional.of(index);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

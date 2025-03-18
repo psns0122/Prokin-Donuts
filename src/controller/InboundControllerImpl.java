@@ -57,7 +57,8 @@ public class InboundControllerImpl implements InboundController {
 
     /**
      * 입고 승인 상태인 입고요청을 출력
-     *
+     * (입고 승인 상태인 입고 요청 출력 테스트 완료)
+     * (입고 상태 변경 (승인 -> 완료) 테스트 완료)
      * @param warehouseId
      */
     private void printInboundList(int warehouseId) {
@@ -70,10 +71,12 @@ public class InboundControllerImpl implements InboundController {
 
     /**
      * 입고 요청 등록
-     * 1. 입고 요청시 필요한 상품 메뉴 출력
+     * @@ 상품 보관 타입으로 섹션 나누기!
+     * @@ ProductId의 보관타입에 따라 냉장->1, 냉동->2, 실온->3
+     * 1. 입고 요청시 필요한 상품 메뉴 출력 (테스트 완료)
      * 2. 입고를 신청할 상품의 상품 ID, 수량을 선택  + 날짜 선택
      * 3. 모두 선택하면 List 로 담아서 저장
-     * 4. 저장 시 입고 테이블, 입고 상세 테이블에 각각 저장
+     * 4. 저장 시 입고 테이블(테스트 완료), 입고 상세 테이블에 각각 저장
      * Refactoring -> request 메서드 기능 단위별로
      */
     private void request(int warehouseId) {
@@ -81,19 +84,21 @@ public class InboundControllerImpl implements InboundController {
 
         // 상품 메뉴 출력
         printProductMenu();
-
+        // 다음 입고 번호를 가져오는 기능  // 테스트 완료
+        int inboundId = inboundService.getNextInboundId();
         // Refactoring 필요 !
         while (true) {
             // 입고할 상품과 수량 선택
-            int end = InputUtil.getIntegerInput("종료: 0입력");
-            if (end == 0) break;
             int productId = InputUtil.getIntegerInput("상품 ID를 입력하세요.");
             int quantity = InputUtil.getIntegerInput("수량을 입력하세요.");
             InboundDetailVO inboundDetailVO = InboundDetailVO.builder()
                     .productId(productId)
+                    .inboundId(inboundId)
                     .quantity(quantity)
                     .build();
             list.add(inboundDetailVO);
+            int end = InputUtil.getIntegerInput("계속 진행: 1. 종료: 0을 입력하세요.");
+            if (end == 0) break;
         }
 
         //날짜 선택 InputUtil 작성  2025-03-18 형식?

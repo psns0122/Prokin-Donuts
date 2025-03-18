@@ -139,4 +139,9 @@ public interface InboundService {
     List<InboundDTO> getInboundByDate(Date start_date, Date end_date);
 
 
+    /**
+     * 추가
+     * 입고 요청등록에 다음 입고 아이디 번호 가져오기
+     */
+    int getNextInboundId();
 }

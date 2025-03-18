@@ -181,5 +181,12 @@ public class InboundServiceImpl implements InboundService {
         return null;
     }
 
+    @Override
+    public int getNextInboundId() {
+        return inboundRepo.getNextInboundId().orElseThrow(
+                () -> new IllegalArgumentException("~")
+        );
+    }
+
 
 }
