@@ -1,6 +1,8 @@
 package repository;
 
 import dto.memberDTO.MemberDTO;
+import dto.memberDTO.MemberRequestDTO;
+import vo.memberVO.MemberReauestVO;
 import vo.memberVO.MemberVO;
 
 import java.sql.SQLException;
@@ -13,7 +15,7 @@ public interface MemberRepo {
      * [회원 등록 기능]
      * 본사관리자가 신규 창고관리자를 등록
      */
-    Optional<MemberVO>insertMember(MemberVO member);
+    Optional<MemberDTO>insertMember(MemberDTO member);
 
     /*
      * [회원 수정 기능]
@@ -21,7 +23,7 @@ public interface MemberRepo {
      * 가맹점주는 본인 정보 수정
      * 수정하려는 회원이 없을 경우  Optional 처리
      */
-    Optional<MemberVO> updateMember(String memberId, MemberVO updateMember);
+    Optional<MemberDTO> updateMember(MemberDTO updateMember);
 
 
     /*
@@ -40,7 +42,7 @@ public interface MemberRepo {
      * 요청상태 :승인대기
      * 승인 실패의 경우 : 이미 존재하는 아이디의 경우 예외처리
      */
-    boolean requestMember(MemberVO member);
+    Optional<MemberRequestDTO> requestMember(MemberRequestDTO member);
 
     /*
      * [회원 승인 기능]
@@ -48,7 +50,7 @@ public interface MemberRepo {
      * 존재하지 않는 아이디의 경우  Optional 처리
      * 트리거를 이용해 승인된 회원을 회원테이블에 추가 / 회원가입 요청 테이블에서 삭제
      */
-    Optional<MemberVO> approvalMember(String memberId);
+    boolean approvalMember(String memberId);
 
 
     /*
@@ -56,17 +58,16 @@ public interface MemberRepo {
      * 총관리자는 회원아이디와 권한을 기준으로 조회할 수 있다.
      * 창고관리자는 회원아이디로 조회할 수 있다.
      * 가맹점주는 본인 아이디로 조회할 수 있다.
-     *      ->현재는 조회 기준이 전부 String이라 t가 필요없긴함
      * 회원이 존재하지 않을 경우  Optional 처리
      */
-    <T>  Optional<List<MemberVO>> loadMember(String searchAttribut,T serchValue);
+    <T> Optional<List<MemberDTO>> loadMember(String searchAttribut,T serchValue);
 
     /*
      * [전체 회원 조회 기능]
      * 저장된 전체 회원의 정보를 조회
      * 회원이 존재하지 않아 리스트가 null값일 경우 Optional처리
      */
-    Optional<List<MemberVO>> allLoadMember();
+    Optional<List<MemberDTO>> allLoadMember();
 
 
     /*
@@ -77,7 +78,7 @@ public interface MemberRepo {
      * 회원의 로그인상태를 구분한다.
      * 회원이 존재하지 않을 경우  Optional 처리
      */
-    Optional<String>  searchLoginfo(String searchValue);
+    Optional<String>  searchLoginfo(String findField, String searchField, String searchValue);
 
     /*
     [로그인/로그아웃 기능]
@@ -92,5 +93,5 @@ public interface MemberRepo {
      * 본사관리자는 가맹점주의 회원가입 요청 목록을 조회
      * 존재하지 않는 아이디의 경우  Optional 처리
     */
-    Optional<List<MemberVO>> loadRequestMember();
+    Optional<List<MemberRequestDTO>> loadRequestMember();
 }

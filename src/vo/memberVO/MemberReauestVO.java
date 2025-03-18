@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
-public class memberreauestVO {
+public class MemberReauestVO {
     /** 권한 아이디 */
     private int authorityId;
     /** 회원 이름 */
@@ -22,4 +21,5 @@ public class memberreauestVO {
     private String password;
     /** 회원 승인요청 상태 **/
     private String request;
+
 }
