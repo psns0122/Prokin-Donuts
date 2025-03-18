@@ -14,7 +14,7 @@ public class OrderIdGenerator {
         // 오늘 날짜를 "yyyyMMdd" 형식으로 생성
         String today = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
         int count = getTodayOrderCount(today);
-        // 순번은 3자리 (예: 001)
+        // 순번은 3자리 (예:001)
         String sequence = String.format("%03d", count + 1);
         return "Order-" + today + sequence;
     }
