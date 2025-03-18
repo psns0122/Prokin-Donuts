@@ -2,14 +2,10 @@ package controller;
 
 import common.util.InputUtil;
 import common.util.MenuUtil;
-import config.DBUtil;
-import dto.inbound.InboundDTO;
 import dto.inbound.ProductDTO;
-import repository.InboundRepo;
 import service.InboundService;
 import vo.inbound.InboundDetailVO;
 import vo.inbound.InboundVO;
-
 import java.time.LocalDate;
 import java.util.*;
 
@@ -136,7 +132,7 @@ public class InboundControllerImpl implements InboundController {
      * 2. 해당 리스트 중 입고 취소할 입고요청의 ID를 입력 받는다
      * 3. 해당 입고 ID가 취소 가능한지 확인한다.
      * 4. 취소 가능하면 삭제 / 취소 불가능하면 불가능하다 안내
-     *
+     * Refactoring -> 기능 별로 메서드 추출 예정
      */
     private void inboundDelete(int warehouseId) {
         // 입고 요청 리스트 출력(요청, 승인 상태인 경우에만 가능)
