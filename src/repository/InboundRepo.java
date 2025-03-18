@@ -63,6 +63,11 @@ public interface InboundRepo {
     void deleteInboundInfo(int inboundId);
 
     /**
+     * 입고 수정, 취소가 가능한지 입고예정 날짜를 확인해 반환한다.
+     */
+    boolean checkInboundDate(int inboundId);
+
+    /**
      * [입고 고지서 출력]
      * @param inboundId
      * @return

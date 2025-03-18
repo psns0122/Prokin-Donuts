@@ -106,7 +106,7 @@ public class InboundServiceImpl implements InboundService {
      */
     @Override
     public boolean checkInboundDate(int inboundId) {
-        return false;
+        return inboundRepo.checkInboundDate(inboundId);
     }
 
     /**

@@ -238,6 +238,31 @@ public class InboundRepoImpl implements InboundRepo {
         }
     }
 
+
+
+    /**
+     * 입고 수정, 취소가 가능한지 입고예정 날짜를 확인해 반환한다.
+     */
+    @Override
+    public boolean checkInboundDate(int inboundId) {
+        try {
+            String sql = "SELECT DATEDIFF(inboundDate, now()) FROM Inbound WHERE inboundId = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, inboundId);
+            rs = pstmt.executeQuery();
+            int diffDay = 0;
+            if(rs.next()) {
+                diffDay = rs.getInt(1);
+            }
+            if(diffDay<=2) return false; // 2일 전이면 불가!
+            return true;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     /**
      * [입고 고지서 출력]
      * 창고관리자가 자신의 창고 입고 고지서를 출력한다.
