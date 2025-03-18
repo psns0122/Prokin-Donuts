@@ -32,4 +32,18 @@ public class InputUtil {
             }
         }
     }
+
+    // 정수 입력 받기
+    public static int getIntegerInput(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine().trim();
+
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("올바른 정수를 입력하세요.");
+            }
+        }
+    }
 }
