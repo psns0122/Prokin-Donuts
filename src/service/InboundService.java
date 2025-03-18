@@ -1,7 +1,10 @@
 package service;
 
 import dto.inbound.InboundDTO;
-import dto.ProductDTO;
+
+import dto.inbound.ProductDTO;
+import vo.inbound.InboundDetailVO;
+import vo.inbound.InboundVO;
 
 import java.util.Date;
 import java.util.List;
@@ -16,7 +19,7 @@ public interface InboundService {
      *
      * @return 입고승인 리스트
      */
-    List<InboundDTO> getApprovalInboundList();
+    List<InboundVO> getApprovalInboundList(int warehouseId);
 
     /**
      * 입고(승인) ok 되면 입고 완료! service
@@ -35,7 +38,12 @@ public interface InboundService {
     /**
      * 입고 요청 등록
      */
-    void registerInbound(List<ProductDTO> inboundList);
+    void registerInbound(InboundVO inboundVO);
+
+    /**
+     * 입고 요청 상세 등록
+     */
+    void registerDetailInfo(List<InboundDetailVO> inboundList);
 
 
     // [입고 요청 수정 Service]
@@ -43,12 +51,12 @@ public interface InboundService {
     /**
      * 입고 요청 리스트 출력(요청, 승인 상태인 경우에만 가능)
      */
-    List<InboundDTO> getInboundList();
+    List<InboundVO> getInboundList(int warehouseId);
 
     /**
      * 입고 요청 수정 ID 입력, 변경 데이터 update
      */
-    void updateInboundInfo(int inboundId, List<ProductDTO> inboundList);
+    void updateInboundInfo(int inboundId, List<InboundDetailVO> inboundList);
 
     /**
      * 입고 예정 날짜 확인 후 수정 및 취소 가능 여부 판단
@@ -71,17 +79,19 @@ public interface InboundService {
      */
 
     /**
+     * --> 필요 없을 듯
      * 입고 ID 입력시 입고 상세 정보 출력
-     * 반환 DTO는 추후 수정 예정
+     * 입고ID
      */
-    List<ProductDTO> getInboundDetail(int inboundId);
+    List<InboundDetailVO> getInboundDetail(int inboundId);
 
     // [입고 현황 조회 Service]
 
     /**
      * 입고 테이블 정보 출력
+     * 총관리자 고지서 출력에도 사용
      */
-    List<InboundDTO> getAllInboundInfo();
+    List<InboundVO> getAllInboundInfo();
 
     /**
      * 기간별 입고현황 조회
@@ -99,7 +109,7 @@ public interface InboundService {
     /**
      * (입고요청) 상태인 입고요청서를 가져온다.
      */
-    List<InboundDTO> getInboundRequest();
+    List<InboundVO> getInboundRequest();
 
     /**
      * 입고 요청 승인
@@ -109,9 +119,9 @@ public interface InboundService {
 
     /**
      * 입고 고지서 출력
-     * 창고 ID를 통해 모든 입고 요청서를 가져온다.
+     * 모든 입고 요청서를 가져온다 (총관리자)
      */
-    List<InboundDTO> getAllInboundInfo(int warehouseId);
+    //getAllInboundInfo() 사용
 
     /**
      * 입고 현황 조회

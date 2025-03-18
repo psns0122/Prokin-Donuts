@@ -37,7 +37,7 @@ public class InboundRepoImpl implements InboundRepo {
             while (rs.next()) {
                 InboundVO inboundVO = InboundVO.builder()
                         .inboundId(rs.getInt("inboundId"))
-                        .inboundDate(rs.getDate("inboundDate"))
+                        .inboundDate(rs.getDate("inboundDate").toLocalDate())
                         .status(rs.getString("inboundStatus"))
                         .warehouseId(rs.getInt("warehouseId"))
                         .build();
@@ -134,6 +134,7 @@ public class InboundRepoImpl implements InboundRepo {
     /**
      * [입고 요청 기능]
      * 입고 요청 정보를 입고 테이블에 저장한다.
+     * 고지서
      */
     @Override
     public void registerInboundInfo(InboundVO inboundVO) {
@@ -141,7 +142,7 @@ public class InboundRepoImpl implements InboundRepo {
             conn.setAutoCommit(false);
             cs = conn.prepareCall("{call register_Inbound_Info(?,?,?,?)}");
             cs.setInt(1, inboundVO.getInboundId());
-            cs.setDate(2, (java.sql.Date) inboundVO.getInboundDate());
+            cs.setDate(2, java.sql.Date.valueOf(inboundVO.getInboundDate()));
             cs.setString(3, inboundVO.getStatus());
             cs.setInt(4, inboundVO.getWarehouseId());
 
@@ -156,25 +157,30 @@ public class InboundRepoImpl implements InboundRepo {
 
     /**
      * [입고 수정, 삭제 기능]
-     * 수정, 삭제할 입고 ID의 입고 상태 정보를 가져온다.
+     * 수정, 삭제할 입고 ID의 입고 요청을 가져온다.
      *
-     * @param inboundId
-     * @return '입고상태'
+     * @param warehouseId
+     * @return '수정, 삭제 가능한 입고 리스트'
      */
-
     @Override
-    public Optional<String> getInboundStatus(int inboundId) {
+    public Optional<List<InboundVO>> getInboundStatus(int warehouseId) {
+        List<InboundVO> list = new ArrayList<>();
         try {
             conn.setAutoCommit(false);
-            cs = conn.prepareCall("{call updateCompletedStatus(?)}");
-            cs.setInt(1, inboundId);
+            cs = conn.prepareCall("{call getfixpossible(?)}");
+            cs.setInt(1, warehouseId);
             rs = cs.executeQuery();
-            String status = null;
-            if (rs.next()) {
-                status = rs.getString("inboundStatus");
+            while(rs.next()) {
+                InboundVO inboundVO = InboundVO.builder()
+                        .inboundId(rs.getInt("inboundId"))
+                        .inboundDate(rs.getDate("inboundDate").toLocalDate())
+                        .status(rs.getString("inboundStatus"))
+                        .warehouseId(rs.getInt("warehouseId"))
+                        .build();
+                list.add(inboundVO);
             }
             DBUtil.closeQuietly(rs, cs, conn);
-            return Optional.ofNullable(status);
+            return Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -230,6 +236,38 @@ public class InboundRepoImpl implements InboundRepo {
         }
     }
 
+    /**
+     * [입고 고지서 출력]
+     * 창고관리자가 자신의 창고 입고 고지서를 출력한다.
+     * @param inboundId
+     * @return 입고 고지서
+     */
+    @Override
+    public Optional<List<InboundDetailVO>> getInboundDetail(int inboundId) {
+        List<InboundDetailVO> list = new ArrayList<>();
+        try {
+            conn.setAutoCommit(false);
+            cs = conn.prepareCall("{call getInboundDetail(?)}");
+            cs.setInt(1, inboundId);
+            rs = cs.executeQuery();
+            while(rs.next()) {
+                InboundDetailVO inboundDetailVO = InboundDetailVO.builder()
+                        .inboundId(rs.getInt("inboundId"))
+                        .quantity(rs.getInt("quantity"))
+                        .inboundId(rs.getInt("inboundId"))
+                        .productId(rs.getInt("productId"))
+                        .sectionId(rs.getInt("sectionId"))
+                        .build();
+                list.add(inboundDetailVO);
+            }
+            DBUtil.closeQuietly(rs, cs, conn);
+            return Optional.of(list);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     // 총관리자(본사)
 
     /**
@@ -249,7 +287,7 @@ public class InboundRepoImpl implements InboundRepo {
             while (rs.next()) {
                 InboundVO inboundVO = InboundVO.builder()
                         .inboundId(rs.getInt("inboundId"))
-                        .inboundDate(rs.getDate("inboundDate"))
+                        .inboundDate(rs.getDate("inboundDate").toLocalDate())
                         .status(rs.getString("inboundStatus"))
                         .warehouseId(rs.getInt("warehouseId"))
                         .build();
@@ -285,11 +323,11 @@ public class InboundRepoImpl implements InboundRepo {
 
     /**
      * [입고 고지서 출력]
-     * @param warehouseId
+     * 총관리자가 볼 모든 입고 고지서
      * @return
      */
     @Override
-    public Optional<List<InboundVO>> getAllInboundInfo(int warehouseId) {
+    public Optional<List<InboundVO>> getAllInboundInfo() {
         List<InboundVO> list = new ArrayList<>();
         try {
             String sql = "SELECT * FROM InboundDTO";
@@ -299,7 +337,7 @@ public class InboundRepoImpl implements InboundRepo {
             while (rs.next()) {
                 InboundVO inboundVO = InboundVO.builder()
                         .inboundId(rs.getInt("inboundId"))
-                        .inboundDate(rs.getDate("inboundDate"))
+                        .inboundDate(rs.getDate("inboundDate").toLocalDate())
                         .status(rs.getString("inboundStatus"))
                         .warehouseId(rs.getInt("warehouseId"))
                         .build();
@@ -313,7 +351,7 @@ public class InboundRepoImpl implements InboundRepo {
     }
     // 입고 현황 조회 추후 개발 예정
     @Override
-    public Optional<List<InboundDTO>> getAllInbound() {
+    public Optional<List<InboundVO>> getAllInbound() {
         return Optional.empty();
     }
 
