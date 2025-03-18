@@ -20,5 +20,5 @@ public class WarehouseVO {
     /** 수용한도 */
     private int capacityLimit;
     /** 회원번호 */
-    private String memberNo;
+    private int memberNo;
 }
