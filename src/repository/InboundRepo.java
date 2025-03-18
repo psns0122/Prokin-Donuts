@@ -63,6 +63,13 @@ public interface InboundRepo {
      */
     void deleteInboundInfo(int inboundId);
 
+    /**
+     * [입고 고지서 출력]
+     * @param inboundId
+     * @return
+     */
+    Optional<List<InboundDetailVO>> getInboundDetail(int inboundId);
+
     // 총관리자(본사)
 
     /**

@@ -118,8 +118,14 @@ public class InboundServiceImpl implements InboundService {
         inboundRepo.deleteInboundInfo(inboundId);
     }
 
+    /**
+     * 입고 ID 입력시 입고 상세 정보 출력
+     * 창고 ID 필요
+     * @param inboundId
+     * @return 입고상세정보
+     */
     @Override
-    public List<ProductDTO> getInboundDetail(int inboundId) {
+    public List<InboundDetailVO> getInboundDetail(int inboundId) {
         return null;
     }
 

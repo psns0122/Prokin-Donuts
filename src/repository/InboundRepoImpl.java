@@ -236,6 +236,37 @@ public class InboundRepoImpl implements InboundRepo {
         }
     }
 
+    /**
+     * [입고 고지서 출력]
+     * @param inboundId
+     * @return 입고 고지서
+     */
+    @Override
+    public Optional<List<InboundDetailVO>> getInboundDetail(int inboundId) {
+        List<InboundDetailVO> list = new ArrayList<>();
+        try {
+            conn.setAutoCommit(false);
+            cs = conn.prepareCall("{call getInboundDetail(?)}");
+            cs.setInt(1, inboundId);
+            rs = cs.executeQuery();
+            while(rs.next()) {
+                InboundDetailVO inboundDetailVO = InboundDetailVO.builder()
+                        .inboundId(rs.getInt("inboundId"))
+                        .quantity(rs.getInt("quantity"))
+                        .inboundId(rs.getInt("inboundId"))
+                        .productId(rs.getInt("productId"))
+                        .sectionId(rs.getInt("sectionId"))
+                        .build();
+                list.add(inboundDetailVO);
+            }
+            DBUtil.closeQuietly(rs, cs, conn);
+            return Optional.of(list);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     // 총관리자(본사)
 
     /**

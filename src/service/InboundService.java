@@ -80,9 +80,9 @@ public interface InboundService {
 
     /**
      * 입고 ID 입력시 입고 상세 정보 출력
-     * 반환 DTO는 추후 수정 예정
+     * 입고ID
      */
-    List<ProductDTO> getInboundDetail(int inboundId);
+    List<InboundDetailVO> getInboundDetail(int inboundId);
 
     // [입고 현황 조회 Service]
 
