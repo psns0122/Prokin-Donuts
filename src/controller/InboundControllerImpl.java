@@ -30,9 +30,9 @@ public class InboundControllerImpl implements InboundController {
         Map<Integer, Runnable> menuActions = new HashMap<>();
         menuActions.put(1, () -> inspect(warehouseId));
         menuActions.put(2, () -> request(warehouseId));
-        menuActions.put(3, () -> inboundUpdate());
-        /*menuActions.put(4, () -> inboundDelete());
-        menuActions.put(5, () -> receipt());
+        menuActions.put(3, () -> inboundUpdate(warehouseId));
+        menuActions.put(4, () -> inboundDelete(warehouseId));
+        /*menuActions.put(5, () -> receipt());
         menuActions.put(6, () -> Status());*/
 
         MenuUtil.handleMenuSelection("메뉴 선택 (숫자 입력, 종료: exit): ", menuActions);
@@ -122,12 +122,36 @@ public class InboundControllerImpl implements InboundController {
 
     /**
      * 입고 요청 수정
-     * --> 추후 개발 예정 
+     * --> 추후 개발 예정
      */
-    private void inboundUpdate() {
+    private void inboundUpdate(int warehouseId) {
     }
 
 
+    /**
+     * 입고 요청 취소
+     * 1. 입고 요청 취소가 가능한 리스트를 출력한다.
+     * 2. 해당 리스트 중 입고 취소할 입고요청의 ID를 입력 받는다
+     * 3. 해당 입고 ID가 취소 가능한지 확인한다.
+     * 4. 취소 가능하면 삭제 / 취소 불가능하면 불가능하다 안내
+     *
+     */
+    private void inboundDelete(int warehouseId) {
+        // 입고 요청 리스트 출력(요청, 승인 상태인 경우에만 가능)
+        List<InboundVO> list = inboundService.getInboundList(warehouseId);
+        list.forEach(System.out::println);
+
+        int inboundId = InputUtil.getIntegerInput("입고를 취소할 입고ID를 입력하세요.");
+        //취소 가능하면 -> 삭제
+        /**
+         * checkInboundDate 기능 구현 필요!
+         */
+        if(inboundService.checkInboundDate(inboundId)) {
+            inboundService.deleteInboundInfo(inboundId);
+        } else {
+            System.out.println("취소 불가능합니다.");
+        }
+    }
 
 
 
