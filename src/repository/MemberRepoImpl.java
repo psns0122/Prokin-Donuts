@@ -28,7 +28,7 @@ public class MemberRepoImpl implements MemberRepo {
         conn = DBUtil.getConnection();
 
         try {
-            String sql = "{call insertMember('member',?,?,?,?,?,?,?,?)}";
+            String sql = "{call insertMember('member',?,?,?,?,?,?,?)}";
 
             cs = conn.prepareCall(sql);
 
