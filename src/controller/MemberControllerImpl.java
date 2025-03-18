@@ -4,7 +4,6 @@ import common.member.MemberText;
 import common.util.InputUtil;
 import common.util.MenuUtil;
 import dto.memberDTO.MemberDTO;
-HQimport lombok.Data;
 import service.MemberService;
 
 import java.util.HashMap;
@@ -22,9 +21,11 @@ public class MemberControllerImpl implements MemberController {
     Map<Integer,Runnable> mainMenu = new HashMap<>();
     Map<Integer,Runnable> HQMenu = new HashMap<>();
     Map<Integer,Runnable> HQSearchMenu = new HashMap<>();
-    Map<Integer,Runnable> HQAddhMenu = new HashMap<>();
+    Map<Integer,Runnable> HQAddMenu = new HashMap<>();
     Map<Integer,Runnable> WMMenu = new HashMap<>();
+    Map<Integer,Runnable> WMSearchMenu = new HashMap<>();
     Map<Integer,Runnable> FMMenu = new HashMap<>();
+    Map<Integer,Runnable> FMSearchMenu = new HashMap<>();
 
 
     public Map<Integer,Runnable>  setMainMenu(){
@@ -34,30 +35,57 @@ public class MemberControllerImpl implements MemberController {
         return mainMenu;
     }
 
-    public void setHQMenu(){
-        HQMenu.put(1,()-> MenuUtil.handleMenuSelection(MemberText.HQ_MEMBER_ADD_MENU.getText(),HQAddhMenu) );
+    public Map<Integer,Runnable> setHQMenu(){
+        HQAddMenu = setHQAddMenu();
+        HQSearchMenu = setHQSearchMenu();
+        HQMenu.put(1,()-> MenuUtil.handleMenuSelection(MemberText.HQ_MEMBER_ADD_MENU.getText(),HQAddMenu) );
         HQMenu.put(2,()-> updateMenu());
         HQMenu.put(3,()-> deleteMenu());
         HQMenu.put(4,()-> MenuUtil.handleMenuSelection(MemberText.HQ_MEMBER_SEARCH_MENU.getText(),HQSearchMenu) );
-
+        return HQMenu;
     }
-    public void setHQAddMenu(){
+    public Map<Integer,Runnable> setHQAddMenu(){
         HQSearchMenu.put(1,()-> addMenu());
         HQSearchMenu.put(2,()-> approve());
+        return HQSearchMenu;
     }
 
-    public void setHQSearchMenu(){
+    public Map<Integer,Runnable>  setHQSearchMenu(){
         HQSearchMenu.put(1,()-> searchSimpleMenu());
         HQSearchMenu.put(2,()-> searchDitailMenu());
         HQSearchMenu.put(3,()-> searchAuthorityMenu());
         HQSearchMenu.put(4,()-> searchALLMenu());
+        return HQSearchMenu;
     }
 
-    public void setWMMenu(){
-        WMMenu.put(1,()-> MenuUtil.handleMenuSelection(MemberText.WM_MEMBER_SEARCH_MENU.getText(),HQSearchMenu));
+    public Map<Integer,Runnable> setWMMenu(){
+        WMSearchMenu =setWMSearchMenu();
+        WMSearchMenu = setWMSearchMenu();
+        WMMenu.put(1,()-> MenuUtil.handleMenuSelection(MemberText.WM_MEMBER_SEARCH_MENU.getText(),WMSearchMenu));
         WMMenu.put(2,()-> updateMenu());
+        return WMMenu;
     }
-    public void setFMMenu(){}
+
+    public Map<Integer,Runnable> setWMSearchMenu(){
+        WMSearchMenu.put(1,()->searchSimpleMenu());
+        WMSearchMenu.put(2,()->searchDitailMenu());
+        WMSearchMenu.put(3,()->searchAuthorityMenu());
+        return WMSearchMenu;
+    }
+
+    public Map<Integer,Runnable> setFMMenu(){
+        FMSearchMenu = setFMSearchMenu();
+        FMMenu.put(1,()->MenuUtil.handleMenuSelection(MemberText.FM_MEMBER_ADD_MENU.getText(),FMSearchMenu));
+        FMMenu.put(2,()->updateMenu());
+        FMMenu.put(3,()->deleteMenu());
+        return FMMenu;
+    }
+
+    public Map<Integer,Runnable> setFMSearchMenu(){
+        FMMenu.put(1,()->searchSimpleMenu());
+        FMMenu.put(2,()->searchDitailMenu());
+        return FMMenu;
+    }
 
     public void MainMune(int authorityId){
         MemberText.MENU_HEADER.getText();
@@ -68,15 +96,18 @@ public class MemberControllerImpl implements MemberController {
 
 
     public void HQMenu(){
+        HQMenu =  setHQMenu();
         MenuUtil.handleMenuSelection(MemberText.HQ_MEMBER_MENU.getText(),HQMenu);
     }
 
     public void WMMenu(){
-        MenuUtil.handleMenuSelection(MemberText.HQ_MEMBER_MENU.getText(),WMMenu);
+        WMMenu = setWMMenu();
+        MenuUtil.handleMenuSelection(MemberText.WM_MEMBER_MENU.getText(),WMMenu);
     }
 
     public void FMMenu(){
-        MenuUtil.handleMenuSelection(MemberText.HQ_MEMBER_MENU.getText(),FMMenu);
+        FMMenu = setFMMenu();
+        MenuUtil.handleMenuSelection(MemberText.FM_MEMBER_MENU.getText(),FMMenu);
     }
 
 
