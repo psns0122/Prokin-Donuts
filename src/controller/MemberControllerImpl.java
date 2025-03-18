@@ -5,7 +5,9 @@ import common.util.InputUtil;
 import common.util.LoginUtil;
 import common.util.MenuUtil;
 import dto.memberDTO.MemberDTO;
+import repository.MemberRepoImpl;
 import service.MemberService;
+import service.MemberServiceImpl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -89,7 +91,7 @@ public class MemberControllerImpl implements MemberController {
     }
 
     public void MainMune(int authorityId){
-        MemberText.MENU_HEADER.getText();
+        System.out.println(MemberText.MENU_HEADER.getText());
         mainMenu = setMainMenu();
         Runnable action = mainMenu.get(authorityId);
         action.run();
@@ -113,14 +115,14 @@ public class MemberControllerImpl implements MemberController {
 
 
     public void addMenu(){
-        MemberText.INSERT_MEMBER_NEW_HEADER.getText();
+        System.out.println(MemberText.INSERT_MEMBER_NEW_HEADER.getText());
         MemberDTO result = memberService.addMember(newMember());
         System.out.println(result.getId());
-        System.out.println(MemberText.INSERT_MEMBER_SUCCESS);
+        System.out.println(MemberText.INSERT_MEMBER_SUCCESS.getText());
     }
 
     public void approve(){
-        MemberText.INSERT_MEMBER_APPROVE_HEADER.getText();
+        System.out.println(MemberText.INSERT_MEMBER_APPROVE_HEADER.getText());
         memberService.searchRequestMember().forEach(System.out::println);
         String result = memberService.approvalMember(InputUtil.getInput
                 (MemberText.INSERT_MEMBER.getText()+
@@ -132,36 +134,36 @@ public class MemberControllerImpl implements MemberController {
 
 
     public void deleteMenu(){
-        MemberText.DELETE_MEMBER_HEADER.getText();
+        System.out.println(MemberText.DELETE_MEMBER_HEADER.getText());
         String result = memberService.deleteMember(InputUtil.getInput(MemberText.DELETE_MEMBER.getText()+MemberText.MEMBER_ID.getText()).get());
         System.out.println(result);
         System.out.println(MemberText.DELETE_MEMBER_SUCCESS);
     }
 
     public void updateMenu(){
-        MemberText.UPDATE_MEMBER_HEADER.getText();
+        System.out.println(MemberText.UPDATE_MEMBER_HEADER.getText());
         MemberDTO result = memberService.updateMember(updateMember());
         System.out.println(result.getId());
         System.out.println(MemberText.UPDATE_MEMBER_SUCCESS);
     }
 
     public void searchSimpleMenu(){
-        MemberText.SEARCH_MEMBER_SIMPLE_HEADER.getText();
+        System.out.println(MemberText.SEARCH_MEMBER_SIMPLE_HEADER.getText());
         MemberDTO result = memberService.searchMember(InputUtil.getInput(MemberText.SEARCH_MEMBER_ID.getText()).get());
         System.out.println(result.getName()+" "+result.getId()+" "+result.getEmail());
     }
     public void searchDitailMenu(){
-        MemberText.SEARCH_MEMBER_DETAIL_HEADER.getText();
+        System.out.println(MemberText.SEARCH_MEMBER_DETAIL_HEADER.getText());
         MemberDTO result = memberService.searchMember(InputUtil.getInput(MemberText.SEARCH_MEMBER_ID.getText()).get());
         System.out.println(result);
     }
     public void searchAuthorityMenu(){
-        MemberText.SEARCH_MEMBER_AUTHORITY_HEADER.getText();
+        System.out.println(MemberText.SEARCH_MEMBER_AUTHORITY_HEADER.getText());
         List<MemberDTO> result = memberService.searchAuthority(InputUtil.getInput(MemberText.SEARCH_MEMBER_AUTHORITY.getText()).get());
         result.forEach(System.out::println);
     }
     public void searchALLMenu(){
-        MemberText.SEARCH_MEMBER_ALL_HEADER.getText();
+        System.out.println(MemberText.SEARCH_MEMBER_ALL_HEADER.getText());
         List<MemberDTO> result = memberService.searchAll();
         result.forEach(System.out::println);
     }
