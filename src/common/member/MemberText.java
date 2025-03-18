@@ -65,7 +65,7 @@ public enum MemberText {
             "\n메뉴를 선택하세요: "),
 
   /** 가맹점주 회원관리 메인메뉴 */
-    BR_MEMBER_MENU("\n[가맹점주 > 회원 관리]\n" +
+    FM_MEMBER_MENU("\n[가맹점주 > 회원 관리]\n" +
             "1. 내 정보 조회\n" +
             "2. 내 정보 수정\n" +
             "3. 회원 탈퇴 \n" +
