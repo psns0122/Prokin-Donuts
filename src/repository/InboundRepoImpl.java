@@ -37,7 +37,7 @@ public class InboundRepoImpl implements InboundRepo {
             while (rs.next()) {
                 InboundVO inboundVO = InboundVO.builder()
                         .inboundId(rs.getInt("inboundId"))
-                        .inboundDate(rs.getDate("inboundDate"))
+                        .inboundDate(rs.getDate("inboundDate").toLocalDate())
                         .status(rs.getString("inboundStatus"))
                         .warehouseId(rs.getInt("warehouseId"))
                         .build();
@@ -142,7 +142,7 @@ public class InboundRepoImpl implements InboundRepo {
             conn.setAutoCommit(false);
             cs = conn.prepareCall("{call register_Inbound_Info(?,?,?,?)}");
             cs.setInt(1, inboundVO.getInboundId());
-            cs.setDate(2, (java.sql.Date) inboundVO.getInboundDate());
+            cs.setDate(2, java.sql.Date.valueOf(inboundVO.getInboundDate()));
             cs.setString(3, inboundVO.getStatus());
             cs.setInt(4, inboundVO.getWarehouseId());
 
@@ -173,7 +173,7 @@ public class InboundRepoImpl implements InboundRepo {
             while(rs.next()) {
                 InboundVO inboundVO = InboundVO.builder()
                         .inboundId(rs.getInt("inboundId"))
-                        .inboundDate(rs.getDate("inboundDate"))
+                        .inboundDate(rs.getDate("inboundDate").toLocalDate())
                         .status(rs.getString("inboundStatus"))
                         .warehouseId(rs.getInt("warehouseId"))
                         .build();
@@ -238,6 +238,7 @@ public class InboundRepoImpl implements InboundRepo {
 
     /**
      * [입고 고지서 출력]
+     * 창고관리자가 자신의 창고 입고 고지서를 출력한다.
      * @param inboundId
      * @return 입고 고지서
      */
@@ -286,7 +287,7 @@ public class InboundRepoImpl implements InboundRepo {
             while (rs.next()) {
                 InboundVO inboundVO = InboundVO.builder()
                         .inboundId(rs.getInt("inboundId"))
-                        .inboundDate(rs.getDate("inboundDate"))
+                        .inboundDate(rs.getDate("inboundDate").toLocalDate())
                         .status(rs.getString("inboundStatus"))
                         .warehouseId(rs.getInt("warehouseId"))
                         .build();
@@ -322,6 +323,7 @@ public class InboundRepoImpl implements InboundRepo {
 
     /**
      * [입고 고지서 출력]
+     * 총관리자가 볼 모든 입고 고지서
      * @return
      */
     @Override
@@ -335,7 +337,7 @@ public class InboundRepoImpl implements InboundRepo {
             while (rs.next()) {
                 InboundVO inboundVO = InboundVO.builder()
                         .inboundId(rs.getInt("inboundId"))
-                        .inboundDate(rs.getDate("inboundDate"))
+                        .inboundDate(rs.getDate("inboundDate").toLocalDate())
                         .status(rs.getString("inboundStatus"))
                         .warehouseId(rs.getInt("warehouseId"))
                         .build();
