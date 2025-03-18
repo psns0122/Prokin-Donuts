@@ -14,8 +14,8 @@ import java.util.*;
 public class InboundControllerImpl implements InboundController {
     public static void main(String[] args) {
         InboundControllerImpl inboundController = new InboundControllerImpl(new InboundServiceImpl(new InboundRepoImpl()));
-        //inboundController.warehouseManager(1);
-        inboundController.Headquarters();
+        inboundController.warehouseManager(1);
+        //inboundController.Headquarters();
     }
     private final InboundService inboundService;
 
@@ -162,9 +162,7 @@ public class InboundControllerImpl implements InboundController {
 
         int inboundId = InputUtil.getIntegerInput("입고를 취소할 입고ID를 입력하세요.");
         //취소 가능하면 -> 삭제
-        /**
-         * checkInboundDate 기능 구현 필요!
-         */
+
         if(inboundService.checkInboundDate(inboundId)) {
             inboundService.deleteInboundInfo(inboundId);
             System.out.println("취소 됨!");
@@ -191,9 +189,8 @@ public class InboundControllerImpl implements InboundController {
 
             Map<Integer, Runnable> menuActions = new HashMap<>();
             menuActions.put(1, () -> approved());
-            //menuActions.put(2, () -> printInbound());
+            menuActions.put(2, () -> printInbound());
 
-            /** menuActions.put(6, () -> Status()); */
 
             MenuUtil.handleMenuSelection("메뉴 선택 (숫자 입력, 종료: exit): ", menuActions);
         }
@@ -210,6 +207,11 @@ public class InboundControllerImpl implements InboundController {
         // 입고를 승인할 입고 ID를 입력 받으면 해당 입고 ID의 상태를 (요청 -> 승인) 상태로 변경한다.
         int inboundId = InputUtil.getIntegerInput("입고를 승인할 입고 ID를 입력하세요.");
         inboundService.updateInboundStatus(inboundId);
+    }
+
+    private void printInbound() {
+        int warehouseId = InputUtil.getIntegerInput("고지서를 출력할 창고 ID를 입력하세요.");
+        receipt(warehouseId);
     }
 
 }
