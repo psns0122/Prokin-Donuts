@@ -33,4 +33,10 @@ public class OrderControllerImpl implements OrderController {
     public OrderStatisticsDTO getOrderStatisticsByFranchiseAndMonth(String franchiseId, int year, int month) {
         return orderService.getOrderStatisticsByFranchiseAndMonth(franchiseId, year, month);
     }
+
+    @Override
+    public void approveOrder(String orderId) {
+        orderService.approveOrder(orderId);
+    }
+
 }

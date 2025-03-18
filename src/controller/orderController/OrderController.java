@@ -12,4 +12,6 @@ public interface OrderController {
     OrderVO getOrder(String orderId);
     List<OrderDetailVO> getOrderDetails(String orderId);
     OrderStatisticsDTO getOrderStatisticsByFranchiseAndMonth(String franchiseId, int year, int month);
+
+    void approveOrder(String orderId);
 }
