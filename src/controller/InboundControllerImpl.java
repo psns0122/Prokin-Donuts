@@ -95,6 +95,7 @@ public class InboundControllerImpl implements InboundController {
                     .productId(productId)
                     .inboundId(inboundId)
                     .quantity(quantity)
+                    .sectionId(inboundService.getStoredType(productId))
                     .build();
             list.add(inboundDetailVO);
             int end = InputUtil.getIntegerInput("계속 진행: 1. 종료: 0을 입력하세요.");
@@ -142,7 +143,7 @@ public class InboundControllerImpl implements InboundController {
      * 1. 입고 요청 취소가 가능한 리스트를 출력한다. (테스트 완료)
      * 2. 해당 리스트 중 입고 취소할 입고요청의 ID를 입력 받는다
      * 3. 해당 입고 ID가 취소 가능한지 확인한다.
-     * 4. 취소 가능하면 삭제 / 취소 불가능하면 불가능하다 안내
+     * 4. 취소 가능하면 삭제 / 취소 불가능하면 불가능하다 안내 (테스트 완료)
      * Refactoring -> 기능 별로 메서드 추출 예정
      */
     private void inboundDelete(int warehouseId) {
@@ -157,15 +158,15 @@ public class InboundControllerImpl implements InboundController {
          */
         if(inboundService.checkInboundDate(inboundId)) {
             inboundService.deleteInboundInfo(inboundId);
+            System.out.println("취소 됨!");
         } else {
             System.out.println("취소 불가능합니다.");
         }
     }
 
     /**
-     * 입고 고지서 출력
+     * 입고 고지서 출력 (테스트 완료)
      */
-
     private void receipt(int warehouseId) {
         // 입고 요청, 승인 상태인 입고고지서를 가져와 출력한다.
         List<InboundVO> list = inboundService.getInboundList(warehouseId);

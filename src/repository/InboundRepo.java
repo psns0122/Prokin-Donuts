@@ -117,4 +117,12 @@ public interface InboundRepo {
      * 다음 입고 ID 번호 가져오기
      */
     Optional<Integer> getNextInboundId();
+
+    /**
+     * 상품 ID를 받으면 보관 타입에 따라 숫자 반환
+     * 냉장->1
+     * 냉동->2
+     * 실온->3
+     */
+    Optional<Integer> getStoredType(int productId);
 }

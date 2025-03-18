@@ -71,6 +71,13 @@ public class InboundServiceImpl implements InboundService {
         inboundRepo.registerInboundDetailInfo(inboundList);
     }
 
+    @Override
+    public int getStoredType(int productId) {
+        return inboundRepo.getStoredType(productId).orElseThrow(
+                () -> new IllegalArgumentException("e")
+        );
+    }
+
     /**
      * [입고 요청 수정]
      * 입고 요청 리스트 출력 (요청, 승인) 상태

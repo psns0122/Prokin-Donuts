@@ -8,6 +8,7 @@ import vo.inbound.InboundVO;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface InboundService {
 
@@ -45,6 +46,10 @@ public interface InboundService {
      */
     void registerDetailInfo(List<InboundDetailVO> inboundList);
 
+    /**
+     * 상품의 보관 타입 반환
+     */
+    int getStoredType(int productId);
 
     // [입고 요청 수정 Service]
 
