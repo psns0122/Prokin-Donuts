@@ -39,7 +39,6 @@ public enum MemberText {
 
 
     /*회원 조회*/
-    SEARCH_MEMBER_HEARDER("=== 회원 정보 조회 ==="),
     SEARCH_MEMBER_SIMPLE_HEADER("=== 회원 정보 간편 조회==="),
     SEARCH_MEMBER_DETAIL_HEADER("=== 회원 정보 상세 조회==="),
     SEARCH_MEMBER_ALL_HEADER("===전체 회원 정보 조회==="),
@@ -74,14 +73,37 @@ public enum MemberText {
 
 
     /** 본사 관리자 조회 메뉴 */
-    HQ_MEMBER_SEARCH_MENU("\n[가맹점주 > 회원 관리 > 회원조회]\n" +
+    HQ_MEMBER_SEARCH_MENU("\n[회원 관리 > 회원조회]\n" +
                            "1. 간편 조회\n" +
                            "2. 상세 조회\n" +
                            "3. 권한별 회원 조회 \n" +
                            "4. 전체회원 조회\n" +
                             "5. 뒤로 가기(\"exit\"입력)"+
-                           "\n메뉴를 선택하세요: ");
+                           "\n메뉴를 선택하세요: "),
 
+    /** 본사 관리자 조회 메뉴 */
+    WM_MEMBER_SEARCH_MENU("\n[창고 관리자 > 회원 관리 > 회원조회]\n" +
+                                  "1. 간편 조회\n" +
+                                  "2. 상세 조회\n" +
+                                  "3. 전체회원 조회\n" +
+                                  "4. 뒤로 가기(\"exit\"입력)"+
+                                  "\n메뉴를 선택하세요: "),
+
+
+    /** 본사 관리자 조회 메뉴 */
+    HQ_MEMBER_ADD_MENU("\n[본사 관리자> 회원 관리 > 회원등록]\n" +
+                                  "1 신규관리자 등록\n" +
+                                  "2. 가맹점주 회원가입 승인\n" +
+                                  "3. 뒤로 가기(\"exit\"입력)"+
+                                  "\n메뉴를 선택하세요: "),
+
+
+    /** 가맹점주 조회 메뉴 */
+    FM_MEMBER_SEARCH_MENU("\n[가맹점주> 회원 관리 > 회원조회]\n" +
+                                "1. 간편 조회\n" +
+                                "2. 상세 조회\n" +
+                                "3. 뒤로 가기(\"exit\"입력)"+
+                                "\n메뉴를 선택하세요: ");
 
 
     private final String text;
