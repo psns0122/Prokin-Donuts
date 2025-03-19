@@ -6,10 +6,7 @@ import dto.memberDTO.MemberRequestDTO;
 import vo.memberVO.MemberReauestVO;
 import vo.memberVO.MemberVO;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +26,9 @@ public class MemberRepoImpl implements MemberRepo {
 
         try {
             String sql = "{call insertMember(?,?,?,?,?,?,?,?)}";
+
             cs = conn.prepareCall(sql);
+
 
             cs.setString(1, "member");
             cs.setInt(2, member.getAuthorityId());
