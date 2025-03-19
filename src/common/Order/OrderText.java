@@ -17,7 +17,8 @@ public enum OrderText {
     NO_ORDER("해당 가맹점의 발주 내역이 없습니다."),
     ORDER_SUBMIT_SUCCESS("발주 요청 제출 완료. 발주 ID: "),
     ORDER_APPROVE_SUCCESS("발주 승인 완료: "),
-    ORDER_HOLD_SUCCESS("출고 보류 처리 완료: ");
+    ORDER_HOLD_SUCCESS("출고 보류 처리 완료: "),
+    ORDER_CANCEL_SUCCESS("발주 취소가 완료되었습니다. 발주 ID: ");
 
     private final String text;
 
