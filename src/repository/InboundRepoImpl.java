@@ -43,7 +43,7 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(inboundVO);
             }
-            DBUtil.closeQuietly(rs, cs, conn);
+            //DBUtil.closeQuietly(rs, cs, conn);
             return Optional.of(list);
 
         } catch (SQLException e) {
@@ -65,7 +65,8 @@ public class InboundRepoImpl implements InboundRepo {
             cs = conn.prepareCall("{call updateCompletedStatus(?)}");
             cs.setInt(1, inboundId);
             cs.execute();
-            DBUtil.closeQuietly(null, cs, conn);
+            conn.commit();
+            //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -90,12 +91,13 @@ public class InboundRepoImpl implements InboundRepo {
                 ProductDTO productDTO = ProductDTO.builder()
                         .productId(rs.getInt("productId"))
                         .productName(rs.getString("productName"))
-                        .productPrice(rs.getInt("categoryId"))
-                        .productType(rs.getString("productType"))
+                        .productPrice(rs.getInt("productPrice"))
+                        .categoryId(rs.getString("categoryId"))
+                        .storedType(rs.getString("storedType"))
                         .build();
                 list.add(productDTO);
             }
-            DBUtil.closeQuietly(rs, cs, conn);
+            //DBUtil.closeQuietly(rs, cs, conn);
             return Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -125,7 +127,7 @@ public class InboundRepoImpl implements InboundRepo {
                     throw new RuntimeException(e);
                 }
             });
-            DBUtil.closeQuietly(null, cs, conn);
+            //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -149,7 +151,7 @@ public class InboundRepoImpl implements InboundRepo {
             cs.execute();
             conn.commit();
 
-            DBUtil.closeQuietly(null, cs, conn);
+            //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -170,7 +172,7 @@ public class InboundRepoImpl implements InboundRepo {
             cs = conn.prepareCall("{call getfixpossible(?)}");
             cs.setInt(1, warehouseId);
             rs = cs.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 InboundVO inboundVO = InboundVO.builder()
                         .inboundId(rs.getInt("inboundId"))
                         .inboundDate(rs.getDate("inboundDate").toLocalDate())
@@ -179,7 +181,7 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(inboundVO);
             }
-            DBUtil.closeQuietly(rs, cs, conn);
+            //DBUtil.closeQuietly(rs, cs, conn);
             return Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -190,6 +192,7 @@ public class InboundRepoImpl implements InboundRepo {
      * [입고 수정 기능]
      * 수정 기능 -> 입고 상세 정보를 변경한다.
      * 입고ID, 상품ID, 수량 정보
+     *
      * @param inboundList
      */
     @Override
@@ -209,7 +212,7 @@ public class InboundRepoImpl implements InboundRepo {
                 }
             });
             conn.commit();
-            DBUtil.closeQuietly(null, cs, conn);
+            //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -219,6 +222,7 @@ public class InboundRepoImpl implements InboundRepo {
      * [입고 취소 기능]
      * 입고 테이블의 해당 ID 행 삭제
      * -> Trigger 통해서 입고상세의 일치하는 입고 ID 부분도 같이 삭제하자
+     *
      * @param inboundId
      */
     @Override
@@ -230,15 +234,40 @@ public class InboundRepoImpl implements InboundRepo {
 
             cs.execute();
             conn.commit();
-            DBUtil.closeQuietly(null, cs, conn);
+            //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+
+    /**
+     * 입고 수정, 취소가 가능한지 입고예정 날짜를 확인해 반환한다.
+     */
+    @Override
+    public boolean checkInboundDate(int inboundId) {
+        try {
+            String sql = "SELECT DATEDIFF(inboundDate, now()) FROM Inbound WHERE inboundId = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, inboundId);
+            rs = pstmt.executeQuery();
+            int diffDay = 0;
+            if (rs.next()) {
+                diffDay = rs.getInt(1);
+            }
+            if (diffDay <= 2) return false; // 2일 전이면 불가!
+            return true;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     /**
      * [입고 고지서 출력]
      * 창고관리자가 자신의 창고 입고 고지서를 출력한다.
+     *
      * @param inboundId
      * @return 입고 고지서
      */
@@ -250,7 +279,7 @@ public class InboundRepoImpl implements InboundRepo {
             cs = conn.prepareCall("{call getInboundDetail(?)}");
             cs.setInt(1, inboundId);
             rs = cs.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 InboundDetailVO inboundDetailVO = InboundDetailVO.builder()
                         .inboundId(rs.getInt("inboundId"))
                         .quantity(rs.getInt("quantity"))
@@ -260,19 +289,45 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(inboundDetailVO);
             }
-            DBUtil.closeQuietly(rs, cs, conn);
+            //DBUtil.closeQuietly(rs, cs, conn);
             return Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    @Override
+    public Optional<List<InboundDetailVO>> getInboundDetailList(int warehouseId) {
+        List<InboundDetailVO> list = new ArrayList<>();
+        try {
+            String sql = "select * from inbound i, inboundDetail d where i.inboundid = d.inboundid and i.warehouseid = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, warehouseId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                InboundDetailVO inboundDetailVO = InboundDetailVO.builder()
+                        .inboundDetailId(rs.getInt("inboundDetatilId"))
+                        .quantity(rs.getInt("quantity"))
+                        .inboundId(rs.getInt("inboundId"))
+                        .productId(rs.getInt("productId"))
+                        .sectionId(rs.getInt("sectionId"))
+                        .build();
+                list.add(inboundDetailVO);
+            }
+            //DBUtil.closeQuietly(rs, cs, conn);
+            return Optional.of(list);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     // 총관리자(본사)
 
     /**
      * [입고 요청 승인]
      * (입고요청) 상태인 입고 요청서를 가져온다.
+     *
      * @return
      */
     @Override
@@ -281,7 +336,7 @@ public class InboundRepoImpl implements InboundRepo {
         try {
             String sql = "SELECT * FROM inbound WHERE inboundStatus = ?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, "입고완료");
+            pstmt.setString(1, "입고요청");
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -293,7 +348,7 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(inboundVO);
             }
-            DBUtil.closeQuietly(rs, null, conn);
+            // DBUtil.closeQuietly(rs, null, conn);
             pstmt.close();
             return Optional.of(list);
 
@@ -305,6 +360,7 @@ public class InboundRepoImpl implements InboundRepo {
     /**
      * [입고 요청 승인]
      * 입고 ID 상태 변경 (요청 -> 승인)
+     *
      * @param inboundId
      */
     @Override
@@ -314,8 +370,9 @@ public class InboundRepoImpl implements InboundRepo {
             cs = conn.prepareCall("{call updateApprovedStatus(?)}");
             cs.setInt(1, inboundId);
             cs.execute();
+            conn.commit();
             cs.close();
-            DBUtil.closeQuietly(null, cs, conn);
+            //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -324,6 +381,7 @@ public class InboundRepoImpl implements InboundRepo {
     /**
      * [입고 고지서 출력]
      * 총관리자가 볼 모든 입고 고지서
+     *
      * @return
      */
     @Override
@@ -343,12 +401,13 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(inboundVO);
             }
-            DBUtil.closeQuietly(rs, cs, conn);
+            //DBUtil.closeQuietly(rs, cs, conn);
             return Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
     // 입고 현황 조회 추후 개발 예정
     @Override
     public Optional<List<InboundVO>> getAllInbound() {
@@ -358,6 +417,45 @@ public class InboundRepoImpl implements InboundRepo {
     @Override
     public Optional<List<InboundDTO>> getInboundByDate(Date start_date, Date end_date) {
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<Integer> getNextInboundId() {
+        try {
+            String sql = "SELECT MAX(inboundId) FROM inbound";
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            int index = 0;
+            if (rs.next()) {
+                index = rs.getInt(1);
+            }
+
+            //DBUtil.closeQuietly(rs, cs, conn);
+            return Optional.of(index);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<Integer> getStoredType(int productId) {
+        try {
+            String sql = "SELECT storedType FROM Product WHERE productId = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, productId);
+            rs = pstmt.executeQuery();
+            String storedType = null;
+            if (rs.next()) {
+                storedType = rs.getString(1);
+            }
+            if (storedType.equals("냉장")) return Optional.of(1);
+            else if (storedType.equals("냉동")) return Optional.of(2);
+            else return Optional.of(3);
+
+            //DBUtil.closeQuietly(rs, cs, conn);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

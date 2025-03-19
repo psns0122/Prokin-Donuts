@@ -71,6 +71,13 @@ public class InboundServiceImpl implements InboundService {
         inboundRepo.registerInboundDetailInfo(inboundList);
     }
 
+    @Override
+    public int getStoredType(int productId) {
+        return inboundRepo.getStoredType(productId).orElseThrow(
+                () -> new IllegalArgumentException("e")
+        );
+    }
+
     /**
      * [입고 요청 수정]
      * 입고 요청 리스트 출력 (요청, 승인) 상태
@@ -106,7 +113,7 @@ public class InboundServiceImpl implements InboundService {
      */
     @Override
     public boolean checkInboundDate(int inboundId) {
-        return false;
+        return inboundRepo.checkInboundDate(inboundId);
     }
 
     /**
@@ -119,14 +126,17 @@ public class InboundServiceImpl implements InboundService {
     }
 
     /**
+     * 창고관리자 현황 조회
      * 입고 ID 입력시 입고 상세 정보 출력
      * 창고 ID 필요
-     * @param inboundId
+     * @param warehouseId
      * @return 입고상세정보
      */
     @Override
-    public List<InboundDetailVO> getInboundDetail(int inboundId) {
-        return null;
+    public List<InboundDetailVO> getInboundDetail(int warehouseId) {
+        return inboundRepo.getInboundDetailList(warehouseId).orElseThrow(
+                () -> new IllegalArgumentException("e")
+        );
     }
 
 
@@ -179,6 +189,13 @@ public class InboundServiceImpl implements InboundService {
     @Override
     public List<InboundDTO> getInboundByDate(Date start_date, Date end_date) {
         return null;
+    }
+
+    @Override
+    public int getNextInboundId() {
+        return inboundRepo.getNextInboundId().orElseThrow(
+                () -> new IllegalArgumentException("~")
+        );
     }
 
 

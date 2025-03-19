@@ -8,6 +8,7 @@ import vo.inbound.InboundVO;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface InboundService {
 
@@ -45,6 +46,10 @@ public interface InboundService {
      */
     void registerDetailInfo(List<InboundDetailVO> inboundList);
 
+    /**
+     * 상품의 보관 타입 반환
+     */
+    int getStoredType(int productId);
 
     // [입고 요청 수정 Service]
 
@@ -83,7 +88,7 @@ public interface InboundService {
      * 입고 ID 입력시 입고 상세 정보 출력
      * 입고ID
      */
-    List<InboundDetailVO> getInboundDetail(int inboundId);
+    List<InboundDetailVO> getInboundDetail(int warehouseId);
 
     // [입고 현황 조회 Service]
 
@@ -139,4 +144,9 @@ public interface InboundService {
     List<InboundDTO> getInboundByDate(Date start_date, Date end_date);
 
 
+    /**
+     * 추가
+     * 입고 요청등록에 다음 입고 아이디 번호 가져오기
+     */
+    int getNextInboundId();
 }

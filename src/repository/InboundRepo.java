@@ -63,11 +63,22 @@ public interface InboundRepo {
     void deleteInboundInfo(int inboundId);
 
     /**
+     * 입고 수정, 취소가 가능한지 입고예정 날짜를 확인해 반환한다.
+     */
+    boolean checkInboundDate(int inboundId);
+
+    /**
      * [입고 고지서 출력]
      * @param inboundId
      * @return
      */
     Optional<List<InboundDetailVO>> getInboundDetail(int inboundId);
+
+    /**
+     * [입고 현황 조회]
+     * 해당 창고의 입고 상세 정보 List 출력
+     */
+    Optional<List<InboundDetailVO>> getInboundDetailList(int warehouseId);
 
     // 총관리자(본사)
 
@@ -108,4 +119,16 @@ public interface InboundRepo {
     Optional<List<InboundDTO>> getInboundByDate(Date start_date, Date end_date);
 
 
+    /**
+     * 다음 입고 ID 번호 가져오기
+     */
+    Optional<Integer> getNextInboundId();
+
+    /**
+     * 상품 ID를 받으면 보관 타입에 따라 숫자 반환
+     * 냉장->1
+     * 냉동->2
+     * 실온->3
+     */
+    Optional<Integer> getStoredType(int productId);
 }
