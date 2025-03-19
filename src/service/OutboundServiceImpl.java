@@ -1,9 +1,9 @@
-package service.outboundService;
+package service;
 
 
 import repository.InventoryRepo;
-import repository.orderRepo.OrderRepo;
-import repository.outboundRepo.OutboundRepo;
+import repository.OrderRepo;
+import repository.OutboundRepo;
 import vo.orderVO.OrderDetailVO;
 import vo.orderVO.OrderVO;
 import vo.outboundVO.OutboundDetailVO;

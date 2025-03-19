@@ -6,7 +6,7 @@ import dto.orderDTO.OrderDTO;
 import dto.orderDTO.OrderItemDTO;
 import dto.orderDTO.OrderStatisticsDTO;
 import dto.orderDTO.PendingInventoryComparisonDTO;
-import service.orderService.OrderService;
+import service.OrderService;
 import vo.orderVO.OrderDetailVO;
 import vo.orderVO.OrderVO;
 import java.text.SimpleDateFormat;
@@ -21,7 +21,6 @@ public class OrderControllerImpl implements OrderController {
         this.orderService = orderService;
     }
 
-    // 기존 OrderController 메서드들 (비즈니스 로직 위임)
     @Override
     public String submitOrder(OrderDTO dto) {
         return orderService.submitOrder(dto);

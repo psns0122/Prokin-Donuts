@@ -1,6 +1,6 @@
 package repository;
 
-import config.DBConnectionManager;
+import config.DBUtil;
 
 import java.sql.*;
 
@@ -8,7 +8,7 @@ public class InventoryRepoImpl implements InventoryRepo {
     @Override
     public int getInventoryQuantity(String productId) {
         String sql = "SELECT quantity FROM Inventory WHERE productId = ?";
-        try (Connection conn = DBConnectionManager.getConnection();
+        try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, productId);
             try (ResultSet rs = pstmt.executeQuery()){
@@ -23,7 +23,7 @@ public class InventoryRepoImpl implements InventoryRepo {
     @Override
     public void updateInventoryQuantity(String productId, int newQuantity) {
         String sql = "UPDATE Inventory SET quantity = ? WHERE productId = ?";
-        try (Connection conn = DBConnectionManager.getConnection();
+        try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, newQuantity);
             pstmt.setString(2, productId);

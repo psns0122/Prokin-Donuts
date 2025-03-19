@@ -1,17 +1,20 @@
-package service.orderService;
+package service;
 
 import dto.orderDTO.OrderDTO;
 import dto.orderDTO.OrderItemDTO;
 import dto.orderDTO.OrderStatisticsDTO;
 import dto.orderDTO.PendingInventoryComparisonDTO;
 import repository.InventoryRepo;
-import repository.orderRepo.OrderRepo;
-import service.outboundService.OutboundService;
+import repository.InventoryRepoImpl;
+import repository.OrderRepo;
+import repository.OutboundRepoImpl;
 import vo.orderVO.OrderDetailVO;
 import vo.orderVO.OrderVO;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OrderServiceImpl implements OrderService {
     private final OrderRepo orderRepo;
@@ -19,11 +22,20 @@ public class OrderServiceImpl implements OrderService {
     private final OutboundService outboundService;
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-    // 생성자 주입: 모든 의존성을 외부에서 주입받음
+    // 기존 생성자: 모든 의존성을 외부에서 주입받음
     public OrderServiceImpl(OrderRepo orderRepo, InventoryRepo inventoryRepo, OutboundService outboundService) {
         this.orderRepo = orderRepo;
         this.inventoryRepo = inventoryRepo;
         this.outboundService = outboundService;
+    }
+
+    // 새 생성자: OrderRepo만 주입받아 나머지 의존성은 기본 구현체로 생성
+    public OrderServiceImpl(OrderRepo orderRepo) {
+        this(
+                orderRepo,
+                new InventoryRepoImpl(),
+                new OutboundServiceImpl(new InventoryRepoImpl(), orderRepo, new OutboundRepoImpl())
+        );
     }
 
     @Override
@@ -83,27 +95,27 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDetailVO> getOrderDetails(String orderId) {
+    public java.util.List<vo.orderVO.OrderDetailVO> getOrderDetails(String orderId) {
         return orderRepo.findOrderDetailsByOrderId(orderId);
     }
 
     @Override
-    public List<OrderVO> getOrdersByStatus(String status) {
+    public java.util.List<OrderVO> getOrdersByStatus(String status) {
         return orderRepo.findOrdersByStatus(status);
     }
 
     @Override
-    public List<OrderVO> getOrdersByFranchiseId(String franchiseId) {
+    public java.util.List<OrderVO> getOrdersByFranchiseId(String franchiseId) {
         return orderRepo.findOrdersByFranchiseId(franchiseId);
     }
 
     @Override
-    public List<OrderVO> getOrdersByDate(String date) {
+    public java.util.List<OrderVO> getOrdersByDate(String date) {
         return orderRepo.findOrdersByDate(date);
     }
 
     @Override
-    public List<OrderVO> getOrdersByDateRange(String startDate, String endDate) {
+    public java.util.List<OrderVO> getOrdersByDateRange(String startDate, String endDate) {
         return orderRepo.findOrdersByDateRange(startDate, endDate);
     }
 

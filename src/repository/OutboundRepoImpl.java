@@ -1,6 +1,6 @@
-package repository.outboundRepo;
+package repository;
 
-import config.DBConnectionManager;
+import config.DBUtil;
 import vo.outboundVO.OutboundDetailVO;
 import vo.outboundVO.OutboundVO;
 
@@ -13,7 +13,7 @@ public class OutboundRepoImpl implements OutboundRepo {
         String newOutboundId = UUID.randomUUID().toString();
         String sql = "INSERT INTO Outbound (outboundId, outboundDate, productId, sectionId, warehouseId, authorityId, outboundStatus) VALUES (?, ?, ?, ?, ?, ?, ?)";
         // 본 예제에서는 헤더용이므로 dummy 값을 사용합니다.
-        try (Connection conn = DBConnectionManager.getConnection();
+        try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, newOutboundId);
             pstmt.setDate(2, new java.sql.Date(outbound.getOutboundDate().getTime()));
@@ -35,7 +35,7 @@ public class OutboundRepoImpl implements OutboundRepo {
     public void saveOutboundDetail(OutboundDetailVO detail) {
         // OutboundDetail 테이블 구조가 OrderDetail과 유사하다고 가정
         String sql = "INSERT INTO OutboundDetail (outboundDetailId, quantity, productId, orderId) VALUES (NULL, ?, ?, ?)";
-        try (Connection conn = DBConnectionManager.getConnection();
+        try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, detail.getQuantity());
             pstmt.setString(2, detail.getProductId());
