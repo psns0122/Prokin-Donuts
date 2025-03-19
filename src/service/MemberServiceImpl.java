@@ -136,16 +136,10 @@ public class MemberServiceImpl implements MemberService {
 
     //로그인 기능
     @Override
-    public MemberDTO logIn(String memberId,String password) {
-        List<MemberDTO> loginMemberList = memberRepo.loadMember("id", memberId).get();
-        MemberDTO loginMember = loginMemberList.get(0);
-
-        String logstatus = loginMember.getLogstatus();
-
-        if (loginMember.getPassword().equals(password) && logstatus.equals("logout")) {
+    public String logIn(String memberId,String password) {
             Optional<String> result = memberRepo.logInnOut(memberId);
-            return loginMember;
-        } else return null;
+            return memberId;
+
     }
 
 

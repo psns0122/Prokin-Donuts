@@ -39,13 +39,16 @@ public class LoginControllerImpl implements LoginController{
 
         String id =InputUtil.getInput(LoginText.LOGIN_NO.getText()).get();
         String password =InputUtil.getInput(LoginText.LOGIN_PASSWORD.getText()).get();
-
-        MemberDTO result = memberService.logIn(id,password);
-        if(result == null) System.out.println(LoginErrorCode.LOGIN_NOT_FOUND.getText());
-        else if(result.equals("login")) System.out.println(LoginErrorCode.LOGIN_FAIL.getText());
+        String loginstatus = memberService.logstatus(id);
+        if(loginstatus.equals("login"))System.out.println(LoginErrorCode.LOGIN_FAIL.getText()); //로그인 상태 확인
         else {
-            LoginUtil.setLoginMember(result);
-            System.out.println(LoginText.LOGIN_SUCCESS.getText());
+            String result = memberService.logIn(id, password);
+            if (result == null) System.out.println(LoginErrorCode.LOGIN_NOT_FOUND.getText());
+            else {
+                MemberDTO loginMember= memberService.searchMember(id);
+                LoginUtil.setLoginMember(loginMember);
+                System.out.println(LoginText.LOGIN_SUCCESS.getText());
+            }
         }
     }
 
