@@ -138,8 +138,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public String logIn(String memberId,String password) {
             Optional<String> result = memberRepo.logInnOut(memberId);
-            return memberId;
-
+            return result.orElse(null);
     }
 
 

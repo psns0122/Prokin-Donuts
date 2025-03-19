@@ -98,8 +98,8 @@ public class LoginControllerImpl implements LoginController{
             String result = memberService.logOut(id);
             if(result == null) System.out.println(LoginErrorCode.LOGOUT_FAIL.getText());
             else {
-                System.out.println(LoginText.LOGOUT_SUCCESS.getText());
                 LoginUtil.setLoginMember(null);
+                System.out.println(LoginText.LOGOUT_SUCCESS.getText());
             }
         }
     }
