@@ -37,8 +37,19 @@ public class MainController {
 
     private void printHQMenu(int authority) {
         System.out.println(LoginText.HQ_MAINMENU.getText());
-        warehouseController.showWarehouseMenu(authority);
-        // 본사관리자
+        System.out.print("메뉴 선택 : ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1 -> warehouseController.showWarehouseMenu(authority);
+            case 2 -> franchiseController.showFranchiseMenu(authority);
+            case 3 -> warehouseController.showWarehouseMenu(authority);
+            case 4 -> warehouseController.showWarehouseMenu(authority);
+            case 5 -> warehouseController.showWarehouseMenu(authority);
+            case 6 -> warehouseController.showWarehouseMenu(authority);
+            // 본사관리자
+        }
     }
     private void printWMMenu(int authority) {
         System.out.println(LoginText.WM_MAINMENU.getText());
