@@ -1,5 +1,6 @@
 package controller;
 
+import common.member.MemberErrorCode;
 import common.member.MemberText;
 import common.util.InputUtil;
 import common.util.LoginUtil;
@@ -115,11 +116,14 @@ public class MemberControllerImpl implements MemberController {
     }
 
 
-    public void addMenu(){
+    public void addMenu() {
         System.out.println(MemberText.INSERT_MEMBER_NEW_HEADER.getText());
         MemberDTO result = memberService.addMember(newMember());
-        System.out.println(result.getId());
-        System.out.println(MemberText.INSERT_MEMBER_SUCCESS.getText());
+        if (result == null) System.out.println(MemberErrorCode.ID_FOUND.getText());
+        else {
+            System.out.println(result.getId());
+            System.out.println(MemberText.INSERT_MEMBER_SUCCESS.getText());
+        }
     }
 
     public void approve(){
@@ -152,7 +156,7 @@ public class MemberControllerImpl implements MemberController {
     }
 
     public void searchSimpleMenu(){
-        System.out.println(MemberText.SEARCH_MEMBER_SIMPLE_HEADER.getText());
+        MemberText.SEARCH_MEMBER_SIMPLE_HEADER.getText();
         MemberDTO result = memberService.searchMember(InputUtil.getInput(MemberText.SEARCH_MEMBER_ID.getText()).get());
         System.out.println(result.getName()+" "+result.getId()+" "+result.getEmail());
     }
