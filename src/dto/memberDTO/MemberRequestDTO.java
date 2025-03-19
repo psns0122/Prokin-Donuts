@@ -26,4 +26,17 @@ public class MemberRequestDTO {
     /** 회원 승인요청 상태 **/
     private String request;
 
+    @Override
+    public String toString() {
+        return "MemberRequestDTO{" +
+                "authorityId=" + authorityId +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", id='" + id + '\'' +
+                ", password='" + password + '\'' +
+                ", request='" + request + '\'' +
+                '}';
+    }
 }
