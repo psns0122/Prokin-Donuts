@@ -46,11 +46,8 @@ public class MemberServiceImpl implements MemberService {
     //회원 가입 기능
     @Override
     public MemberRequestDTO requestMember(MemberRequestDTO member) {
-        if (checkId(member.getId())) return null; // 중복검사
-        else {
             Optional<MemberRequestDTO> result = memberRepo.requestMember(member);
             return result.orElse(null);
-        }
     }
 
     //회원아이디 중복검사 기능

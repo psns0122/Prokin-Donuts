@@ -5,6 +5,7 @@ package common.login;
  */
 public enum LoginErrorCode {
     REQUEST_NOT_FOUND("회원 가입 요청 실패"),
+    REQUEST_FAIL("이미 존재하는 아이디"),
     LOGIN_FAIL("이미 로그인 중입니다."),
     LOGIN_FAIL_OUT("이미 로그아웃 상태입니다."),
     LOGOUT_FAIL("로그아웃 실패"),

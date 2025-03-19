@@ -52,9 +52,11 @@ public class LoginControllerImpl implements LoginController{
     public void memberRequest(){
         System.out.println(LoginText.REQUEST_HEADER.getText());
         MemberRequestDTO memberRequest = newMemberRequest();
-        MemberRequestDTO result = memberService.requestMember(memberRequest);
-        if(result == null) System.out.println(LoginErrorCode.REQUEST_NOT_FOUND.getText());
-        else System.out.println(LoginText.LOGIN_SUCCESS.getText());
+        if(memberService.checkId(memberRequest.getId())) { //아이디 중복확인
+            MemberRequestDTO result = memberService.requestMember(memberRequest);
+            if(result == null) System.out.println(LoginErrorCode.REQUEST_NOT_FOUND.getText());
+            else System.out.println(LoginText.REQUEST_SUCCESS.getText());
+        }else System.out.println(LoginErrorCode.REQUEST_FAIL.getText());
     }
 
     public void findId(){
