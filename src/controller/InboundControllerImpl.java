@@ -153,6 +153,7 @@ public class InboundControllerImpl implements InboundController {
     private void printProductMenu() {
         List<ProductDTO> list = inboundService.getProductMenu();
         list.forEach(System.out::println);
+        System.out.println();
     }
 
     /**
@@ -191,6 +192,7 @@ public class InboundControllerImpl implements InboundController {
     private void printDeleteList(int warehouseId) {
         List<InboundVO> list = inboundService.getInboundList(warehouseId);
         list.forEach(System.out::println);
+        System.out.println();
     }
 
     /**
@@ -200,6 +202,7 @@ public class InboundControllerImpl implements InboundController {
         // 입고 요청, 승인 상태인 입고고지서를 가져와 출력한다.
         List<InboundVO> list = inboundService.getInboundList(warehouseId);
         list.forEach(System.out::println);
+        System.out.println();
     }
 
     /**
@@ -209,6 +212,7 @@ public class InboundControllerImpl implements InboundController {
     private void Status(int warehouseId) {
         List<InboundDetailVO> list = inboundService.getInboundDetail(warehouseId);
         list.forEach(System.out::println);
+        System.out.println();
     }
 
 
