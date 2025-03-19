@@ -293,14 +293,14 @@ public class MemberRepoImpl implements MemberRepo {
 
     //회원 가입 요청 조회 기능
     @Override
-    public Optional<List<MemberRequestDTO>> loadRequestMember() {
+    public Optional<List<MemberRequestDTO>> loadRequestMemberall() {
         List<MemberRequestDTO> allLoadRequestMemberList = new ArrayList<>();
-        conn =DBUtil.getConnection();
+        conn = DBUtil.getConnection();
         try {
             String sql = "{call loadRequestMember()}";
             cs = conn.prepareCall(sql);
             rs = cs.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 MemberRequestDTO MemberReauestDTO = new MemberRequestDTO();
                 MemberReauestDTO.setAuthorityId(rs.getInt("authorityId"));
                 MemberReauestDTO.setName(rs.getString("name"));
@@ -314,9 +314,32 @@ public class MemberRepoImpl implements MemberRepo {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            DBUtil.closeQuietly(rs,cs,conn);
+        } finally {
+            DBUtil.closeQuietly(rs, cs, conn);
         }
         return Optional.empty();
     }
+
+        //회원 가입 요청 조회 기능
+        @Override
+        public Optional<String> RequestMember(String id){
+            conn =DBUtil.getConnection();
+            try {
+                cs = conn.prepareCall("{selete request from memberrequest where id = ?}");
+                cs.setString(1,id);
+                rs = cs.executeQuery();
+                if (rs.next()) {
+                    return Optional.of(rs.getString(1));
+                    // 첫 번째 컬럼 값 반환
+                }
+                else return Optional.empty();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }finally {
+                DBUtil.closeQuietly(rs,cs,conn);
+            }
+            return Optional.empty();
+        }
+    }
+
 }

@@ -148,9 +148,16 @@ public class MemberServiceImpl implements MemberService {
 
     //회원가입 요청 조회 기능
     @Override
-    public List<MemberRequestDTO> searchRequestMember() {
-        Optional<List<MemberRequestDTO>> result = memberRepo.loadRequestMember();
+    public List<MemberRequestDTO> searchRequestMemberAll() {
+        Optional<List<MemberRequestDTO>> result = memberRepo.loadRequestMemberall();
         return result.orElse(Collections.emptyList());
+    }
+
+    // 회원가입 요청 승인대기 상태 조회 기능
+    @Override
+    public String searchRequestMember(String id) {
+        Optional<String> result = memberRepo.RequestMember(id);
+        return result.orElse(null);
     }
 
     //로그인 상태 확인 기능
@@ -159,4 +166,5 @@ public class MemberServiceImpl implements MemberService {
         Optional<String> result = memberRepo.searchLoginfo("logstatus","id",memberId);
         return result.orElse(null);
     }
+
 }

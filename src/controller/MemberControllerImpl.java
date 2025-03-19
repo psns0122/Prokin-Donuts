@@ -129,7 +129,7 @@ public class MemberControllerImpl implements MemberController {
 
     public void approve(){
         System.out.println(MemberText.INSERT_MEMBER_APPROVE_HEADER.getText());
-        memberService.searchRequestMember().forEach(System.out::println);
+        memberService.searchRequestMemberAll().forEach(System.out::println);
         String result = memberService.approvalMember(InputUtil.getInput
                 (MemberText.INSERT_MEMBER.getText()+
                         MemberText.MEMBER_ID.getText()).get());
