@@ -16,8 +16,7 @@ public interface MemberService {   /*
      * [회원 수정 기능]
      * repo의 updateMember 호출하여 해당 아이디의 회원정보 update
      */
-    MemberDTO updateMember(MemberDTO updateMember);
-
+    MemberDTO updateMember(String memberID ,MemberDTO updateMember);
 
     /*
      * [회원 삭제 기능]
