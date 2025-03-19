@@ -16,20 +16,6 @@ public class FranchiseRepoImpl implements FranchiseRepo{
     CallableStatement cs = null;
     ResultSet rs = null;
 
-//    public static void main(String[] args) {
-//
-//        new FranchiseRepoImpl().showHaveNoFranchiseFM().ifPresent(System.out::println);
-//
-//        FranchiseDTO franchise = new FranchiseDTO(4, "수원 영통구", 75);
-//        ProductDTO product = new ProductDTO(101, "test", 9000, 1, "실온");
-//        ProductCategoryDTO productc = new ProductCategoryDTO(3, "xptmxm", "xptmxm" +
-//                "");
-//        String result = new FranchiseRepoImpl().insertProductCategory(productc)
-//                .orElse(FranchiseErrorCode.DB_PROCEDURE_ERROR.getText());
-//        System.out.println(FranchiseErrorCode.DB_ERROR.getText() + result);
-//
-//    }
-
     /**
      * [가맹점 등록 기능]
      * 본사관리자가 신규 가맹점을 등록
@@ -391,9 +377,9 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             // in 파라미터에 값 전달
             cs.setInt(1, productDTO.getProductId());
             cs.setString(2, productDTO.getProductName());
-            cs.setInt(1, productDTO.getProductPrice());
-            cs.setInt(2, productDTO.getCategoryId());
-            cs.setString(1, productDTO.getProductType());
+            cs.setInt(3, productDTO.getProductPrice());
+            cs.setInt(4, productDTO.getCategoryId());
+            cs.setString(5, productDTO.getProductType());
 
             // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
             cs.registerOutParameter(6, java.sql.Types.VARCHAR);
@@ -425,7 +411,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
     public Optional<String> deleteProduct(int productId) {
         try {
             // p_franchiseLocation , p_memberNo
-            String sql = "{call DeleteFranchise(?, ?)}";
+            String sql = "{call DeleteProduct(?, ?)}";
 
             cs = conn.prepareCall(sql);
 
@@ -467,25 +453,30 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
             cs.registerOutParameter(1, java.sql.Types.VARCHAR);
 
-            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
-            rs = cs.executeQuery();
-            String resultMSG = cs.getString(1);
+            // 프로시저 실행
+            boolean hasResult = cs.execute();
+            String resultMSG = cs.getString(1);  // OUT 파라미터 메시지 가져오기
 
             List<ProductDTO> loadProduct = new ArrayList<>();
-            while (rs.next()){
-                ProductDTO product = new ProductDTO();
-                product.setProductId(rs.getInt("productId"));
-                product.setProductName(rs.getString("productName"));
-                product.setProductPrice(rs.getInt("productPrice"));
-                product.setCategoryId(rs.getInt("categoryId"));
-                product.setProductType(rs.getString("storedType"));
-                loadProduct.add(product);
+            // 결과셋이 있는 경우 처리
+            if (hasResult) {
+                rs = cs.getResultSet();
+                while (rs.next()) {
+                    ProductDTO product = new ProductDTO();
+                    product.setProductId(rs.getInt("productId"));
+                    product.setProductName(rs.getString("productName"));
+                    product.setProductPrice(rs.getInt("productPrice"));
+                    product.setCategoryId(rs.getInt("categoryId"));
+                    product.setProductType(rs.getString("storedType"));
+                    loadProduct.add(product);
+                }
             }
 
-            if (!loadProduct.isEmpty()) {
-                return Optional.of(loadProduct);
+            // 상품이 없을 경우 메시지 반환 (디버깅 용도)
+            if (loadProduct.isEmpty()) {
+                System.out.println(FranchiseErrorCode.DB_ERROR.getText() + resultMSG);
             } else {
-                return Optional.of(Collections.emptyList());
+                return Optional.of(loadProduct);
             }
 
         } catch (SQLException e) {
@@ -493,7 +484,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } finally {
             DBUtil.closeQuietly(null,cs,conn);
         }
-        return Optional.empty();
+        return Optional.of(Collections.emptyList());
     }
 
     /**
@@ -516,25 +507,30 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
             cs.registerOutParameter(2, java.sql.Types.VARCHAR);
 
-            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
-            rs = cs.executeQuery();
-            String resultMSG = cs.getString(2);
+            // 프로시저 실행
+            boolean hasResult = cs.execute();
+            String resultMSG = cs.getString(2);  // OUT 파라미터 메시지 가져오기
 
             List<ProductDTO> loadProduct = new ArrayList<>();
-            while (rs.next()){
-                ProductDTO product = new ProductDTO();
-                product.setProductId(rs.getInt("productId"));
-                product.setProductName(rs.getString("productName"));
-                product.setProductPrice(rs.getInt("productPrice"));
-                product.setCategoryId(rs.getInt("categoryId"));
-                product.setProductType(rs.getString("storedType"));
-                loadProduct.add(product);
+            // 결과셋이 있는 경우 처리
+            if (hasResult) {
+                rs = cs.getResultSet();
+                while (rs.next()) {
+                    ProductDTO product = new ProductDTO();
+                    product.setProductId(rs.getInt("productId"));
+                    product.setProductName(rs.getString("productName"));
+                    product.setProductPrice(rs.getInt("productPrice"));
+                    product.setCategoryId(rs.getInt("categoryId"));
+                    product.setProductType(rs.getString("storedType"));
+                    loadProduct.add(product);
+                }
             }
 
-            if (!loadProduct.isEmpty()) {
-                return Optional.of(loadProduct);
+            // 상품이 없을 경우 메시지 반환 (디버깅 용도)
+            if (loadProduct.isEmpty()) {
+                System.out.println(FranchiseErrorCode.DB_ERROR.getText() + resultMSG);
             } else {
-                return Optional.of(Collections.emptyList());
+                return Optional.of(loadProduct);
             }
 
         } catch (SQLException e) {
@@ -542,7 +538,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } finally {
             DBUtil.closeQuietly(null,cs,conn);
         }
-        return Optional.empty();
+        return Optional.of(Collections.emptyList());
     }
 
     /**
@@ -565,25 +561,30 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
             cs.registerOutParameter(2, java.sql.Types.VARCHAR);
 
-            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
-            rs = cs.executeQuery();
-            String resultMSG = cs.getString(2);
+            // 프로시저 실행
+            boolean hasResult = cs.execute();
+            String resultMSG = cs.getString(2);  // OUT 파라미터 메시지 가져오기
 
             List<ProductDTO> loadProduct = new ArrayList<>();
-            while (rs.next()){
-                ProductDTO product = new ProductDTO();
-                product.setProductId(rs.getInt("productId"));
-                product.setProductName(rs.getString("productName"));
-                product.setProductPrice(rs.getInt("productPrice"));
-                product.setCategoryId(rs.getInt("categoryId"));
-                product.setProductType(rs.getString("storedType"));
-                loadProduct.add(product);
+            // 결과셋이 있는 경우 처리
+            if (hasResult) {
+                rs = cs.getResultSet();
+                while (rs.next()) {
+                    ProductDTO product = new ProductDTO();
+                    product.setProductId(rs.getInt("productId"));
+                    product.setProductName(rs.getString("productName"));
+                    product.setProductPrice(rs.getInt("productPrice"));
+                    product.setCategoryId(rs.getInt("categoryId"));
+                    product.setProductType(rs.getString("storedType"));
+                    loadProduct.add(product);
+                }
             }
 
-            if (!loadProduct.isEmpty()) {
-                return Optional.of(loadProduct);
+            // 상품이 없을 경우 메시지 반환 (디버깅 용도)
+            if (loadProduct.isEmpty()) {
+                System.out.println(FranchiseErrorCode.DB_ERROR.getText() + resultMSG);
             } else {
-                return Optional.of(Collections.emptyList());
+                return Optional.of(loadProduct);
             }
 
         } catch (SQLException e) {
@@ -591,7 +592,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } finally {
             DBUtil.closeQuietly(null,cs,conn);
         }
-        return Optional.empty();
+        return Optional.of(Collections.emptyList());
     }
 
 //
