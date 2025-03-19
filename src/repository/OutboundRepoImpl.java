@@ -9,19 +9,14 @@ import java.sql.*;
 public class OutboundRepoImpl implements OutboundRepo {
     @Override
     public String saveOutbound(OutboundVO outbound) {
-        String sql = "INSERT INTO Outbound (outboundDate, outboundStatus) VALUES (?, ?)";
+        String sql = "{CALL sp_saveOutbound(?, ?, ?)}";
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setDate(1, new java.sql.Date(outbound.getOutboundDate().getTime()));
-            pstmt.setString(2, outbound.getOutboundStatus());
-            int affected = pstmt.executeUpdate();
-            if (affected == 0) throw new SQLException("No rows affected");
-            try (ResultSet rs = pstmt.getGeneratedKeys()) {
-                if (rs.next()) {
-                    return String.valueOf(rs.getInt(1));
-                }
-            }
-            return null;
+             CallableStatement cstmt = conn.prepareCall(sql)) {
+            cstmt.setDate(1, new java.sql.Date(outbound.getOutboundDate().getTime()));
+            cstmt.setString(2, outbound.getOutboundStatus());
+            cstmt.registerOutParameter(3, Types.INTEGER);
+            cstmt.execute();
+            return String.valueOf(cstmt.getInt(3));
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -30,13 +25,13 @@ public class OutboundRepoImpl implements OutboundRepo {
 
     @Override
     public void saveOutboundDetail(OutboundDetailVO detail) {
-        String sql = "INSERT INTO outboundDetail (quantity, productId, outboundId) VALUES (?, ?, ?)";
+        String sql = "{CALL sp_saveOutboundDetail(?, ?, ?)}";
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, detail.getQuantity());
-            pstmt.setInt(2, detail.getProductId()); // productId는 INT 타입
-            pstmt.setInt(3, detail.getOutboundId());  // VO의 outboundId가 int 타입이므로 바로 사용
-            pstmt.executeUpdate();
+             CallableStatement cstmt = conn.prepareCall(sql)) {
+            cstmt.setInt(1, detail.getQuantity());
+            cstmt.setInt(2, detail.getProductId());
+            cstmt.setInt(3, detail.getOutboundId());
+            cstmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
