@@ -151,8 +151,9 @@ public class MemberControllerImpl implements MemberController {
 
         String updateMemberID = InputUtil.getInput(MemberText.UPDATE_MEMBER.getText()+
                                 MemberText.MEMBER_ID.getText()).get();
-        MemberDTO result = memberService.updateMember(updateMemberID,updateMember());
-        System.out.println(result.getId());
+        MemberDTO updateMember = updateMember();
+        MemberDTO result = memberService.updateMember(updateMemberID,updateMember);
+        System.out.println(updateMemberID);
         System.out.println(MemberText.UPDATE_MEMBER_SUCCESS);
     }
 
