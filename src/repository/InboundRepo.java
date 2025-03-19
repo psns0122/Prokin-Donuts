@@ -12,6 +12,11 @@ import java.util.Optional;
 public interface InboundRepo {
 
     /**
+     * 창고관리자 작업시 필요한 창고ID를 loginUtil에 있는 멤버 ID로 가져온다.
+     */
+    Optional<Integer> getWarehouseId(int memberId);
+
+    /**
      * [입고 검수 기능]
      * 입고테이블에서 입고승인 상태인 행을 가져온다.
      * null 인 경우도 생각

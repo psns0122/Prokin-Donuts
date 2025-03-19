@@ -20,6 +20,28 @@ public class InboundRepoImpl implements InboundRepo {
     ResultSet rs = null;
 
     /**
+     * 창고관리자 작업시 필요한 창고ID를 loginUtil에 있는 멤버 ID로 가져온다.
+     * @param memberId
+     * @return warehouseId
+     */
+    @Override
+    public Optional<Integer> getWarehouseId(int memberId) {
+        try {
+            String sql = "SELECT warehouseId FROM warehouse WHERE memberNo = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, memberId);
+            rs = pstmt.executeQuery();
+            int warehouseId = 0;
+            if (rs.next()) {
+                warehouseId = rs.getInt(1);
+            }
+            return Optional.of(warehouseId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * [입고 검수 기능]
      * 입고테이블에서 '입고승인' 상태인 행을 가져온다.
      *
