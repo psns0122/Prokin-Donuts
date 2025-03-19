@@ -53,10 +53,28 @@ public class LoginControllerImpl implements LoginController{
 
     public void findId(){
         System.out.println(LoginText.SEARCH_ID_HEADER.getText());
-
+        String email = InputUtil.getInput(LoginText.SEARCH_email.getText()).get();
+        String code = memberService.randomNumber(email);
+        System.out.print(LoginText.RANDOM_NUM.getText()+code);
+        String userCode = InputUtil.getInput(LoginText.RANDOM_NUM_CHECK.getText()).get();
+        if(memberService.checkRandomNumber(email,userCode)) {
+            System.out.println(LoginText.RANDOM_NUM_CHECK_S.getText());
+            System.out.println(memberService.findId(email));
+        }
+        else System.out.println(LoginErrorCode.RANDOM_NUM_CHECK_F.getText());
     }
     public void findPassword(){
-
+        System.out.println(LoginText.SEARCH_P_HEADER.getText());
+        String id = InputUtil.getInput(LoginText.SEARCH_ID.getText()).get();
+        String email = memberService.findemail(id);
+        String code = memberService.randomNumber(email);
+        System.out.print(LoginText.RANDOM_NUM.getText()+code);
+        String userCode = InputUtil.getInput(LoginText.RANDOM_NUM_CHECK.getText()).get();
+        if(memberService.checkRandomNumber(email,userCode)){
+            System.out.println(LoginText.RANDOM_NUM_CHECK_S.getText());
+            System.out.println(memberService.findPassword(id));
+        }
+        else System.out.println(LoginErrorCode.RANDOM_NUM_CHECK_F.getText());
     }
 
 
