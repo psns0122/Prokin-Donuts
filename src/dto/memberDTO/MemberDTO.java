@@ -25,6 +25,6 @@ public class MemberDTO {
     private String id;
     /** 회원 비밀번호 */
     private String password;
-    /* 로그인 상태 */
+    /** 로그인 상태 */
     private String logstatus;
 }

@@ -67,9 +67,7 @@ public class WarehouseControllerImpl implements WarehouseController {
         scanner.nextLine();
 
         WarehouseDTO warehouse = new WarehouseDTO();
-        if (warehouseService.insertWarehouse(warehouse)) {
-            System.out.println(WarehouseText.HQ_INSERT_WAREHOUSE.getText());
-        }
+        System.out.println(warehouseService.insertWarehouse(warehouse));
     }
 
     @Override
@@ -88,9 +86,7 @@ public class WarehouseControllerImpl implements WarehouseController {
         scanner.nextLine();
 
         WarehouseDTO warehouse = new WarehouseDTO();
-        if (warehouseService.updateWarehouse(warehouse)) {
-            System.out.println(WarehouseText.HQ_UPDATE_WAREHOUSE.getText());
-        }
+        System.out.println(warehouseService.updateWarehouse(warehouse));
     }
 
     @Override
@@ -100,10 +96,7 @@ public class WarehouseControllerImpl implements WarehouseController {
         int id = scanner.nextInt();
         scanner.nextLine();
 
-        WarehouseDTO warehouse = new WarehouseDTO();
-        if (warehouseService.deleteWarehouse(warehouse)) {
-            System.out.println(WarehouseText.HQ_DELETE_WAREHOUSE.getText());
-        }
+        System.out.println(warehouseService.deleteWarehouse(id));
     }
 
     public void viewWarehouseMenu() {
@@ -179,10 +172,12 @@ public class WarehouseControllerImpl implements WarehouseController {
 
     public void viewWarehousesByLogin() {
         System.out.println(WarehouseText.HQ_SHOW_WAREHOUSE_BY_LOGIN_HEADER.getText());
+        warehouseService.viewMyWarehouses().forEach(System.out::println);
     }
 
     public void viewInventoryByLogin() {
         System.out.println(WarehouseText.HQ_SHOW_INVENTORY_BY_LOGIN_HEADER.getText());
+        warehouseService.viewMyWarehousesInventory().forEach(System.out::println);
     }
 
 }
