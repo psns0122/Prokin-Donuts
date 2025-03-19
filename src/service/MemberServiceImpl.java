@@ -25,7 +25,10 @@ public class MemberServiceImpl implements MemberService {
 
     //회원 수정 기능
     @Override
-    public MemberDTO updateMember(MemberDTO updateMember) {
+    public MemberDTO updateMember(String memberID ,MemberDTO updateMember) {
+        Optional<List<MemberDTO>> Memberlist = memberRepo.loadMember("id",memberID);
+        Optional<MemberDTO> loadMember = Memberlist.map(list -> list.get(0));
+        updateMember.setMemberNo(loadMember.get().getMemberNo());
         Optional<MemberDTO> result = memberRepo.updateMember(updateMember);
         return result.orElse(null);
     }
