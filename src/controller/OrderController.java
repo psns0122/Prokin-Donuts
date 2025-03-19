@@ -1,4 +1,4 @@
-package service.orderService;
+package controller;
 
 import dto.orderDTO.OrderDTO;
 import dto.orderDTO.OrderStatisticsDTO;
@@ -8,7 +8,7 @@ import vo.orderVO.OrderVO;
 import java.util.List;
 import java.util.Map;
 
-public interface OrderService {
+public interface OrderController {
     String submitOrder(OrderDTO dto);
     void approveOrder(String orderId);
     void shipOrder(String orderId);

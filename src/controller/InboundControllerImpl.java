@@ -1,22 +1,21 @@
 package controller;
 
 import common.util.InputUtil;
+import common.util.LoginUtil;
 import common.util.MenuUtil;
 import dto.inbound.ProductDTO;
-import repository.InboundRepoImpl;
 import service.InboundService;
-import service.InboundServiceImpl;
 import vo.inbound.InboundDetailVO;
 import vo.inbound.InboundVO;
 import java.time.LocalDate;
 import java.util.*;
 
 public class InboundControllerImpl implements InboundController {
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         InboundControllerImpl inboundController = new InboundControllerImpl(new InboundServiceImpl(new InboundRepoImpl()));
         inboundController.warehouseManager(1);
         //inboundController.Headquarters();
-    }
+    }*/
     private final InboundService inboundService;
 
     public InboundControllerImpl(InboundService inboundService) {
@@ -24,12 +23,17 @@ public class InboundControllerImpl implements InboundController {
     }
 
     /**
-     * 창고 관리자 호출
-     * 창고 ID를 매개변수로 받는다고 가정
-     *
-     * @param warehouseId
+     * 창고관리자 작업시 필요한 창고ID를 loginUtil에 있는 멤버 ID로 가져온다.
      */
-    void warehouseManager(int warehouseId) {
+    private int getWarehouseId(int memberId) {
+        return inboundService.getWarehouseId(memberId);
+    }
+
+    /**
+     * 창고 관리자 호출
+     */
+    public void warehouseManager() {
+        int warehouseId = getWarehouseId(LoginUtil.getLoginMember().getMemberNo());
         while(true) {
             System.out.println("1. 입고검수");
             System.out.println("2. 입고요청");
@@ -48,9 +52,7 @@ public class InboundControllerImpl implements InboundController {
 
             MenuUtil.handleMenuSelection("메뉴 선택 (숫자 입력, 종료: exit): ", menuActions);
         }
-
     }
-
     /**
      * 창고 관리자의 입고 검수 기능
      * inspect, printInboundList
@@ -191,7 +193,7 @@ public class InboundControllerImpl implements InboundController {
 
 
     // 총관리자 호출
-    void Headquarters() {
+    public void Headquarters() {
         while(true) {
             System.out.println("1. 입고요청 승인");
             System.out.println("2. 입고 고지서 출력");
