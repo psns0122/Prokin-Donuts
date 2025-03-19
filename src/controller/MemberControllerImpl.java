@@ -88,9 +88,12 @@ public class MemberControllerImpl implements MemberController {
 
 
 
-    public void HQMenu(){
-        HQMenu =  setHQMenu();
-        MenuUtil.handleMenuSelection(MemberText.HQ_MEMBER_MENU.getText(),HQMenu);
+    public void HQMenu() {
+        System.out.println(MemberText.MENU_HEADER.getText());
+        HQMenu = setHQMenu();
+        while (true) {
+            MenuUtil.handleMenuSelection(MemberText.HQ_MEMBER_MENU.getText(), HQMenu);
+        }
     }
 
     public void WMMenu(){
