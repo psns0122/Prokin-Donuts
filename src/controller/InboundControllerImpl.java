@@ -169,18 +169,21 @@ public class InboundControllerImpl implements InboundController {
      */
     private void inboundDelete(int warehouseId) {
         // 입고 요청 리스트 출력(요청, 승인 상태인 경우에만 가능)
-        List<InboundVO> list = inboundService.getInboundList(warehouseId);
-        list.forEach(System.out::println);
+        printDeleteList(warehouseId);
 
-        int inboundId = InputUtil.getIntegerInput("입고를 취소할 입고ID를 입력하세요.");
+        int inboundId = InputUtil.getIntegerInput(InboundText.DELETE_ID.getText());
         //취소 가능하면 -> 삭제
-
+        
         if(inboundService.checkInboundDate(inboundId)) {
             inboundService.deleteInboundInfo(inboundId);
             System.out.println("취소 됨!");
         } else {
             System.out.println("취소 불가능합니다.");
         }
+    }
+    private void printDeleteList(int warehouseId) {
+        List<InboundVO> list = inboundService.getInboundList(warehouseId);
+        list.forEach(System.out::println);
     }
 
     /**

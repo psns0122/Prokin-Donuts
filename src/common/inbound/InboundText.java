@@ -15,7 +15,9 @@ public enum InboundText {
     QUANTITY("수량을 입력하세요."),
     SELECT_STOP("상품 선택: 1, 종료: 0을 입력하세요."),
 
-    INBOUND_DATE("입고예약 날짜를 입력해주세요.");
+    INBOUND_DATE("입고예약 날짜를 입력해주세요."),
+
+    DELETE_ID("입고를 취소할 ID를 입력하세요.")
 
     private final String text;
 
