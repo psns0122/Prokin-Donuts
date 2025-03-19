@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class MemberControllerImpl implements MemberController {
-
     Scanner scanner = new Scanner(System.in);
 
     MemberService memberService;
@@ -91,7 +90,6 @@ public class MemberControllerImpl implements MemberController {
 
 
     public void HQMenu(){
-        System.out.println(MemberText.MENU_HEADER.getText());
         HQMenu =  setHQMenu();
         MenuUtil.handleMenuSelection(MemberText.HQ_MEMBER_MENU.getText(),HQMenu);
     }
