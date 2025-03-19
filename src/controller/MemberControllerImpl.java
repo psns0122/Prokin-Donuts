@@ -82,9 +82,9 @@ public class MemberControllerImpl implements MemberController {
     }
 
     public Map<Integer,Runnable> setFMSearchMenu(){
-        FMMenu.put(1,()->loginMemberSimpleSearch());
-        FMMenu.put(2,()->loginMemberDetailSearch());
-        return FMMenu;
+        FMSearchMenu.put(1,()->loginMemberSimpleSearch());
+        FMSearchMenu.put(2,()->loginMemberDetailSearch());
+        return FMSearchMenu;
     }
 
 
@@ -150,9 +150,11 @@ public class MemberControllerImpl implements MemberController {
     }
 
     public void searchSimpleMenu(){
-        MemberText.SEARCH_MEMBER_SIMPLE_HEADER.getText();
+        System.out.println(MemberText.SEARCH_MEMBER_SIMPLE_HEADER.getText());
         MemberDTO result = memberService.searchMember(InputUtil.getInput(MemberText.SEARCH_MEMBER_ID.getText()).get());
-        System.out.println(result.getName()+" "+result.getId()+" "+result.getEmail());
+        System.out.println("이름: "+result.getName()+
+                            " 아이디 : "+result.getId()+
+                            " 이메일: "+result.getEmail());
     }
     public void searchDitailMenu(){
         System.out.println(MemberText.SEARCH_MEMBER_DETAIL_HEADER.getText());
@@ -210,10 +212,14 @@ public class MemberControllerImpl implements MemberController {
     }
 
     //로그인한 회원의 간편조회
-    public void loginMemberSimpleSearch(){
-       String loginMember = LoginUtil.getLoginMember().getId();
-        MemberDTO result = memberService.searchMember(loginMember);
-        System.out.println(result.getName()+" "+result.getId()+" "+result.getEmail());
+    public void loginMemberSimpleSearch() {
+        MemberText.SEARCH_MEMBER_SIMPLE_HEADER.getText();
+        String loginMember = LoginUtil.getLoginMember().getId();
+        if (loginMember == null) System.out.println(MemberErrorCode.MEMBER_NOT_FOUND.getText());
+        else {
+            MemberDTO result = memberService.searchMember(loginMember);
+            System.out.println("이름 : "+result.getName() + " 아이디: " + result.getId() + " 이메일:" + result.getEmail());
+        }
     }
 
     //로그인한 회원의 상세조회
