@@ -30,17 +30,15 @@ public class MemberDTO {
 
     @Override
     public String toString() {
-        return "MemberDTO{" +
-                "memberNo=" + memberNo +
-                ", authorityId=" + authorityId +
-                ", name='" + name + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", address='" + address + '\'' +
-                ", id='" + id + '\'' +
-                ", password='" + password + '\'' +
-                ", logstatus='" + logstatus + '\'' +
-                '}';
+        return
+                "회원번호 : " + memberNo +
+                ", 권한ID : " + authorityId +
+                ", 이름 : " + name  +
+                ", 전화번호 : " + phoneNumber  +
+                ", email : " + email  +
+                ", 주소 : " + address +
+                ", ID : " + id +
+                ", 비밀번호 : " + password;
     }
 
 }

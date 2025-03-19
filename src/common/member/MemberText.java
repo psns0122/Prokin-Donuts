@@ -25,7 +25,7 @@ public enum MemberText {
     INSERT_MEMBER_NEW_HEADER("=== 신규회원 등록 ==="),
     INSERT_MEMBER_APPROVE_HEADER("=== 가입 신청 목록 ==="),
     INSERT_MEMBER("등록할 회원 "),
-    INSERT_MEMBER_SUCCESS("회원 등록 성공"),
+    INSERT_MEMBER_SUCCESS(" 회원 등록 성공"),
 
     /*회원 삭제*/
     DELETE_MEMBER_HEADER("=== 회원 삭제 ==="),

@@ -28,15 +28,13 @@ public class MemberRequestDTO {
 
     @Override
     public String toString() {
-        return "MemberRequestDTO{" +
-                "authorityId=" + authorityId +
-                ", name='" + name + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", address='" + address + '\'' +
-                ", id='" + id + '\'' +
-                ", password='" + password + '\'' +
-                ", request='" + request + '\'' +
-                '}';
+        return
+                ", 이름 : " + name  +
+                ", 전화번호 : " + phoneNumber  +
+                ", email : " + email  +
+                ", 주소 : " + address +
+                ", ID : " + id +
+                ", 비밀번호 : " + password +
+                ", 요청상태 " + request;
     }
 }
