@@ -5,7 +5,9 @@ package common.login;
  */
 public enum LoginErrorCode {
     REQUEST_NOT_FOUND("존재하지 않는 가맹점ID 입니다."),
-    LOGIN_FAIL("로그인 실패"),
+    LOGIN_FAIL("이미 로그인 중입니다."),
+    LOGIN_FAIL_OUT("이미 로그아웃 상태입니다."),
+    LOGOUT_FAIL("로그아웃 실패"),
     MEMBERINFO_NOT_FOUND("아이디 또는 비밀번호가 올바르지 않습니다."),;
 
 

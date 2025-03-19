@@ -94,7 +94,7 @@ public interface MemberService {   /*
     로그아웃상태라면 logInnOut 호출하여 로그상태 변경
     로그인 상태라면 거절
      */
-     String logIn(String memberId);
+    MemberDTO logIn(String memberId,String password);
 
      /*
     [로그아웃 기능]
@@ -102,7 +102,7 @@ public interface MemberService {   /*
     로그인상태라면 logInnOut 호출하여 로그상태 변경
     로그아웃 상태라면 거절
      */
-     String logOut(String memberId);
+     public String logOut(String memberId) ;
 
      /*
     [회원가입 요청 조회 기능]
