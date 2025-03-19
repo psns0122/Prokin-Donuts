@@ -13,7 +13,6 @@ import java.util.Map;
 
 public interface MemberController {
 
-    public Map<Integer,Runnable>  setMainMenu();
 
     public Map<Integer,Runnable> setHQMenu();
     public Map<Integer,Runnable> setHQAddMenu();
@@ -28,8 +27,6 @@ public interface MemberController {
     public Map<Integer,Runnable> setFMMenu();
 
     public Map<Integer,Runnable> setFMSearchMenu();
-
-    public void MainMune();
 
 
     public void HQMenu();
