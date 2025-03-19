@@ -2,6 +2,7 @@ package repository;
 
 import dto.inbound.InboundDTO;
 import dto.inbound.ProductDTO;
+import vo.inbound.InboundStatusVO;
 import vo.inbound.InboundVO;
 import vo.inbound.InboundDetailVO;
 
@@ -28,7 +29,7 @@ public interface InboundRepo {
      * 입고테이블에서 해당 ID의 입고 상태를 입고완료 상태로 변경한다.
      * + 트리거를 통해 재고에 반영(update)
      */
-    void updateCompletedStatus(int inboundId);
+    boolean updateCompletedStatus(int inboundId);
 
     /**
      * [입고 요청 기능]
@@ -83,7 +84,7 @@ public interface InboundRepo {
      * [입고 현황 조회]
      * 해당 창고의 입고 상세 정보 List 출력
      */
-    Optional<List<InboundDetailVO>> getInboundDetailList(int warehouseId);
+    Optional<List<InboundStatusVO>> getInboundDetailList(int warehouseId);
 
     // 총관리자(본사)
 

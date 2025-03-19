@@ -8,7 +8,6 @@ import lombok.ToString;
 @Getter
 @Builder
 @AllArgsConstructor
-@ToString
 public class ProductDTO {
     /** 제품 아이디 */
     private int productId;
@@ -20,4 +19,14 @@ public class ProductDTO {
     private String categoryId;
     /** 보관타입 */
     private String storedType;
+
+    @Override
+    public String toString() {
+        return "[" +
+                "제품Id: " + productId +
+                ", 제품이름: '" + productName + '\'' +
+                ", 가격: " + productPrice +
+                ", 보관타입: '" + storedType + '\'' +
+                ']';
+    }
 }
