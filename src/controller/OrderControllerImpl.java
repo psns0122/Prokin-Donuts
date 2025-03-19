@@ -21,6 +21,19 @@ public class OrderControllerImpl implements OrderController {
         this.orderService = orderService;
     }
 
+    public void runHeadquartersMenu() {
+        handleHeadquarters();
+    }
+
+    public void runWarehouseMenu() {
+        handleWarehouseManager();
+    }
+
+    public void runStoreManagerMenu() {
+        handleStoreManager();
+    }
+
+
     @Override
     public String submitOrder(OrderDTO dto) {
         return orderService.submitOrder(dto);
