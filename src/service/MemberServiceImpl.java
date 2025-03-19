@@ -21,7 +21,6 @@ public class MemberServiceImpl implements MemberService {
             Optional<MemberDTO> result = memberRepo.insertMember(member);
             //결과값을 반환, 하지만 결과값이 optional.empty면 null 반환
             return result.orElse(null);
-
     }
 
     //회원 수정 기능
@@ -41,7 +40,7 @@ public class MemberServiceImpl implements MemberService {
         return result.orElse(null);
     }
 
-    //회원 가입 기능
+    //회원 가입  요청기능
     @Override
     public MemberRequestDTO requestMember(MemberRequestDTO member) {
             Optional<MemberRequestDTO> result = memberRepo.requestMember(member);
