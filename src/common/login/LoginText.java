@@ -14,11 +14,11 @@ public enum LoginText {
     /*Login status*/
     LOGIN_SUCCESS("로그인 완료"),
     LOGIN_APPROVE_WAITING("회원 가입 승인대기 중 "),
+    LOGOUT_SUCCESS("로그아웃 완료"),
 
     /*회원가입*/
     REQUEST_HEADER("=== 회원 가입 ==="),
     REQUEST("등록할 "),
-    REQUEST_FN("등록할 가맹점ID : "),
     REQUEST_SUCCESS("회원 가입 신청성공"),
 
     /*아이디 찾기 */

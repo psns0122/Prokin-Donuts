@@ -28,7 +28,8 @@ public class MemberRepoImpl implements MemberRepo {
             String sql = "{call insertMember(?,?,?,?,?,?,?,?)}";
 
             cs = conn.prepareCall(sql);
-;
+
+
             cs.setString(1, "member");
             cs.setInt(2, member.getAuthorityId());
             cs.setString(3,member.getName());
@@ -37,9 +38,7 @@ public class MemberRepoImpl implements MemberRepo {
             cs.setString(6,member.getAddress());
             cs.setString(7,member.getId());
             cs.setString(8,member.getPassword());
-
             int rs = cs.executeUpdate();
-            System.out.println(rs);
 
             //실행 성공 시 객체 반환, 실패 시 빈 optional반환
             if(rs > 0) return  Optional.of(member);
@@ -279,7 +278,9 @@ public class MemberRepoImpl implements MemberRepo {
             String sql = "{call logInOut(?)}";
             cs = conn.prepareCall(sql);
             cs.setString(1,memberId);
+
             int rs = cs.executeUpdate();
+
             if(rs>0) return Optional.of(memberId);
             else return Optional.empty();
         } catch (SQLException e) {
