@@ -318,6 +318,11 @@ public class InboundRepoImpl implements InboundRepo {
         }
     }
 
+    /**
+     * 창고 관리자 입고 현황 조회
+     * @param warehouseId
+     * @return
+     */
     @Override
     public Optional<List<InboundDetailVO>> getInboundDetailList(int warehouseId) {
         List<InboundDetailVO> list = new ArrayList<>();
