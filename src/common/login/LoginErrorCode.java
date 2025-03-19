@@ -4,11 +4,12 @@ package common.login;
     예외 처리에 사용되는 에러 발생 text를 미리 정의하는 enum 클래스입니다.
  */
 public enum LoginErrorCode {
-    REQUEST_NOT_FOUND("존재하지 않는 가맹점ID 입니다."),
+    REQUEST_NOT_FOUND("회원 가입 요청 실패"),
     LOGIN_FAIL("이미 로그인 중입니다."),
     LOGIN_FAIL_OUT("이미 로그아웃 상태입니다."),
     LOGOUT_FAIL("로그아웃 실패"),
-    MEMBERINFO_NOT_FOUND("아이디 또는 비밀번호가 올바르지 않습니다."),;
+    LOGIN_NOT_FOUND("아이디 또는 비밀번호가 올바르지 않습니다."),;
+
 
 
     private final String text;
