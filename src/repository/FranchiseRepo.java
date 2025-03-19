@@ -1,9 +1,9 @@
 package repository;
 
+import dto.memberDTO.MemberDTO;
 import dto.franchise.FranchiseDTO;
 import dto.franchise.ProductCategoryDTO;
 import dto.franchise.ProductDTO;
-import dto.memberDTO.MemberDTO;
 
 import java.util.List;
 import java.util.Optional;

@@ -18,7 +18,6 @@ public interface MemberService {   /*
      */
     MemberDTO updateMember(String memberID ,MemberDTO updateMember);
 
-
     /*
      * [회원 삭제 기능]
      * repo의 deleteMember 호출하여 해당 아이디의 회원정보 delete
@@ -95,7 +94,7 @@ public interface MemberService {   /*
     로그아웃상태라면 logInnOut 호출하여 로그상태 변경
     로그인 상태라면 거절
      */
-     String logIn(String memberId);
+    String logIn(String memberId,String password);
 
      /*
     [로그아웃 기능]
@@ -103,17 +102,24 @@ public interface MemberService {   /*
     로그인상태라면 logInnOut 호출하여 로그상태 변경
     로그아웃 상태라면 거절
      */
-     String logOut(String memberId);
+     public String logOut(String memberId) ;
 
      /*
     [회원가입 요청 조회 기능]
     repo의 loadRequestMember 호출해 해당 권한의 회원정보 확인
     */
-     List<MemberRequestDTO> searchRequestMember ();
+     List<MemberRequestDTO> searchRequestMemberAll ();
 
      /*
      [로그인 상태 확인 기능]
      */
      public String logstatus(String memberId);
-
+     /*
+     [이메일을 찾는 메서드 ]
+      */
+    public String findemail(String id);
+    /*
+    [요청상태 확인 메서드]
+    */
+    public String searchRequestMember(String id);
 }

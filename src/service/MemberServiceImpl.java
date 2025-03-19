@@ -17,10 +17,10 @@ public class MemberServiceImpl implements MemberService {
     //회원 등록 기능
     @Override
     public MemberDTO addMember(MemberDTO member) {
-        //insertMember 반환된 객체를 result 에 저장
-        Optional<MemberDTO> result = memberRepo.insertMember(member);
-        //결과값을 반환, 하지만 결과값이 optional.empty면 null 반환
-        return result.orElse(null);
+            //insertMember 반환된 객체를 result 에 저장
+            Optional<MemberDTO> result = memberRepo.insertMember(member);
+            //결과값을 반환, 하지만 결과값이 optional.empty면 null 반환
+            return result.orElse(null);
     }
 
     //회원 수정 기능
@@ -40,11 +40,11 @@ public class MemberServiceImpl implements MemberService {
         return result.orElse(null);
     }
 
-    //회원 가입 기능
+    //회원 가입  요청기능
     @Override
     public MemberRequestDTO requestMember(MemberRequestDTO member) {
-        Optional<MemberRequestDTO> result = memberRepo.requestMember(member);
-        return result.orElse(null);
+            Optional<MemberRequestDTO> result = memberRepo.requestMember(member);
+            return result.orElse(null);
     }
 
     //회원아이디 중복검사 기능
@@ -90,6 +90,12 @@ public class MemberServiceImpl implements MemberService {
         return result.orElse(null);
     }
 
+    // 이메일 찾기 기능
+    public String findemail(String id) {
+        Optional<String> result = memberRepo.searchLoginfo("email","id",id);
+        return result.orElse(null);
+    }
+
     //비밀번호 찾기 기능
     @Override
     public String findPassword(String memberId) {
@@ -127,10 +133,11 @@ public class MemberServiceImpl implements MemberService {
 
     //로그인 기능
     @Override
-    public String logIn(String memberId) {
-        Optional<String> result = memberRepo.logInnOut(memberId);
-        return result.orElse(null);
+    public String logIn(String memberId,String password) {
+            Optional<String> result = memberRepo.logInnOut(memberId);
+            return result.orElse(null);
     }
+
 
     //로그아웃 기능
     @Override
@@ -141,9 +148,16 @@ public class MemberServiceImpl implements MemberService {
 
     //회원가입 요청 조회 기능
     @Override
-    public List<MemberRequestDTO> searchRequestMember() {
-        Optional<List<MemberRequestDTO>> result = memberRepo.loadRequestMember();
+    public List<MemberRequestDTO> searchRequestMemberAll() {
+        Optional<List<MemberRequestDTO>> result = memberRepo.loadRequestMemberall();
         return result.orElse(Collections.emptyList());
+    }
+
+    // 회원가입 요청 승인대기 상태 조회 기능
+    @Override
+    public String searchRequestMember(String id) {
+        Optional<String> result = memberRepo.RequestMember(id);
+        return result.orElse(null);
     }
 
     //로그인 상태 확인 기능
@@ -152,4 +166,5 @@ public class MemberServiceImpl implements MemberService {
         Optional<String> result = memberRepo.searchLoginfo("logstatus","id",memberId);
         return result.orElse(null);
     }
+
 }

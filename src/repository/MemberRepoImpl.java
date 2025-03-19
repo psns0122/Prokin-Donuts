@@ -13,33 +13,35 @@ import java.util.List;
 import java.util.Optional;
 
 public class MemberRepoImpl implements MemberRepo {
-    Connection conn = DBUtil.getConnection();;
+
+
+    Connection conn = null;
     CallableStatement cs = null;
     ResultSet rs = null;
-
-    public static void main(String[] args) {
-        MemberRepoImpl memberRepo = new MemberRepoImpl();
-//        memberRepo.insertMember(new MemberDTO(1, 3, "","","","","","",""));
-        memberRepo.allLoadMember().isPresent();
-    }
 
     // 회원 등록 메서드
     @Override
     public Optional<MemberDTO> insertMember(MemberDTO member) {
+        conn = DBUtil.getConnection();
+
         try {
-            String sql = "{call insertMember2(?)}";
+            String sql = "{call insertMember(?,?,?,?,?,?,?,?)}";
 
             cs = conn.prepareCall(sql);
 
-            System.out.println("권힌 : " + member.getAuthorityId());
-            cs.setInt(1,member.getAuthorityId());
 
-            // 프로시저 실행
-            int hasResult = cs.executeUpdate();
-            System.out.println(hasResult);
+            cs.setString(1, "member");
+            cs.setInt(2, member.getAuthorityId());
+            cs.setString(3,member.getName());
+            cs.setString(4,member.getPhoneNumber());
+            cs.setString(5,member.getEmail());
+            cs.setString(6,member.getAddress());
+            cs.setString(7,member.getId());
+            cs.setString(8,member.getPassword());
+            int rs = cs.executeUpdate();
 
             //실행 성공 시 객체 반환, 실패 시 빈 optional반환
-            if(hasResult > 0) return  Optional.of(member);
+            if(rs > 0) return  Optional.of(member);
             else return Optional.empty();
 
         } catch (SQLException e) {
@@ -289,14 +291,14 @@ public class MemberRepoImpl implements MemberRepo {
 
     //회원 가입 요청 조회 기능
     @Override
-    public Optional<List<MemberRequestDTO>> loadRequestMember() {
+    public Optional<List<MemberRequestDTO>> loadRequestMemberall() {
         List<MemberRequestDTO> allLoadRequestMemberList = new ArrayList<>();
-        conn =DBUtil.getConnection();
+        conn = DBUtil.getConnection();
         try {
             String sql = "{call loadRequestMember()}";
             cs = conn.prepareCall(sql);
             rs = cs.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 MemberRequestDTO MemberReauestDTO = new MemberRequestDTO();
                 MemberReauestDTO.setAuthorityId(rs.getInt("authorityId"));
                 MemberReauestDTO.setName(rs.getString("name"));
@@ -310,9 +312,32 @@ public class MemberRepoImpl implements MemberRepo {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            DBUtil.closeQuietly(rs,cs,conn);
+        } finally {
+            DBUtil.closeQuietly(rs, cs, conn);
         }
         return Optional.empty();
     }
-}
+
+        //회원 가입 요청 조회 기능
+        @Override
+        public Optional<String> RequestMember(String id){
+            conn =DBUtil.getConnection();
+            try {
+                cs = conn.prepareCall("{selete request from memberrequest where id = ?}");
+                cs.setString(1,id);
+                rs = cs.executeQuery();
+                if (rs.next()) {
+                    return Optional.of(rs.getString(1));
+                    // 첫 번째 컬럼 값 반환
+                }
+                else return Optional.empty();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }finally {
+                DBUtil.closeQuietly(rs,cs,conn);
+            }
+            return Optional.empty();
+        }
+    }
+
+
