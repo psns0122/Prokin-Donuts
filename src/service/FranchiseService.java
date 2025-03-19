@@ -3,6 +3,7 @@ package service;
 import dto.franchise.FranchiseDTO;
 import dto.franchise.ProductCategoryDTO;
 import dto.franchise.ProductDTO;
+import dto.memberDTO.MemberDTO;
 import dto.warehouse.WarehouseDTO;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public interface FranchiseService {
 
     List<FranchiseDTO> viewFranchiseById(int franchiseId);
 
-    List<FranchiseDTO> viewManagerHaveNoFranchise();
+    List<MemberDTO> viewManagerHaveNoFranchise();
 
 
 
@@ -44,8 +45,8 @@ public interface FranchiseService {
 
     List<ProductDTO> viewProducts();
 
-    List<FranchiseDTO> viewProductByCategory(int categoryId);
+    List<ProductDTO> viewProductByCategory(int categoryId);
 
-    List<FranchiseDTO> viewProductById(int productId);
+    List<ProductDTO> viewProductById(int productId);
 
 }
