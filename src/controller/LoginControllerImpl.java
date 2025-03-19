@@ -91,12 +91,16 @@ public class LoginControllerImpl implements LoginController{
 
     public void logout(){
         String id = LoginUtil.getLoginMember().getId();
-        String result = memberService.logOut(id);
-        if(result == null) System.out.println(LoginErrorCode.LOGOUT_FAIL.getText());
-        else if(result.equals("logout")) System.out.println(LoginErrorCode.LOGIN_FAIL_OUT.getText());
+        String loginstatus = memberService.logstatus(id); //로그인 상태 확인
+        if (loginstatus.equals("logout"))
+            System.out.println(LoginErrorCode.LOGIN_FAIL_OUT.getText());
         else {
-            System.out.println(LoginText.LOGOUT_SUCCESS.getText());
-            LoginUtil.setLoginMember(null);
+            String result = memberService.logOut(id);
+            if(result == null) System.out.println(LoginErrorCode.LOGOUT_FAIL.getText());
+            else {
+                System.out.println(LoginText.LOGOUT_SUCCESS.getText());
+                LoginUtil.setLoginMember(null);
+            }
         }
     }
 
