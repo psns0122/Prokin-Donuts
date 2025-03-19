@@ -87,6 +87,7 @@ public class InboundRepoImpl implements InboundRepo {
             conn.setAutoCommit(false);
             cs = conn.prepareCall("{call updateCompletedStatus(?)}");
             cs.setInt(1, inboundId);
+            conn.commit();
             //입고완료가 안되면 오류
             return cs.execute();
             //DBUtil.closeQuietly(null, cs, conn);

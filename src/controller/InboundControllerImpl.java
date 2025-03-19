@@ -10,15 +10,14 @@ import service.InboundServiceImpl;
 import vo.inbound.InboundDetailVO;
 import vo.inbound.InboundStatusVO;
 import vo.inbound.InboundVO;
-
 import java.time.LocalDate;
 import java.util.*;
 
 public class InboundControllerImpl implements InboundController {
     public static void main(String[] args) {
         InboundControllerImpl inboundController = new InboundControllerImpl(new InboundServiceImpl(new InboundRepoImpl()));
-        //inboundController.warehouseManager(1);
-        inboundController.Headquarters();
+        inboundController.warehouseManager(1);
+        //inboundController.Headquarters();
     }
 
     private final InboundService inboundService;
@@ -248,6 +247,9 @@ public class InboundControllerImpl implements InboundController {
         inboundService.updateInboundStatus(inboundId);
     }
 
+    /**
+     * 총관리자의 입고 고지서 출력
+     */
     private void printInbound() {
         int warehouseId = InputUtil.getIntegerInput("고지서를 출력할 창고 ID를 입력하세요.");
         receipt(warehouseId);
