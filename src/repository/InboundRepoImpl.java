@@ -3,6 +3,7 @@ package repository;
 import config.DBUtil;
 import dto.inbound.InboundDTO;
 import dto.inbound.ProductDTO;
+import vo.inbound.InboundStatusVO;
 import vo.inbound.InboundVO;
 import vo.inbound.InboundDetailVO;
 
@@ -324,23 +325,27 @@ public class InboundRepoImpl implements InboundRepo {
      * @return
      */
     @Override
-    public Optional<List<InboundDetailVO>> getInboundDetailList(int warehouseId) {
-        List<InboundDetailVO> list = new ArrayList<>();
+    public Optional<List<InboundStatusVO>> getInboundDetailList(int warehouseId) {
+        List<InboundStatusVO> list = new ArrayList<>();
         try {
-            String sql = "select * from inbound i, inboundDetail d where i.inboundid = d.inboundid and i.warehouseid = ?";
+            String sql = "SELECT i.inboundId, d.productId, i.warehouseId, d.sectionId, i.inboundDate, i.inboundStatus, d.quantity\n" +
+                    "FROM inbound i, inboundDetail d\n" +
+                    "WHERE i.inboundId = d.inboundId and i.warehouseId = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, warehouseId);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                InboundDetailVO inboundDetailVO = InboundDetailVO.builder()
-                        .inboundDetailId(rs.getInt("inboundDetatilId"))
-                        .quantity(rs.getInt("quantity"))
+                InboundStatusVO inboundStatusVO = InboundStatusVO.builder()
                         .inboundId(rs.getInt("inboundId"))
                         .productId(rs.getInt("productId"))
+                        .warehouseId(rs.getInt("warehouseId"))
                         .sectionId(rs.getInt("sectionId"))
+                        .inboundDate(rs.getDate("inboundDate").toLocalDate())
+                        .status(rs.getString("inboundStatus"))
+                        .quantity(rs.getInt("quantity"))
                         .build();
-                list.add(inboundDetailVO);
+                list.add(inboundStatusVO);
             }
             //DBUtil.closeQuietly(rs, cs, conn);
             return Optional.of(list);

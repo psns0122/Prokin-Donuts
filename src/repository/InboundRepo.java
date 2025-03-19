@@ -2,6 +2,7 @@ package repository;
 
 import dto.inbound.InboundDTO;
 import dto.inbound.ProductDTO;
+import vo.inbound.InboundStatusVO;
 import vo.inbound.InboundVO;
 import vo.inbound.InboundDetailVO;
 
@@ -83,7 +84,7 @@ public interface InboundRepo {
      * [입고 현황 조회]
      * 해당 창고의 입고 상세 정보 List 출력
      */
-    Optional<List<InboundDetailVO>> getInboundDetailList(int warehouseId);
+    Optional<List<InboundStatusVO>> getInboundDetailList(int warehouseId);
 
     // 총관리자(본사)
 

@@ -8,6 +8,7 @@ import repository.InboundRepoImpl;
 import service.InboundService;
 import service.InboundServiceImpl;
 import vo.inbound.InboundDetailVO;
+import vo.inbound.InboundStatusVO;
 import vo.inbound.InboundVO;
 
 import java.time.LocalDate;
@@ -210,7 +211,7 @@ public class InboundControllerImpl implements InboundController {
      * (입고 상세 정보 출력)
      */
     private void Status(int warehouseId) {
-        List<InboundDetailVO> list = inboundService.getInboundDetail(warehouseId);
+        List<InboundStatusVO> list = inboundService.getInboundDetail(warehouseId);
         list.forEach(System.out::println);
         System.out.println();
     }

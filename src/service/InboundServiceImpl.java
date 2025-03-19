@@ -6,6 +6,7 @@ import dto.inbound.InboundDTO;
 import dto.inbound.ProductDTO;
 import repository.InboundRepo;
 import vo.inbound.InboundDetailVO;
+import vo.inbound.InboundStatusVO;
 import vo.inbound.InboundVO;
 
 import java.util.Date;
@@ -145,7 +146,7 @@ public class InboundServiceImpl implements InboundService {
      * @return 입고상세정보
      */
     @Override
-    public List<InboundDetailVO> getInboundDetail(int warehouseId) {
+    public List<InboundStatusVO> getInboundDetail(int warehouseId) {
         return inboundRepo.getInboundDetailList(warehouseId).orElseThrow(
                 () -> new IllegalArgumentException("e")
         );
