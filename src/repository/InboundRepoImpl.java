@@ -89,7 +89,7 @@ public class InboundRepoImpl implements InboundRepo {
             cs.setInt(1, inboundId);
             conn.commit();
             //입고완료가 안되면 오류
-            return cs.execute();
+            return cs.executeUpdate() > 0;
             //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);

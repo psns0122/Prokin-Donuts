@@ -2,7 +2,6 @@ package controller;
 
 import common.inbound.InboundText;
 import common.util.InputUtil;
-import common.util.LoginUtil;
 import common.util.MenuUtil;
 import dto.inbound.ProductDTO;
 import repository.InboundRepoImpl;
@@ -15,11 +14,11 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class InboundControllerImpl implements InboundController {
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         InboundControllerImpl inboundController = new InboundControllerImpl(new InboundServiceImpl(new InboundRepoImpl()));
         inboundController.warehouseManager(1);
-        inboundController.Headquarters();
-    }*/
+        //inboundController.Headquarters();
+    }
 
     private final InboundService inboundService;
 
@@ -37,18 +36,18 @@ public class InboundControllerImpl implements InboundController {
     /**
      * 창고 관리자 호출
      */
-    public void warehouseManager() {
-        int warehouseId = getWarehouseId(LoginUtil.getLoginMember().getMemberNo());
+    public void warehouseManager(int warehouseId) {
+        //int warehouseId = getWarehouseId(LoginUtil.getLoginMember().getMemberNo());
         while (true) {
             printWmMenu(); //창고 관리자 메뉴 출력
             Map<Integer, Runnable> menuActions = new HashMap<>();
-            menuActions.put(1, () -> inspect(warehouseId));
-            menuActions.put(2, () -> request(warehouseId));
-            menuActions.put(3, () -> inboundUpdate(warehouseId));
-            menuActions.put(4, () -> inboundDelete(warehouseId));
-            menuActions.put(5, () -> receipt(warehouseId));
-            menuActions.put(6, () -> Status(warehouseId));
-            MenuUtil.handleMenuSelection("메뉴 선택 (숫자 입력, 종료: exit): ", menuActions);
+            menuActions.put(1, () -> inspectInbound(warehouseId));
+            menuActions.put(2, () -> requestInbound(warehouseId));
+            menuActions.put(3, () -> updateInbound(warehouseId));
+            menuActions.put(4, () -> deleteInbound(warehouseId));
+            menuActions.put(5, () -> printRecepit(warehouseId));
+            menuActions.put(6, () -> InboundStatus(warehouseId));
+            MenuUtil.handleMenuSelection(InboundText.MENU_CHOICE.getText(), menuActions);
         }
     }
 
@@ -56,7 +55,7 @@ public class InboundControllerImpl implements InboundController {
      * 창고 관리자의 메뉴
      */
     private static void printWmMenu() {
-        System.out.println(InboundText.MENU_HEADER.getText());
+        System.out.println(InboundText.WM_MENU_HEADER.getText());
         System.out.println(InboundText.MENU.getText());
         System.out.println(InboundText.MENU_BOTTOM.getText());
     }
@@ -65,12 +64,9 @@ public class InboundControllerImpl implements InboundController {
      * 창고 관리자의 입고 검수 기능
      * inspect, printInboundList
      */
-    private void inspect(int warehouseId) {
+    private void inspectInbound(int warehouseId) {
         try {
-            // 입고 승인 상태인 입고요청을 출력한다.
             printInboundList(warehouseId);
-            //승인 할 입고 ID를 입력하면 해당 입고 ID는 (승인 -> 완료) 상태로 변경되며
-            // Trigger 를 통해 재고에 반영된다.
             selectInboundId();
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -79,23 +75,23 @@ public class InboundControllerImpl implements InboundController {
 
     /**
      * 입고 승인 상태인 입고요청을 출력
-     * (입고 승인 상태인 입고 요청 출력 테스트 완료)
-     * (입고 상태 변경 (승인 -> 완료) 테스트 완료)
-     *
      * @param warehouseId
      */
     private void printInboundList(int warehouseId) {
         List<InboundVO> list = inboundService.getApprovalInboundList(warehouseId);
         list.forEach(System.out::println);
-
     }
 
+    /**
+     * 승인 할 입고 ID를 입력하면 해당 입고 ID는 (승인 -> 완료) 상태로 변경되며
+     * Trigger 를 통해 재고에 반영된다.
+     */
     private void selectInboundId() {
         int inboundId = InputUtil.getIntegerInput(InboundText.COMPLETE_INBOUND.getText());
         boolean check = inboundService.completedInbound(inboundId); // 입고 ID 상태 (승인 -> 완료)
         if(check) System.out.println(InboundText.COMPLETE_TEXT.getText());
         else {
-            System.out.println("입고를 완료할 수 없습니다.");
+            System.out.println(InboundText.ERROR_COMPLETE_TEXT.getText());
         }
     }
 
@@ -108,7 +104,7 @@ public class InboundControllerImpl implements InboundController {
      * 4. 모두 선택하면 List 로 담아서 저장
      * 5. 저장 시 입고 테이블(테스트 완료), 입고 상세 테이블에 각각 저장
      */
-    private void request(int warehouseId) {
+    private void requestInbound(int warehouseId) {
         List<InboundDetailVO> list = new ArrayList<>();
         // 상품 메뉴 출력
         printProductMenu();
@@ -161,7 +157,7 @@ public class InboundControllerImpl implements InboundController {
      * 입고 요청 수정
      * --> 추후 개발 예정
      */
-    private void inboundUpdate(int warehouseId) {
+    private void updateInbound(int warehouseId) {
     }
 
 
@@ -173,7 +169,7 @@ public class InboundControllerImpl implements InboundController {
      * 4. 취소 가능하면 삭제 / 취소 불가능하면 불가능하다 안내 (테스트 완료)
      * Refactoring -> 기능 별로 메서드 추출 예정
      */
-    private void inboundDelete(int warehouseId) {
+    private void deleteInbound(int warehouseId) {
         // 입고 요청 리스트 출력(요청, 승인 상태인 경우에만 가능)
         printDeleteList(warehouseId);
 
@@ -199,7 +195,7 @@ public class InboundControllerImpl implements InboundController {
     /**
      * 입고 고지서 출력 (테스트 완료)
      */
-    private void receipt(int warehouseId) {
+    private void printRecepit(int warehouseId) {
         // 입고 요청, 승인 상태인 입고고지서를 가져와 출력한다.
         List<InboundVO> list = inboundService.getInboundList(warehouseId);
         list.forEach(System.out::println);
@@ -210,7 +206,7 @@ public class InboundControllerImpl implements InboundController {
      * 창고 관리자 입고 현황 조회
      * (입고 상세 정보 출력)
      */
-    private void Status(int warehouseId) {
+    private void InboundStatus(int warehouseId) {
         List<InboundStatusVO> list = inboundService.getInboundDetail(warehouseId);
         list.forEach(System.out::println);
         System.out.println();
@@ -238,7 +234,7 @@ public class InboundControllerImpl implements InboundController {
      */
     private void approved() {
         // 입고 '요청'상태인 입고요청 리스트 출력
-        System.out.println(InboundText.MENU_HEADER.getText());
+        System.out.println(InboundText.HQ_MENU_HEADER.getText());
         List<InboundVO> list = inboundService.getInboundRequest();
         list.forEach(System.out::println);
         System.out.println(InboundText.MENU_BOTTOM.getText());
@@ -253,7 +249,7 @@ public class InboundControllerImpl implements InboundController {
      */
     private void printInbound() {
         int warehouseId = InputUtil.getIntegerInput("고지서를 출력할 창고 ID를 입력하세요.");
-        receipt(warehouseId);
+        printRecepit(warehouseId);
     }
 
 }
