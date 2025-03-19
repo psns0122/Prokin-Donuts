@@ -2,7 +2,7 @@ package controller;
 
 public interface FranchiseController {
     /** 가맹점 관리 메뉴 출력 */
-    void showFranchiseMenu();
+    void showFranchiseMenu(int authorityId);
 
     /** 가맹점 등록 */
     void insertFranchise();

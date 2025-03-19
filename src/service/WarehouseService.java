@@ -1,22 +1,35 @@
 package service;
 
+import dto.InventoryDTO;
 import dto.warehouse.WarehouseDTO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface WarehouseService {
     /** 창고 등록 */
-    boolean insertWarehouse(WarehouseDTO warehouse);
+    String insertWarehouse(WarehouseDTO warehouse);
 
     /** 창고 수정 */
-    boolean updateWarehouse(WarehouseDTO warehouse);
+    String updateWarehouse(WarehouseDTO warehouse);
 
     /** 창고 삭제 */
-    boolean deleteWarehouse(WarehouseDTO warehouse);
+    String deleteWarehouse(int warehouseId);
 
-    /** 전체 창고 조회 */
-    ArrayList<WarehouseDTO> viewWarehouses();
+    /**
+     * 전체 창고 조회
+     */
+    List<WarehouseDTO> viewWarehouses();
 
     /** 소재지별 창고 조회 */
-    ArrayList<WarehouseDTO> viewWarehousesByLocation(String location);
+    List<WarehouseDTO> viewWarehousesByLocation(String location);
+
+    /** 내 창고 조회 */
+    List<WarehouseDTO> viewMyWarehouses();
+
+
+    /** 내 창고 재고 조회 */
+    List<InventoryDTO> viewMyWarehousesInventory();
+
+
 }
