@@ -17,7 +17,7 @@ public class InventoryControllerImpl implements InventoryController {
 
     @Override
     public void showInventoryMenu(int amount) {
-        System.out.print(InventoryText.MENU_HEADER.getText());
+        System.out.println(InventoryText.MENU_HEADER.getText());
         System.out.println(InventoryText.SHOW_INVENTORY.getText());
         this.inventoryService.getAllInventory().forEach(System.out::println);
     }

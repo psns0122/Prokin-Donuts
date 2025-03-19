@@ -49,6 +49,8 @@ public class MainController {
     }
 
     public void run() {
+        inventoryController.showInventoryMenu(1);
+
         while (true) {
             // 로그인 메뉴        loginController.loginPlay();
 

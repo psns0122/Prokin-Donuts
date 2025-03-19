@@ -10,7 +10,7 @@ import java.util.List;
 public class InventoryRepoImpl implements InventoryRepo {
     @Override
     public List<InventoryDTO> getAllInventory() {
-        String sql = "SELECT * FROM Inventory";
+        String sql = "SELECT * FROM Inventory;";
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
