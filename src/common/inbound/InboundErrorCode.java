@@ -4,7 +4,7 @@ package common.inbound;
     예외 처리에 사용되는 에러 발생 text를 미리 정의하는 enum 클래스입니다.
  */
 public enum InboundErrorCode {
-    DB_INSERT_ERROR("[DB]: 정보를 저장할 수 없습니다."),
+    DATE_FORMATTER("[올바른 날짜를 입력하세요] ex) 2025-03-21"),
 
     NUMBER_NOT_FOUND("[Service]: 직원 번호를 찾을 수 없습니다");
 

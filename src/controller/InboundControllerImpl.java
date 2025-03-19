@@ -97,8 +97,9 @@ public class InboundControllerImpl implements InboundController {
 
     /**
      * 입고 요청 등록
+     * getInboundList
      * ProductId의 보관타입에 따라 냉장->1, 냉동->2, 실온->3
-     * 1. 입고 요청시 필요한 상품 메뉴 출력 (테스트 완료)
+     * 1. 입고 요청시 필요한 상품 메뉴 출력
      * 2. 입고를 신청할 상품의 상품 ID, 수량을 선택  + 날짜 선택
      * 3. 상품 보관타입에 따라 섹션 ID 저장
      * 4. 모두 선택하면 List 로 담아서 저장
@@ -108,23 +109,9 @@ public class InboundControllerImpl implements InboundController {
         List<InboundDetailVO> list = new ArrayList<>();
         // 상품 메뉴 출력
         printProductMenu();
-        // 다음 입고 번호를 가져오는 기능  // 테스트 완료
+        // 다음 입고 번호를 가져오는 기능
         int inboundId = inboundService.getNextInboundId() + 1;
-        // Refactoring 필요 !
-        while (true) {
-            // 입고할 상품과 수량 선택
-            int productId = InputUtil.getIntegerInput(InboundText.PRODUCT_ID.getText());
-            int quantity = InputUtil.getIntegerInput(InboundText.QUANTITY.getText());
-            InboundDetailVO inboundDetailVO = InboundDetailVO.builder()
-                    .productId(productId)
-                    .inboundId(inboundId)
-                    .quantity(quantity)
-                    .sectionId(inboundService.getStoredType(productId))
-                    .build();
-            list.add(inboundDetailVO);
-            int end = InputUtil.getIntegerInput(InboundText.SELECT_STOP.getText());
-            if (end == 0) break;
-        }
+        getInboundList(inboundId, list);
 
         //날짜 선택 InputUtil 작성  2025-03-18 형식
         LocalDate date = InputUtil.getDate(InboundText.INBOUND_DATE.getText());
@@ -141,6 +128,28 @@ public class InboundControllerImpl implements InboundController {
         inboundService.registerDetailInfo(list);
         // 입고, 입고요청 상세 등록 완료되면 성공 !
         System.out.println("성공");
+    }
+
+    /**
+     * 입고받은 상품 목록 반환 하는 기능
+     * @param inboundId
+     * @param list
+     */
+    private void getInboundList(int inboundId, List<InboundDetailVO> list) {
+        while (true) {
+            // 입고할 상품과 수량 선택
+            int productId = InputUtil.getIntegerInput(InboundText.PRODUCT_ID.getText());
+            int quantity = InputUtil.getIntegerInput(InboundText.QUANTITY.getText());
+            InboundDetailVO inboundDetailVO = InboundDetailVO.builder()
+                    .productId(productId)
+                    .inboundId(inboundId)
+                    .quantity(quantity)
+                    .sectionId(inboundService.getStoredType(productId))
+                    .build();
+            list.add(inboundDetailVO);
+            int end = InputUtil.getIntegerInput(InboundText.SELECT_STOP.getText());
+            if (end == 0) break;
+        }
     }
 
     /**
