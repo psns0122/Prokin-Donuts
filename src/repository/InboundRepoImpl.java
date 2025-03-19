@@ -22,6 +22,7 @@ public class InboundRepoImpl implements InboundRepo {
 
     /**
      * 창고관리자 작업시 필요한 창고ID를 loginUtil에 있는 멤버 ID로 가져온다.
+     *
      * @param memberId
      * @return warehouseId
      */
@@ -66,9 +67,7 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(inboundVO);
             }
-            //DBUtil.closeQuietly(rs, cs, conn);
-            return Optional.ofNullable(list);
-
+            return list.isEmpty() ? Optional.empty() : Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException("[DB] 오류 발생");
         }
@@ -121,8 +120,7 @@ public class InboundRepoImpl implements InboundRepo {
                         .build();
                 list.add(productDTO);
             }
-            //DBUtil.closeQuietly(rs, cs, conn);
-            return Optional.of(list);
+            return list.isEmpty() ? Optional.empty() : Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -322,6 +320,7 @@ public class InboundRepoImpl implements InboundRepo {
 
     /**
      * 창고 관리자 입고 현황 조회
+     *
      * @param warehouseId
      * @return
      */
@@ -485,7 +484,6 @@ public class InboundRepoImpl implements InboundRepo {
             else if (storedType.equals("냉동")) return Optional.of(2);
             else return Optional.of(3);
 
-            //DBUtil.closeQuietly(rs, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

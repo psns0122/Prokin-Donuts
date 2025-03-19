@@ -28,7 +28,7 @@ public class InboundStatusVO {
                 ", 창고Id: " + warehouseId +
                 ", 섹션Id: " + sectionId +
                 ", 입고날짜: " + inboundDate +
-                ", 입고상태: " + status + '\'' +
+                ", 입고상태: " + status  +
                 ", 수량: " + quantity +
                 ']';
     }

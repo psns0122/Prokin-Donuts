@@ -37,18 +37,23 @@ public class InboundControllerImpl implements InboundController {
      * 창고 관리자 호출
      */
     public void warehouseManager(int warehouseId) {
-        //int warehouseId = getWarehouseId(LoginUtil.getLoginMember().getMemberNo());
-        while (true) {
-            printWmMenu(); //창고 관리자 메뉴 출력
-            Map<Integer, Runnable> menuActions = new HashMap<>();
-            menuActions.put(1, () -> inspectInbound(warehouseId));
-            menuActions.put(2, () -> requestInbound(warehouseId));
-            menuActions.put(3, () -> updateInbound(warehouseId));
-            menuActions.put(4, () -> deleteInbound(warehouseId));
-            menuActions.put(5, () -> printRecepit(warehouseId));
-            menuActions.put(6, () -> InboundStatus(warehouseId));
-            MenuUtil.handleMenuSelection(InboundText.MENU_CHOICE.getText(), menuActions);
+        try {
+            while (true) {
+                printWmMenu(); //창고 관리자 메뉴 출력
+                Map<Integer, Runnable> menuActions = new HashMap<>();
+                menuActions.put(1, () -> inspectInbound(warehouseId));
+                menuActions.put(2, () -> requestInbound(warehouseId));
+                menuActions.put(3, () -> updateInbound(warehouseId));
+                menuActions.put(4, () -> deleteInbound(warehouseId));
+                menuActions.put(5, () -> printRecepit(warehouseId));
+                menuActions.put(6, () -> InboundStatus(warehouseId));
+                MenuUtil.handleMenuSelection(InboundText.MENU_CHOICE.getText(), menuActions);
+            }
+        } catch(IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
+        //int warehouseId = getWarehouseId(LoginUtil.getLoginMember().getMemberNo());
+
     }
 
     /**
@@ -105,7 +110,7 @@ public class InboundControllerImpl implements InboundController {
      * 4. 모두 선택하면 List 로 담아서 저장
      * 5. 저장 시 입고 테이블(테스트 완료), 입고 상세 테이블에 각각 저장
      */
-    private void requestInbound(int warehouseId) {
+    private void requestInbound(int warehouseId) throws IllegalArgumentException{
         List<InboundDetailVO> list = new ArrayList<>();
         // 상품 메뉴 출력
         printProductMenu();
@@ -156,7 +161,7 @@ public class InboundControllerImpl implements InboundController {
      * [입고 요청 등록]
      * 상품 메뉴 출력
      */
-    private void printProductMenu() {
+    private void printProductMenu() throws IllegalArgumentException{
         List<ProductDTO> list = inboundService.getProductMenu();
         list.forEach(System.out::println);
         System.out.println();

@@ -1,6 +1,7 @@
 package service;
 
 
+import common.inbound.InboundErrorCode;
 import dto.inbound.InboundDTO;
 
 import dto.inbound.ProductDTO;
@@ -41,9 +42,8 @@ public class InboundServiceImpl implements InboundService {
     @Override
     public List<InboundVO> getApprovalInboundList(int warehouseId) throws IllegalArgumentException{
         return inboundRepo.findByApprovedStatus(warehouseId).orElseThrow(
-                () -> new IllegalArgumentException("입고를 검수할 입고요청이 존재하지 않습니다.")
+                () -> new IllegalArgumentException(InboundErrorCode.NOT_FOUND_LIST.getText())
         );
-
     }
 
     /**
@@ -60,9 +60,9 @@ public class InboundServiceImpl implements InboundService {
      * @return 상품 리스트
      */
     @Override
-    public List<ProductDTO> getProductMenu() {
+    public List<ProductDTO> getProductMenu() throws IllegalArgumentException{
         return inboundRepo.getProductInfo().orElseThrow(
-                () -> new IllegalArgumentException("~~")
+                () -> new IllegalArgumentException(InboundErrorCode.NOT_FOUND_PRODUCT_LIST.getText())
         );
     }
 
@@ -84,10 +84,15 @@ public class InboundServiceImpl implements InboundService {
         inboundRepo.registerInboundDetailInfo(inboundList);
     }
 
+    /**
+     * 상품 보관 타입 반환
+     * @param productId
+     * @return
+     */
     @Override
-    public int getStoredType(int productId) {
+    public int getStoredType(int productId) throws IllegalArgumentException{
         return inboundRepo.getStoredType(productId).orElseThrow(
-                () -> new IllegalArgumentException("e")
+                () -> new IllegalArgumentException(InboundErrorCode.NOT_FOUND_TYPE.getText())
         );
     }
 
