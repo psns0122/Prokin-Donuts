@@ -2,7 +2,7 @@ package controller;
 
 public interface InboundController {
 
-    void warehouseManager();
+    void warehouseManager(int warehouseId);
 
     void Headquarters();
 }
