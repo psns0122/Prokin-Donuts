@@ -3,12 +3,14 @@ package vo.inbound;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
 @Builder
+@ToString
 /** 입고 테이블 */
 public class InboundVO {
     /** 입고 아이디 */
