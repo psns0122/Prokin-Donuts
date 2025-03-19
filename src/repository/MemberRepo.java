@@ -96,4 +96,6 @@ public interface MemberRepo {
     Optional<List<MemberRequestDTO>> loadRequestMemberall();
 
     Optional<String> RequestMember(String id);
+
+    public Optional<MemberRequestDTO> insertRequestMember(MemberRequestDTO member);
 }
