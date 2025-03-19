@@ -8,9 +8,9 @@ import lombok.Getter;
 /** 최소발주량 테이블 */
 public class MinOrderVO {
     /** 가맹점 아이디 */
-    private String franchiseId;
+    private int franchiseId;
     /** 도넛 최소발주량 */
-    private String dountMinOrder;
+    private int dountMinOrder;
     /** 도넛 외 최소발주량 */
-    private String etcMinOrder;
+    private int etcMinOrder;
 }
