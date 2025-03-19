@@ -1,3 +1,5 @@
+package dto.orderDTO;
+
 public class PendingInventoryComparisonDTO {
     private String productId;
     private int inventoryQuantity;

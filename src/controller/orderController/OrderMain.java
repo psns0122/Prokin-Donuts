@@ -1,9 +1,29 @@
+package controller.orderController;
+
+import common.util.InputUtil;
+import common.util.MenuUtil;
+import dto.orderDTO.OrderDTO;
+import dto.orderDTO.OrderItemDTO;
+import dto.orderDTO.OrderStatisticsDTO;
+import dto.orderDTO.PendingInventoryComparisonDTO;
+import repository.InventoryRepo;
+import repository.InventoryRepoImpl;
+import repository.orderRepo.OrderRepo;
+import repository.orderRepo.OrderRepoImpl;
+import repository.outboundRepo.OutboundRepo;
+import repository.outboundRepo.OutboundRepoImpl;
+import service.orderService.OrderService;
+import service.orderService.OrderServiceImpl;
+import service.outboundService.OutboundService;
+import service.outboundService.OutboundServiceImpl;
+import vo.orderVO.OrderDetailVO;
+import vo.orderVO.OrderVO;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Calendar;
 import java.util.Date;
 
-public class OrderCLI {
+public class OrderMain {
     private static OrderController controller;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private static final String LINE = "========================================";
@@ -16,15 +36,20 @@ public class OrderCLI {
     }
 
     private static void initController() {
-        OrderService service = new OrderServiceImpl();
+        // 의존성 주입을 통한 OrderService 생성
+        OrderRepo orderRepo = new OrderRepoImpl();
+        InventoryRepo inventoryRepo = new InventoryRepoImpl();
+        OutboundRepo outboundRepo = new OutboundRepoImpl();
+        OutboundService outboundService = new OutboundServiceImpl(inventoryRepo, orderRepo, outboundRepo);
+        OrderService service = new OrderServiceImpl(orderRepo, inventoryRepo, outboundService);
         controller = new OrderControllerImpl(service);
     }
 
     private static void showMainMenu() {
         Map<Integer, Runnable> mainMenuActions = new HashMap<>();
-        mainMenuActions.put(1, OrderCLI::handleStoreManager);
-        mainMenuActions.put(2, OrderCLI::handleHeadquarters);
-        mainMenuActions.put(3, OrderCLI::handleWarehouseManager);
+        mainMenuActions.put(1, OrderMain::handleStoreManager);
+        mainMenuActions.put(2, OrderMain::handleHeadquarters);
+        mainMenuActions.put(3, OrderMain::handleWarehouseManager);
         mainMenuActions.put(4, () -> {
             System.out.println("시스템을 종료합니다.");
             System.exit(0);
@@ -43,8 +68,8 @@ public class OrderCLI {
     /* ===== 점장 메뉴 ===== */
     private static void handleStoreManager() {
         Map<Integer, Runnable> menuActions = new HashMap<>();
-        menuActions.put(1, OrderCLI::submitOrder);
-        menuActions.put(2, OrderCLI::storeManagerCheckOrders);
+        menuActions.put(1, OrderMain::submitOrder);
+        menuActions.put(2, OrderMain::storeManagerCheckOrders);
         menuActions.put(3, () -> showStoreManagerDetailedStatistics(getLastMonthYear(), getLastMonth()));
         menuActions.put(4, () -> showStoreManagerDetailedStatistics(getCurrentYear(), getCurrentMonth()));
         menuActions.put(5, () -> {}); // 로그아웃
@@ -119,8 +144,8 @@ public class OrderCLI {
             if (productInput.equalsIgnoreCase("save")) break;
             OrderItemDTO existing = findOrderItemByProductId(items, productInput);
             if (existing != null) {
-                String modify = getInputOrExit("이미 상품 " + productInput + "이 입력되어 있습니다. 수량 "
-                        + existing.getOrderQuantity() + "개 등록됨. 수정하시겠습니까? (y/Y 입력): ");
+                String modify = getInputOrExit("이미 상품 " + productInput + "이 입력되어 있습니다. 수량 " +
+                        existing.getOrderQuantity() + "개 등록됨. 수정하시겠습니까? (y/Y 입력): ");
                 if (modify.equalsIgnoreCase("y")) {
                     int newQuantity = Integer.parseInt(getInputOrExit("새로운 발주 수량 입력: "));
                     items.remove(existing);
@@ -161,7 +186,7 @@ public class OrderCLI {
     private static void handleHeadquarters() {
         showHeadquarterDashboard();
         Map<Integer, Runnable> menuActions = new HashMap<>();
-        menuActions.put(1, OrderCLI::headquarterCheckAndApproveOrders);
+        menuActions.put(1, OrderMain::headquarterCheckAndApproveOrders);
         menuActions.put(2, () -> {}); // 로그아웃
         System.out.println("\n" + LINE);
         System.out.printf("%-40s%n", "--- 본사 메뉴 ---");
@@ -237,9 +262,9 @@ public class OrderCLI {
     private static void handleWarehouseManager() {
         showWarehouseDashboard();
         Map<Integer, Runnable> menuActions = new HashMap<>();
-        menuActions.put(1, OrderCLI::warehouseOrderDetailInquiry);
-        menuActions.put(2, OrderCLI::warehouseDashboardRefresh);
-        menuActions.put(3, OrderCLI::pendingOrderInquiry);
+        menuActions.put(1, OrderMain::warehouseOrderDetailInquiry);
+        menuActions.put(2, OrderMain::warehouseDashboardRefresh);
+        menuActions.put(3, OrderMain::pendingOrderInquiry);
         menuActions.put(4, () -> {}); // 로그아웃
         System.out.println("\n" + LINE);
         System.out.printf("%-40s%n", "--- 창고 관리자 메뉴 ---");

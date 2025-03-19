@@ -1,3 +1,10 @@
+package service.orderService;
+
+import dto.orderDTO.OrderDTO;
+import dto.orderDTO.OrderStatisticsDTO;
+import dto.orderDTO.PendingInventoryComparisonDTO;
+import vo.orderVO.OrderDetailVO;
+import vo.orderVO.OrderVO;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +20,6 @@ public interface OrderService {
     List<OrderVO> getOrdersByDate(String date);
     List<OrderVO> getOrdersByDateRange(String startDate, String endDate);
     OrderStatisticsDTO getOrderStatisticsByFranchiseAndMonth(String franchiseId, int year, int month);
-    Map<String, PendingInventoryComparisonDTO> getPendingInventoryComparisons();
     OrderStatisticsDTO getLastMonthOrderStatistics(String franchiseId);
+    Map<String, PendingInventoryComparisonDTO> getPendingInventoryComparisons();
 }

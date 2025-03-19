@@ -1,3 +1,5 @@
+package dto.orderDTO;
+
 import java.util.Map;
 
 public class OrderStatisticsDTO {

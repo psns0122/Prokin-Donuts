@@ -1,3 +1,8 @@
+package repository.orderRepo;
+
+import dto.orderDTO.OrderStatisticsDTO;
+import vo.orderVO.OrderDetailVO;
+import vo.orderVO.OrderVO;
 import java.util.List;
 import java.util.Map;
 
@@ -13,4 +18,5 @@ public interface OrderRepo {
     List<OrderVO> findOrdersByDateRange(String startDate, String endDate);
     OrderStatisticsDTO getOrderStatisticsByFranchiseAndMonth(String franchiseId, int year, int month);
     Map<String, Integer> getPendingOrderQuantities();
+    OrderStatisticsDTO getLastMonthOrderStatistics(String franchiseId);
 }
