@@ -129,7 +129,7 @@ public class MemberRepoImpl implements MemberRepo {
 
     //회원 승인 메서드
     @Override
-    public boolean approvalMember(String memberId) {
+    public  Optional<String> approvalMember(String memberId) {
         conn = DBUtil.getConnection();
 
         try {
@@ -139,12 +139,12 @@ public class MemberRepoImpl implements MemberRepo {
             cs.setString(1, memberId);
             int rs = cs.executeUpdate();
 
-            if (rs > 0) return true;
-            else return false;
+            if (rs > 0) return Optional.of(memberId);
+            else Optional.empty();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return Optional.empty();
     }
 
     //회원 검색 메서드
@@ -281,9 +281,8 @@ public class MemberRepoImpl implements MemberRepo {
             rs = cs.executeQuery();
             while (rs.next()) {
                 MemberRequestDTO MemberReauestDTO = new MemberRequestDTO();
-                MemberReauestDTO.setAuthorityId(rs.getInt("authorityId"));
                 MemberReauestDTO.setName(rs.getString("name"));
-                MemberReauestDTO.setPhoneNumber(rs.getString("phoneNumber"));
+                MemberReauestDTO.setPhoneNumber(rs.getString("phonNumber"));
                 MemberReauestDTO.setEmail(rs.getString("email"));
                 MemberReauestDTO.setAddress(rs.getString("address"));
                 MemberReauestDTO.setId(rs.getString("id"));
@@ -291,6 +290,7 @@ public class MemberRepoImpl implements MemberRepo {
                 MemberReauestDTO.setRequest(rs.getString("request"));
                 allLoadRequestMemberList.add(MemberReauestDTO);
             }
+            return Optional.of(allLoadRequestMemberList);
         } catch (SQLException e) {
             e.printStackTrace();
         }
