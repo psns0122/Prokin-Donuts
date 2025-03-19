@@ -6,22 +6,21 @@ public class MainController {
     InventoryController inventoryController;
     MemberController memberController;
     OrderController orderController;
-//    OutboundController outboundController;
     WarehouseController warehouseController;
+    LoginController loginController;
 
-
-    public MainController(InboundController inboundController, FranchiseController franchiseController, InventoryController inventoryController, MemberController memberController, OrderController orderController, WarehouseController warehouseController) {
-
+    public MainController(InboundController inboundController, FranchiseController franchiseController, InventoryController inventoryController, MemberController memberController, OrderController orderController, WarehouseController warehouseController, LoginController loginController) {
         this.inboundController = inboundController;
         this.franchiseController = franchiseController;
         this.inventoryController = inventoryController;
         this.memberController = memberController;
         this.orderController = orderController;
-//        this.outboundController = outboundController;
         this.warehouseController = warehouseController;
+        this.loginController = loginController;
     }
 
     public void run() {
+        loginController.MainMenu();
 
 
     }
