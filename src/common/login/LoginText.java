@@ -19,7 +19,6 @@ public enum LoginText {
     /*회원가입*/
     REQUEST_HEADER("=== 회원 가입 ==="),
     REQUEST("등록할 "),
-    REQUEST_FN("등록할 가맹점ID : "),
     REQUEST_SUCCESS("회원 가입 신청성공"),
 
     /*아이디 찾기 */
