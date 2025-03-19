@@ -8,9 +8,10 @@ public class MainController {
     OrderController orderController;
 //    OutboundController outboundController;
     WarehouseController warehouseController;
-    LoginController loginController;
+
 
     public MainController(InboundController inboundController, FranchiseController franchiseController, InventoryController inventoryController, MemberController memberController, OrderController orderController, WarehouseController warehouseController) {
+
         this.inboundController = inboundController;
         this.franchiseController = franchiseController;
         this.inventoryController = inventoryController;

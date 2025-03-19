@@ -12,8 +12,20 @@ public class OrderDetailVO {
         this.productId = productId;
         this.orderId = orderId;
     }
-    public int getOrderDetailId() { return orderDetailId; }
-    public int getOrderQuantity() { return orderQuantity; }
-    public String getProductId() { return productId; }
-    public String getOrderId() { return orderId; }
+
+    public int getOrderDetailId() {
+        return orderDetailId;
+    }
+
+    public int getOrderQuantity() {
+        return orderQuantity;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
 }

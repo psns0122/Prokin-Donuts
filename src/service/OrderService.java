@@ -1,4 +1,4 @@
-package service.orderService;
+package service;
 
 import dto.orderDTO.OrderDTO;
 import dto.orderDTO.OrderStatisticsDTO;

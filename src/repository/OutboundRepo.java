@@ -1,4 +1,4 @@
-package repository.outboundRepo;
+package repository;
 
 import vo.outboundVO.OutboundDetailVO;
 import vo.outboundVO.OutboundVO;

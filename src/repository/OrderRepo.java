@@ -1,4 +1,4 @@
-package repository.orderRepo;
+package repository;
 
 import dto.orderDTO.OrderStatisticsDTO;
 import vo.orderVO.OrderDetailVO;

@@ -2,15 +2,7 @@ package config;
 
 import controller.*;
 import repository.*;
-import repository.orderRepo.OrderRepo;
-import repository.orderRepo.OrderRepoImpl;
-import repository.outboundRepo.OutboundRepo;
-import repository.outboundRepo.OutboundRepoImpl;
 import service.*;
-import service.orderService.OrderService;
-import service.orderService.OrderServiceImpl;
-import service.outboundService.OutboundService;
-import service.outboundService.OutboundServiceImpl;
 
 public class DiConfig {
 
@@ -69,10 +61,9 @@ public class DiConfig {
     // 발주 controller
     private final OrderController orderController = new OrderControllerImpl(orderService);
     // 출고 controller
-//    private final OutboundController outboundController = new OutboundControllerImpl(outboundService);
+    //private final OutboundController outboundController = new OutboundControllerImpl(outboundService);
 
-
-    // 재고(창고) 의존성 주입
+    // 재고 의존성 주입
     //repo
     private final WarehouseRepo warehouseRepo = new WarehouseRepoImpl();
 
@@ -92,4 +83,5 @@ public class DiConfig {
                 warehouseController
         );
     }
+
 }
