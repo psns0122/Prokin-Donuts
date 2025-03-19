@@ -60,6 +60,7 @@ public class LoginControllerImpl implements LoginController{
                     String result = memberService.logIn(id, password);
                     LoginUtil.setLoginMember(loginMember);
                     System.out.println(LoginText.LOGIN_SUCCESS.getText());
+                    this.loginFlag = true;
                 }
             }
         }
