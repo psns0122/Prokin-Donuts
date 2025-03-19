@@ -123,11 +123,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderStatisticsDTO getLastMonthOrderStatistics(String franchiseId) {
-        return orderRepo.getLastMonthOrderStatistics(franchiseId);
-    }
-
-    @Override
     public Map<String, PendingInventoryComparisonDTO> getPendingInventoryComparisons() {
         Map<String, Integer> pendingMap = orderRepo.getPendingOrderQuantities();
         Map<String, PendingInventoryComparisonDTO> result = new HashMap<>();
@@ -138,5 +133,15 @@ public class OrderServiceImpl implements OrderService {
             result.put(productId, new PendingInventoryComparisonDTO(productId, inventoryQty, pendingQuantity));
         }
         return result;
+    }
+
+    @Override
+    public OrderStatisticsDTO getLastMonthOrderStatistics(String franchiseId) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.add(Calendar.MONTH, -1);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1;
+        return getOrderStatisticsByFranchiseAndMonth(franchiseId, year, month);
     }
 }

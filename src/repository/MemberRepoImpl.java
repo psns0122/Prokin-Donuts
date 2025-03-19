@@ -274,11 +274,11 @@ public class MemberRepoImpl implements MemberRepo {
         try {
             String sql = "{call logInOut(?)}";
             cs = conn.prepareCall(sql);
-            cs.setString(1, memberId);
-
+            cs.setString(1,memberId);
+          
             int rs = cs.executeUpdate();
-
-            if (rs > 0) return Optional.of(memberId);
+          
+            if(rs>0) return Optional.of(memberId);
             else return Optional.empty();
         } catch (SQLException e) {
             e.printStackTrace();

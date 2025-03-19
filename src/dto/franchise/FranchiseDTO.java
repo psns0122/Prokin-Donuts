@@ -1,9 +1,17 @@
 package dto.franchise;
 
-public class FranchiseDTO {
-    private int franchiseId;
-    private String franchiseLocation;
-    private int memberId;
+import lombok.*;
 
-    FranchiseDTO(int franchiseId, String franchiseLocation, int memberId) {}
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class FranchiseDTO {
+    /** 가맹점 아이디 */
+    private int franchiseId;
+    /** 가맹점 위치 */
+    private String franchiseLocation;
+    /** 회원번호 */
+    private int managerNo;
 }
