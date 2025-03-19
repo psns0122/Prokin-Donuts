@@ -16,12 +16,19 @@ public class FranchiseRepoImpl implements FranchiseRepo{
     CallableStatement cs = null;
     ResultSet rs = null;
 
-    public static void main(String[] args) {
-        FranchiseDTO franchise = new FranchiseDTO(5, "수원 영통구", 7);
-        String result = new FranchiseRepoImpl().insertFranchise(franchise)
-                .orElse(FranchiseErrorCode.DB_PROCEDURE_ERROR.getText());
-        System.out.println(FranchiseErrorCode.DB_ERROR.getText() + result);
-    }
+//    public static void main(String[] args) {
+//
+//        new FranchiseRepoImpl().showHaveNoFranchiseFM().ifPresent(System.out::println);
+//
+//        FranchiseDTO franchise = new FranchiseDTO(4, "수원 영통구", 75);
+//        ProductDTO product = new ProductDTO(101, "test", 9000, 1, "실온");
+//        ProductCategoryDTO productc = new ProductCategoryDTO(3, "xptmxm", "xptmxm" +
+//                "");
+//        String result = new FranchiseRepoImpl().insertProductCategory(productc)
+//                .orElse(FranchiseErrorCode.DB_PROCEDURE_ERROR.getText());
+//        System.out.println(FranchiseErrorCode.DB_ERROR.getText() + result);
+//
+//    }
 
     /**
      * [가맹점 등록 기능]
@@ -43,10 +50,9 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             cs.setInt(2, franchise.getManagerNo());
 
             // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
-            cs.registerOutParameter(3, java.sql.Types.INTEGER);
+            cs.registerOutParameter(3, java.sql.Types.VARCHAR);
 
             // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
-            cs.execute();
             String resultMSG = cs.getString(3);
 
             // resultMSG가 null이면 Optional.empty() 반환, 아니면 Optional.of(resultMSG) 반환
@@ -81,7 +87,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             cs.setInt(2, franchise.getManagerNo());
 
             // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
-            cs.registerOutParameter(3, java.sql.Types.INTEGER);
+            cs.registerOutParameter(3, java.sql.Types.VARCHAR);
 
             // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
             cs.execute();
@@ -119,7 +125,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             cs.setInt(1, franchiseId);
 
             // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
-            cs.registerOutParameter(2, java.sql.Types.INTEGER);
+            cs.registerOutParameter(2, java.sql.Types.VARCHAR);
 
             // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
             cs.execute();
@@ -150,34 +156,39 @@ public class FranchiseRepoImpl implements FranchiseRepo{
 
             cs = conn.prepareCall(sql);
 
-            // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
-            cs.registerOutParameter(1, java.sql.Types.INTEGER);
+            // OUT 파라미터 등록
+            cs.registerOutParameter(1, java.sql.Types.VARCHAR);
 
-            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
-            rs = cs.executeQuery();
-            String resultMSG = cs.getString(1);
+            // 프로시저 실행
+            boolean hasResult = cs.execute();
+            String resultMSG = cs.getString(1);  // OUT 파라미터 메시지 가져오기
 
             List<FranchiseDTO> loadFranchises = new ArrayList<>();
-            while (rs.next()){
-                FranchiseDTO franchise = new FranchiseDTO();
-                franchise.setFranchiseId(rs.getInt("franchiseId"));
-                franchise.setFranchiseLocation(rs.getString("managerNo"));
-                franchise.setManagerNo(rs.getInt("franchiseLocation"));
-                loadFranchises.add(franchise);
+            // 결과셋이 있는 경우 처리
+            if (hasResult) {
+                rs = cs.getResultSet();
+                while (rs.next()) {
+                    FranchiseDTO franchise = new FranchiseDTO();
+                    franchise.setFranchiseId(rs.getInt("franchiseId"));
+                    franchise.setFranchiseLocation(rs.getString("franchiseLocation"));
+                    franchise.setManagerNo(rs.getInt("memberNo"));
+                    loadFranchises.add(franchise);
+                }
             }
 
-            if (!loadFranchises.isEmpty()) {
-                return Optional.of(loadFranchises);
+            // 가맹점이 없을 경우 메시지 반환 (디버깅 용도)
+            if (loadFranchises.isEmpty()) {
+                System.out.println(FranchiseErrorCode.DB_ERROR.getText() + resultMSG);
             } else {
-                return Optional.of(Collections.emptyList());
+                return Optional.of(loadFranchises);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(null,cs,conn);
+            DBUtil.closeQuietly(rs,cs,conn);
         }
-        return Optional.empty();
+        return Optional.of(Collections.emptyList());
     }
 
     /**
@@ -199,25 +210,30 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             cs.setInt(1, franchiseId);
 
             // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
-            cs.registerOutParameter(2, java.sql.Types.INTEGER);
+            cs.registerOutParameter(2, java.sql.Types.VARCHAR);
 
-            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
-            rs = cs.executeQuery();
-            String resultMSG = cs.getString(2);
+            // 프로시저 실행
+            boolean hasResult = cs.execute();
+            String resultMSG = cs.getString(2);  // OUT 파라미터 메시지 가져오기
 
             List<FranchiseDTO> loadFranchises = new ArrayList<>();
-            while (rs.next()){
-                FranchiseDTO franchise = new FranchiseDTO();
-                franchise.setFranchiseId(rs.getInt("franchiseId"));
-                franchise.setFranchiseLocation(rs.getString("managerNo"));
-                franchise.setManagerNo(rs.getInt("franchiseLocation"));
-                loadFranchises.add(franchise);
+            // 결과셋이 있는 경우 처리
+            if (hasResult) {
+                rs = cs.getResultSet();
+                while (rs.next()) {
+                    FranchiseDTO franchise = new FranchiseDTO();
+                    franchise.setFranchiseId(rs.getInt("franchiseId"));
+                    franchise.setFranchiseLocation(rs.getString("franchiseLocation"));
+                    franchise.setManagerNo(rs.getInt("memberNo"));
+                    loadFranchises.add(franchise);
+                }
             }
 
-            if (!loadFranchises.isEmpty()) {
-                return Optional.of(loadFranchises);
+            // 가맹점이 없을 경우 메시지 반환 (디버깅 용도)
+            if (loadFranchises.isEmpty()) {
+                System.out.println(FranchiseErrorCode.DB_ERROR.getText() + resultMSG);
             } else {
-                return Optional.of(Collections.emptyList());
+                return Optional.of(loadFranchises);
             }
 
         } catch (SQLException e) {
@@ -225,7 +241,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } finally {
             DBUtil.closeQuietly(null,cs,conn);
         }
-        return Optional.empty();
+        return Optional.of(Collections.emptyList());
     }
 
     /**
@@ -243,31 +259,32 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             cs = conn.prepareCall(sql);
 
             // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
-            cs.registerOutParameter(1, java.sql.Types.INTEGER);
+            cs.registerOutParameter(1, java.sql.Types.VARCHAR);
 
-            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
-            rs = cs.executeQuery();
-            String resultMSG = cs.getString(1);
+            // 프로시저 실행
+            boolean hasResult = cs.execute();
+            String resultMSG = cs.getString(1);  // OUT 파라미터 메시지 가져오기
 
             List<MemberDTO> loadMemberList = new ArrayList<>();
-            while (rs.next()){
-                MemberDTO memberDTO = new MemberDTO();
-                memberDTO.setMemberNo(rs.getInt("memberNo"));
-                memberDTO.setAuthorityId(rs.getInt("authorityId"));
-                memberDTO.setName(rs.getString("name"));
-                memberDTO.setPhoneNumber(rs.getString("phoneNumber"));
-                memberDTO.setEmail(rs.getString("email"));
-                memberDTO.setAddress(rs.getString("address"));
-                memberDTO.setId(rs.getString("id"));
-                memberDTO.setPassword(rs.getString("password"));
-                memberDTO.setLogstatus(rs.getString("logstatus"));
-                loadMemberList.add(memberDTO);
+            // 결과셋이 있는 경우 처리
+            if (hasResult) {
+                rs = cs.getResultSet();
+                while (rs.next()) {
+                    MemberDTO memberDTO = new MemberDTO();
+                    memberDTO.setMemberNo(rs.getInt("memberNo"));
+                    memberDTO.setName(rs.getString("name"));
+                    memberDTO.setPhoneNumber(rs.getString("phoneNumber"));
+                    memberDTO.setEmail(rs.getString("email"));
+                    memberDTO.setAddress(rs.getString("address"));
+                    loadMemberList.add(memberDTO);
+                }
             }
 
-            if (!loadMemberList.isEmpty()) {
-                return Optional.of(loadMemberList);
+            // 가맹점이 없을 경우 메시지 반환 (디버깅 용도)
+            if (loadMemberList.isEmpty()) {
+                System.out.println(FranchiseErrorCode.DB_ERROR.getText() + resultMSG);
             } else {
-                return Optional.of(Collections.emptyList());
+                return Optional.of(loadMemberList);
             }
 
         } catch (SQLException e) {
@@ -275,7 +292,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } finally {
             DBUtil.closeQuietly(null,cs,conn);
         }
-        return Optional.empty();
+        return Optional.of(Collections.emptyList());
     }
 
     /**
@@ -300,7 +317,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             cs.setString(4, productDTO.getProductType());
 
             // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
-            cs.registerOutParameter(5, java.sql.Types.INTEGER);
+            cs.registerOutParameter(5, java.sql.Types.VARCHAR);
 
             // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
             cs.execute();
@@ -320,7 +337,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
     /**
      * [카테고리 등록 기능]
      * 본사관리자가 새로운 카테고리를 등록
-     *
+     * TODO: 카테고리 등록시 체크값도 수정되도록
      * @param productCategoryDTO
      * @return
      */
@@ -338,7 +355,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             cs.setString(3, productCategoryDTO.getCategorySub());
 
             // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
-            cs.registerOutParameter(4, java.sql.Types.INTEGER);
+            cs.registerOutParameter(4, java.sql.Types.VARCHAR);
 
             // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
             cs.execute();
@@ -379,7 +396,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             cs.setString(1, productDTO.getProductType());
 
             // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
-            cs.registerOutParameter(6, java.sql.Types.INTEGER);
+            cs.registerOutParameter(6, java.sql.Types.VARCHAR);
 
             // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
             cs.execute();
@@ -416,7 +433,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             cs.setInt(1, productId);
 
             // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
-            cs.registerOutParameter(2, java.sql.Types.INTEGER);
+            cs.registerOutParameter(2, java.sql.Types.VARCHAR);
 
             // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
             cs.execute();
@@ -436,20 +453,95 @@ public class FranchiseRepoImpl implements FranchiseRepo{
     /**
      * [전체 제품 조회 기능]
      * 본사관리자는 전체 제품의 정보를 조회할 수 있다
+     *
      * @return
      */
     @Override
     public Optional<List<ProductDTO>> showAllProduct() {
-        return null;
+        try {
+            // p_franchiseLocation , p_memberNo
+            String sql = "{call GetAllProducts(?)}";
+
+            cs = conn.prepareCall(sql);
+
+            // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
+            cs.registerOutParameter(1, java.sql.Types.VARCHAR);
+
+            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
+            rs = cs.executeQuery();
+            String resultMSG = cs.getString(1);
+
+            List<ProductDTO> loadProduct = new ArrayList<>();
+            while (rs.next()){
+                ProductDTO product = new ProductDTO();
+                product.setProductId(rs.getInt("productId"));
+                product.setProductName(rs.getString("productName"));
+                product.setProductPrice(rs.getInt("productPrice"));
+                product.setCategoryId(rs.getInt("categoryId"));
+                product.setProductType(rs.getString("storedType"));
+                loadProduct.add(product);
+            }
+
+            if (!loadProduct.isEmpty()) {
+                return Optional.of(loadProduct);
+            } else {
+                return Optional.of(Collections.emptyList());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
+        return Optional.empty();
     }
 
     /**
      * [카테고리별 조회 기능]
      * 본사관리자는 카테고리별로 제품의 정보를 조회할 수 있다
+     *
      * @return
      */
     @Override
-    public Optional<Map<Integer, ProductDTO>> showAllProductByCategory() {
+    public Optional<List<ProductDTO>> showAllProductByCategory(int categoryId) {
+        try {
+            // p_franchiseLocation , p_memberNo
+            String sql = "{call GetProductsByCategory(?, ?)}";
+
+            cs = conn.prepareCall(sql);
+
+            // in 파라미터에 값 전달
+            cs.setInt(1, categoryId);
+
+            // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
+            cs.registerOutParameter(2, java.sql.Types.VARCHAR);
+
+            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
+            rs = cs.executeQuery();
+            String resultMSG = cs.getString(2);
+
+            List<ProductDTO> loadProduct = new ArrayList<>();
+            while (rs.next()){
+                ProductDTO product = new ProductDTO();
+                product.setProductId(rs.getInt("productId"));
+                product.setProductName(rs.getString("productName"));
+                product.setProductPrice(rs.getInt("productPrice"));
+                product.setCategoryId(rs.getInt("categoryId"));
+                product.setProductType(rs.getString("storedType"));
+                loadProduct.add(product);
+            }
+
+            if (!loadProduct.isEmpty()) {
+                return Optional.of(loadProduct);
+            } else {
+                return Optional.of(Collections.emptyList());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
         return Optional.empty();
     }
 
@@ -461,8 +553,47 @@ public class FranchiseRepoImpl implements FranchiseRepo{
      */
     @Override
     public Optional<List<ProductDTO>> showOneProduct(int productId) {
+        try {
+            // p_franchiseLocation , p_memberNo
+            String sql = "{call GetProductById(?, ?)}";
+
+            cs = conn.prepareCall(sql);
+
+            // in 파라미터에 값 전달
+            cs.setInt(1, productId);
+
+            // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
+            cs.registerOutParameter(2, java.sql.Types.VARCHAR);
+
+            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
+            rs = cs.executeQuery();
+            String resultMSG = cs.getString(2);
+
+            List<ProductDTO> loadProduct = new ArrayList<>();
+            while (rs.next()){
+                ProductDTO product = new ProductDTO();
+                product.setProductId(rs.getInt("productId"));
+                product.setProductName(rs.getString("productName"));
+                product.setProductPrice(rs.getInt("productPrice"));
+                product.setCategoryId(rs.getInt("categoryId"));
+                product.setProductType(rs.getString("storedType"));
+                loadProduct.add(product);
+            }
+
+            if (!loadProduct.isEmpty()) {
+                return Optional.of(loadProduct);
+            } else {
+                return Optional.of(Collections.emptyList());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
         return Optional.empty();
     }
+
 //
 //    /**
 //     * [전체 발주 기록 조회 기능]
@@ -483,26 +614,26 @@ public class FranchiseRepoImpl implements FranchiseRepo{
 //    public Optional<List<OrderDTO>> showAllOrderByFranchise() {
 //        return Optional.empty();
 //    }
-
-    /**
-     * [발주 요청 승인 기능]
-     * 본사관리자는 가맹점주의 발주요청을 승인할 수 있다
-     * @param orderId
-     * @return
-     */
-    @Override
-    public boolean approveOrder(int orderId) {
-        return false;
-    }
-
-    /**
-     * [발주 취소 승인]
-     * 본사관리자는 가맹점주의 발주취소요청을 승인할 수 있다
-     * @param orderId
-     * @return
-     */
-    @Override
-    public boolean approveOrderCancel(int orderId) {
-        return false;
-    }
+//
+//    /**
+//     * [발주 요청 승인 기능]
+//     * 본사관리자는 가맹점주의 발주요청을 승인할 수 있다
+//     * @param orderId
+//     * @return
+//     */
+//    @Override
+//    public boolean approveOrder(int orderId) {
+//        return false;
+//    }
+//
+//    /**
+//     * [발주 취소 승인]
+//     * 본사관리자는 가맹점주의 발주취소요청을 승인할 수 있다
+//     * @param orderId
+//     * @return
+//     */
+//    @Override
+//    public boolean approveOrderCancel(int orderId) {
+//        return false;
+//    }
 }

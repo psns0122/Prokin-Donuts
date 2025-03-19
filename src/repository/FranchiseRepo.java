@@ -6,7 +6,6 @@ import dto.franchise.ProductDTO;
 import dto.memberDTO.MemberDTO;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public interface FranchiseRepo {
@@ -85,7 +84,7 @@ public interface FranchiseRepo {
      * [카테고리별 조회 기능]
      * 본사관리자는 카테고리별로 제품의 정보를 조회할 수 있다
      */
-    Optional<Map<Integer, ProductDTO>> showAllProductByCategory();
+    Optional<List<ProductDTO>> showAllProductByCategory(int categoryId);
 
     /**
      * [제품 아이디로 조회 기능]
@@ -104,16 +103,16 @@ public interface FranchiseRepo {
 //     * 본사관리자는 가맹점별 발주 기록을 조회할 수 있다
 //     */
 //    Optional<List<OrderDTO>> showAllOrderByFranchise();
-
-    /**
-     * [발주 요청 승인 기능]
-     * 본사관리자는 가맹점주의 발주요청을 승인할 수 있다
-     */
-    boolean approveOrder(int orderId);
-
-    /**
-     * [발주 취소 승인]
-     * 본사관리자는 가맹점주의 발주취소요청을 승인할 수 있다
-     */
-    boolean approveOrderCancel(int orderId);
+//
+//    /**
+//     * [발주 요청 승인 기능]
+//     * 본사관리자는 가맹점주의 발주요청을 승인할 수 있다
+//     */
+//    boolean approveOrder(int orderId);
+//
+//    /**
+//     * [발주 취소 승인]
+//     * 본사관리자는 가맹점주의 발주취소요청을 승인할 수 있다
+//     */
+//    boolean approveOrderCancel(int orderId);
 }
