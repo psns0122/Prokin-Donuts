@@ -5,11 +5,11 @@ public class MainController {
     FranchiseController franchiseController;
     InventoryController inventoryController;
     MemberController memberController;
-    controller.orderController.OrderMain orderController;
+    OrderController orderController;
 //    OutboundController outboundController;
     WarehouseController warehouseController;
 
-    public MainController(InboundController inboundController, FranchiseController franchiseController, InventoryController inventoryController, MemberController memberController, controller.orderController.OrderMain orderController, WarehouseController warehouseController) {
+    public MainController(InboundController inboundController, FranchiseController franchiseController, InventoryController inventoryController, MemberController memberController, OrderController orderController, WarehouseController warehouseController) {
         this.inboundController = inboundController;
         this.franchiseController = franchiseController;
         this.inventoryController = inventoryController;

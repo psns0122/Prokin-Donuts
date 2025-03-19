@@ -1,4 +1,4 @@
-package controller.orderController;
+package controller;
 
 import dto.orderDTO.OrderDTO;
 import dto.orderDTO.OrderStatisticsDTO;

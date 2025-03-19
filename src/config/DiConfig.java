@@ -1,7 +1,6 @@
 package config;
 
 import controller.*;
-import controller.orderController.*;
 import repository.*;
 import repository.orderRepo.OrderRepo;
 import repository.orderRepo.OrderRepoImpl;
@@ -89,9 +88,8 @@ public class DiConfig {
                 franchiseController,
                 inventoryController,
                 memberController,
-                (OrderMain) orderController,
+                orderController,
                 warehouseController
         );
     }
-
 }

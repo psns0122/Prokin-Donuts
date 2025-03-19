@@ -1,4 +1,4 @@
-package controller.orderController;
+package controller;
 
 import common.util.InputUtil;
 import common.util.MenuUtil;
@@ -6,52 +6,106 @@ import dto.orderDTO.OrderDTO;
 import dto.orderDTO.OrderItemDTO;
 import dto.orderDTO.OrderStatisticsDTO;
 import dto.orderDTO.PendingInventoryComparisonDTO;
-import repository.InventoryRepo;
-import repository.InventoryRepoImpl;
-import repository.orderRepo.OrderRepo;
-import repository.orderRepo.OrderRepoImpl;
-import repository.outboundRepo.OutboundRepo;
-import repository.outboundRepo.OutboundRepoImpl;
 import service.orderService.OrderService;
-import service.orderService.OrderServiceImpl;
-import service.outboundService.OutboundService;
-import service.outboundService.OutboundServiceImpl;
 import vo.orderVO.OrderDetailVO;
 import vo.orderVO.OrderVO;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Calendar;
-import java.util.Date;
 
-public class OrderMain {
-    private static OrderController controller;
+public class OrderControllerImpl implements OrderController {
+    private OrderService orderService;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private static final String LINE = "========================================";
 
-    public static void main(String[] args) {
-        initController();
+    public OrderControllerImpl(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    // 기존 OrderController 메서드들 (비즈니스 로직 위임)
+    @Override
+    public String submitOrder(OrderDTO dto) {
+        return orderService.submitOrder(dto);
+    }
+
+    @Override
+    public void approveOrder(String orderId) {
+        orderService.approveOrder(orderId);
+    }
+
+    @Override
+    public void shipOrder(String orderId) {
+        orderService.shipOrder(orderId);
+    }
+
+    @Override
+    public void holdOrder(String orderId, String reason) {
+        orderService.holdOrder(orderId, reason);
+    }
+
+    @Override
+    public OrderVO getOrder(String orderId) {
+        return orderService.getOrder(orderId);
+    }
+
+    @Override
+    public List<OrderDetailVO> getOrderDetails(String orderId) {
+        return orderService.getOrderDetails(orderId);
+    }
+
+    @Override
+    public List<OrderVO> getOrdersByStatus(String status) {
+        return orderService.getOrdersByStatus(status);
+    }
+
+    @Override
+    public List<OrderVO> getOrdersByFranchiseId(String franchiseId) {
+        return orderService.getOrdersByFranchiseId(franchiseId);
+    }
+
+    @Override
+    public List<OrderVO> getOrdersByDate(String date) {
+        return orderService.getOrdersByDate(date);
+    }
+
+    @Override
+    public List<OrderVO> getOrdersByDateRange(String startDate, String endDate) {
+        return orderService.getOrdersByDateRange(startDate, endDate);
+    }
+
+    @Override
+    public OrderStatisticsDTO getOrderStatisticsByFranchiseAndMonth(String franchiseId, int year, int month) {
+        return orderService.getOrderStatisticsByFranchiseAndMonth(franchiseId, year, month);
+    }
+
+    @Override
+    public OrderStatisticsDTO getLastMonthOrderStatistics(String franchiseId) {
+        return orderService.getLastMonthOrderStatistics(franchiseId);
+    }
+
+    @Override
+    public Map<String, PendingInventoryComparisonDTO> getPendingInventoryComparisons() {
+        return orderService.getPendingInventoryComparisons();
+    }
+
+    // MainController 등에서 호출할 수 있도록 run() 메서드를 제공
+    public void run() {
+        // 예: 주문 관련 메뉴만 실행하는 경우
+        runOrderManagementMenu();
+    }
+
+    private void runOrderManagementMenu() {
         while (true) {
             showMainMenu();
         }
     }
 
-    private static void initController() {
-        // 의존성 주입을 통한 OrderService 생성
-        OrderRepo orderRepo = new OrderRepoImpl();
-        InventoryRepo inventoryRepo = new InventoryRepoImpl();
-        OutboundRepo outboundRepo = new OutboundRepoImpl();
-        OutboundService outboundService = new OutboundServiceImpl(inventoryRepo, orderRepo, outboundRepo);
-        OrderService service = new OrderServiceImpl(orderRepo, inventoryRepo, outboundService);
-        controller = new OrderControllerImpl(service);
-    }
-
-    private static void showMainMenu() {
+    private void showMainMenu() {
         Map<Integer, Runnable> mainMenuActions = new HashMap<>();
-        mainMenuActions.put(1, OrderMain::handleStoreManager);
-        mainMenuActions.put(2, OrderMain::handleHeadquarters);
-        mainMenuActions.put(3, OrderMain::handleWarehouseManager);
+        mainMenuActions.put(1, this::handleStoreManager);
+        mainMenuActions.put(2, this::handleHeadquarters);
+        mainMenuActions.put(3, this::handleWarehouseManager);
         mainMenuActions.put(4, () -> {
-            System.out.println("시스템을 종료합니다.");
+            System.out.println("주문관리 시스템을 종료합니다.");
             System.exit(0);
         });
         System.out.println("\n" + LINE);
@@ -66,10 +120,10 @@ public class OrderMain {
     }
 
     /* ===== 점장 메뉴 ===== */
-    private static void handleStoreManager() {
+    private void handleStoreManager() {
         Map<Integer, Runnable> menuActions = new HashMap<>();
-        menuActions.put(1, OrderMain::submitOrder);
-        menuActions.put(2, OrderMain::storeManagerCheckOrders);
+        menuActions.put(1, this::submitOrderCLI);
+        menuActions.put(2, this::storeManagerCheckOrders);
         menuActions.put(3, () -> showStoreManagerDetailedStatistics(getLastMonthYear(), getLastMonth()));
         menuActions.put(4, () -> showStoreManagerDetailedStatistics(getCurrentYear(), getCurrentMonth()));
         menuActions.put(5, () -> {}); // 로그아웃
@@ -85,31 +139,31 @@ public class OrderMain {
         MenuUtil.handleMenuSelection("옵션 선택 (숫자 입력, 종료: exit): ", menuActions);
     }
 
-    private static int getLastMonth() {
+    private int getLastMonth() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
         return cal.get(Calendar.MONTH) + 1;
     }
 
-    private static int getLastMonthYear() {
+    private int getLastMonthYear() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
         return cal.get(Calendar.YEAR);
     }
 
-    private static int getCurrentMonth() {
+    private int getCurrentMonth() {
         Calendar cal = Calendar.getInstance();
         return cal.get(Calendar.MONTH) + 1;
     }
 
-    private static int getCurrentYear() {
+    private int getCurrentYear() {
         Calendar cal = Calendar.getInstance();
         return cal.get(Calendar.YEAR);
     }
 
-    private static void showStoreManagerDetailedStatistics(int year, int month) {
+    private void showStoreManagerDetailedStatistics(int year, int month) {
         String franchiseId = getInputOrExit("가맹점 아이디 입력: ");
-        OrderStatisticsDTO stats = controller.getOrderStatisticsByFranchiseAndMonth(franchiseId, year, month);
+        OrderStatisticsDTO stats = getOrderStatisticsByFranchiseAndMonth(franchiseId, year, month);
         System.out.println("\n" + LINE);
         System.out.printf("%-40s%n", year + "년 " + month + "월 발주 통계");
         System.out.println(LINE);
@@ -125,7 +179,7 @@ public class OrderMain {
         System.out.println(LINE);
     }
 
-    private static void submitOrder() {
+    private void submitOrderCLI() {
         String franchiseId = getInputOrExit("가맹점 아이디 입력: ");
         List<OrderItemDTO> items = buildOrderItems();
         if (items.isEmpty()) {
@@ -133,11 +187,11 @@ public class OrderMain {
             return;
         }
         OrderDTO dto = new OrderDTO(franchiseId, items);
-        String orderId = controller.submitOrder(dto);
+        String orderId = submitOrder(dto);
         System.out.printf("발주 요청 제출 완료. 발주 ID: %s%n", orderId);
     }
 
-    private static List<OrderItemDTO> buildOrderItems() {
+    private List<OrderItemDTO> buildOrderItems() {
         List<OrderItemDTO> items = new ArrayList<>();
         while (true) {
             String productInput = getInputOrExit("상품 아이디 입력 (종료하려면 'save' 입력): ");
@@ -159,7 +213,7 @@ public class OrderMain {
         return items;
     }
 
-    private static OrderItemDTO findOrderItemByProductId(List<OrderItemDTO> items, String productId) {
+    private OrderItemDTO findOrderItemByProductId(List<OrderItemDTO> items, String productId) {
         for (OrderItemDTO item : items) {
             if (item.getProductId().equals(productId)) {
                 return item;
@@ -168,9 +222,9 @@ public class OrderMain {
         return null;
     }
 
-    private static void storeManagerCheckOrders() {
+    private void storeManagerCheckOrders() {
         String franchiseId = getInputOrExit("확인할 가맹점 아이디 입력: ");
-        List<OrderVO> orders = controller.getOrdersByFranchiseId(franchiseId);
+        List<OrderVO> orders = getOrdersByFranchiseId(franchiseId);
         if (orders.isEmpty()) {
             System.out.println("해당 가맹점의 발주 내역이 없습니다.");
             return;
@@ -178,15 +232,14 @@ public class OrderMain {
         displayOrderList(orders);
         String input = getInput("상세 조회할 발주 ID를 입력하거나 'back' 입력하여 메뉴로 돌아가세요: ");
         if (input.equalsIgnoreCase("back")) return;
-        String orderId = input;
-        displayOrderDetails(orderId);
+        displayOrderDetails(input);
     }
 
     /* ===== 본사 메뉴 ===== */
-    private static void handleHeadquarters() {
+    private void handleHeadquarters() {
         showHeadquarterDashboard();
         Map<Integer, Runnable> menuActions = new HashMap<>();
-        menuActions.put(1, OrderMain::headquarterCheckAndApproveOrders);
+        menuActions.put(1, this::headquarterCheckAndApproveOrders);
         menuActions.put(2, () -> {}); // 로그아웃
         System.out.println("\n" + LINE);
         System.out.printf("%-40s%n", "--- 본사 메뉴 ---");
@@ -197,23 +250,22 @@ public class OrderMain {
         MenuUtil.handleMenuSelection("옵션 선택 (숫자 입력, 종료: exit): ", menuActions);
     }
 
-    private static void headquarterCheckAndApproveOrders() {
-        List<OrderVO> orders = controller.getOrdersByStatus("발주 승인 대기중");
+    private void headquarterCheckAndApproveOrders() {
+        List<OrderVO> orders = getOrdersByStatus("발주 승인 대기중");
         if (orders.isEmpty()) {
             System.out.println("미승인 발주 요청이 없습니다.");
             return;
         }
         displayOrderList(orders);
-        String orderInput = getInputOrExit("상세 조회할 발주 ID 입력: ");
-        String orderId = orderInput;
+        String orderId = getInputOrExit("상세 조회할 발주 ID 입력: ");
         displayOrderDetails(orderId);
         String approve = getInput("이 발주를 승인하시겠습니까? (y/n): ");
         if (approve.equalsIgnoreCase("y")) {
-            controller.approveOrder(orderId);
+            approveOrder(orderId);
         }
     }
 
-    private static void showHeadquarterDashboard() {
+    private void showHeadquarterDashboard() {
         try {
             Calendar cal = Calendar.getInstance();
             Date today = new Date();
@@ -232,21 +284,21 @@ public class OrderMain {
             System.out.printf("%-40s%n", "=== 본사 대시보드 ===");
             System.out.println(LINE);
             System.out.printf("%-40s%n", "[전주 (" + prevWeekStart + " ~ " + prevWeekEnd + ") 주문]");
-            List<OrderVO> ordersPrevWeek = controller.getOrdersByDateRange(prevWeekStart, prevWeekEnd);
+            List<OrderVO> ordersPrevWeek = getOrdersByDateRange(prevWeekStart, prevWeekEnd);
             if (ordersPrevWeek.isEmpty()) {
                 System.out.printf("%-40s%n", "  없음");
             } else {
                 displayOrderList(ordersPrevWeek);
             }
             System.out.printf("%-40s%n", "[금주 (" + currentWeekStart + " ~ " + currentWeekEnd + ") 주문]");
-            List<OrderVO> ordersCurrentWeek = controller.getOrdersByDateRange(currentWeekStart, currentWeekEnd);
+            List<OrderVO> ordersCurrentWeek = getOrdersByDateRange(currentWeekStart, currentWeekEnd);
             if (ordersCurrentWeek.isEmpty()) {
                 System.out.printf("%-40s%n", "  없음");
             } else {
                 displayOrderList(ordersCurrentWeek);
             }
             System.out.printf("%-40s%n", "[금일 (" + todayStr + ") 주문]");
-            List<OrderVO> ordersToday = controller.getOrdersByDate(todayStr);
+            List<OrderVO> ordersToday = getOrdersByDate(todayStr);
             if (ordersToday.isEmpty()) {
                 System.out.printf("%-40s%n", "  없음");
             } else {
@@ -259,12 +311,12 @@ public class OrderMain {
     }
 
     /* ===== 창고 관리자 메뉴 ===== */
-    private static void handleWarehouseManager() {
+    private void handleWarehouseManager() {
         showWarehouseDashboard();
         Map<Integer, Runnable> menuActions = new HashMap<>();
-        menuActions.put(1, OrderMain::warehouseOrderDetailInquiry);
-        menuActions.put(2, OrderMain::warehouseDashboardRefresh);
-        menuActions.put(3, OrderMain::pendingOrderInquiry);
+        menuActions.put(1, this::warehouseOrderDetailInquiry);
+        menuActions.put(2, this::warehouseDashboardRefresh);
+        menuActions.put(3, this::pendingOrderInquiry);
         menuActions.put(4, () -> {}); // 로그아웃
         System.out.println("\n" + LINE);
         System.out.printf("%-40s%n", "--- 창고 관리자 메뉴 ---");
@@ -277,7 +329,7 @@ public class OrderMain {
         MenuUtil.handleMenuSelection("옵션 선택 (숫자 입력, 종료: exit): ", menuActions);
     }
 
-    private static void showWarehouseDashboard() {
+    private void showWarehouseDashboard() {
         try {
             Calendar cal = Calendar.getInstance();
             Date today = new Date();
@@ -296,21 +348,21 @@ public class OrderMain {
             System.out.printf("%-40s%n", "=== 창고 관리자 대시보드 ===");
             System.out.println(LINE);
             System.out.printf("%-40s%n", "[전주 (" + prevWeekStart + " ~ " + prevWeekEnd + ") 주문]");
-            List<OrderVO> ordersPrevWeek = controller.getOrdersByDateRange(prevWeekStart, prevWeekEnd);
+            List<OrderVO> ordersPrevWeek = getOrdersByDateRange(prevWeekStart, prevWeekEnd);
             if (ordersPrevWeek.isEmpty()) {
                 System.out.printf("%-40s%n", "  없음");
             } else {
                 displayOrderList(ordersPrevWeek);
             }
             System.out.printf("%-40s%n", "[금주 (" + currentWeekStart + " ~ " + currentWeekEnd + ") 주문]");
-            List<OrderVO> ordersCurrentWeek = controller.getOrdersByDateRange(currentWeekStart, currentWeekEnd);
+            List<OrderVO> ordersCurrentWeek = getOrdersByDateRange(currentWeekStart, currentWeekEnd);
             if (ordersCurrentWeek.isEmpty()) {
                 System.out.printf("%-40s%n", "  없음");
             } else {
                 displayOrderList(ordersCurrentWeek);
             }
             System.out.printf("%-40s%n", "[금일 (" + todayStr + ") 주문]");
-            List<OrderVO> ordersToday = controller.getOrdersByDate(todayStr);
+            List<OrderVO> ordersToday = getOrdersByDate(todayStr);
             if (ordersToday.isEmpty()) {
                 System.out.printf("%-40s%n", "  없음");
             } else {
@@ -318,7 +370,7 @@ public class OrderMain {
             }
             System.out.println(LINE);
             System.out.printf("%-40s%n", "[재고 vs 발주 승인 대기 건 비교]");
-            Map<String, PendingInventoryComparisonDTO> comparison = controller.getPendingInventoryComparisons();
+            Map<String, PendingInventoryComparisonDTO> comparison = getPendingInventoryComparisons();
             if (comparison.isEmpty()) {
                 System.out.printf("%-40s%n", "  없음");
             } else {
@@ -333,20 +385,19 @@ public class OrderMain {
         }
     }
 
-    private static void warehouseDashboardRefresh() {
+    private void warehouseDashboardRefresh() {
         showWarehouseDashboard();
     }
 
-    private static void warehouseOrderDetailInquiry() {
-        String orderInput = getInputOrExit("상세 조회할 발주 ID 입력: ");
-        String orderId = orderInput;
+    private void warehouseOrderDetailInquiry() {
+        String orderId = getInputOrExit("상세 조회할 발주 ID 입력: ");
         displayOrderDetails(orderId);
     }
 
-    private static void pendingOrderInquiry() {
+    private void pendingOrderInquiry() {
         System.out.println("\n" + LINE);
         System.out.printf("%-40s%n", "[보류 건 조회]");
-        List<OrderVO> pendingOrders = controller.getOrdersByStatus("출고 보류");
+        List<OrderVO> pendingOrders = getOrdersByStatus("출고 보류");
         if (pendingOrders.isEmpty()) {
             System.out.printf("%-40s%n", "  없음");
         } else {
@@ -355,7 +406,7 @@ public class OrderMain {
         System.out.println(LINE);
     }
 
-    private static String getInputOrExit(String prompt) {
+    private String getInputOrExit(String prompt) {
         Optional<String> inputOpt = InputUtil.getInput(prompt);
         if (!inputOpt.isPresent()) {
             System.out.println("전 메뉴로 돌아갑니다.");
@@ -364,19 +415,19 @@ public class OrderMain {
         return inputOpt.get();
     }
 
-    private static String getInput(String prompt) {
+    private String getInput(String prompt) {
         return InputUtil.getInput(prompt).orElse("back");
     }
 
-    private static void displayOrderList(List<OrderVO> orders) {
+    private void displayOrderList(List<OrderVO> orders) {
         for (OrderVO order : orders) {
             System.out.printf(" - 발주 ID: %-20s  발주일: %-10s  상태: %-15s%n",
                     order.getOrderId(), order.getOrderDate(), order.getOrderStatus());
         }
     }
 
-    private static void displayOrderDetails(String orderId) {
-        OrderVO order = controller.getOrder(orderId);
+    private void displayOrderDetails(String orderId) {
+        OrderVO order = getOrder(orderId);
         if (order != null) {
             System.out.println("\n" + LINE);
             System.out.printf("%-40s%n", "[발주 상세 내역]");
@@ -384,7 +435,7 @@ public class OrderMain {
             System.out.printf("발주 ID: %-20s%n", order.getOrderId());
             System.out.printf("발주일 : %-10s%n", order.getOrderDate());
             System.out.printf("상태   : %-15s%n", order.getOrderStatus());
-            List<OrderDetailVO> details = controller.getOrderDetails(orderId);
+            List<OrderDetailVO> details = getOrderDetails(orderId);
             if (details != null && !details.isEmpty()) {
                 for (OrderDetailVO detail : details) {
                     System.out.printf(" - 제품 ID: %-10s  수량: %-5d%n", detail.getProductId(), detail.getOrderQuantity());
@@ -397,4 +448,6 @@ public class OrderMain {
             System.out.println("해당 발주를 찾을 수 없습니다.");
         }
     }
+
+
 }
