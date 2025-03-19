@@ -23,6 +23,9 @@ public class LoginControllerImpl implements LoginController{
     public void MainMenu(){
             System.out.println(MemberText.MENU_HEADER.getText());
             mainMenu = setMainMenu();
+            Runnable action = mainMenu.get(
+                    InputUtil.getIntegerInput(LoginText.LOGIN_MAINMENU.getText()));
+            action.run();
 
     }
     public Map<Integer,Runnable> setMainMenu(){
