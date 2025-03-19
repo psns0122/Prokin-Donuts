@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class LoginControllerImpl implements LoginController{
     MemberService memberService;
+    private boolean loginFlag = false;
 
     public LoginControllerImpl(MemberService memberService) {
         this.memberService = memberService;
@@ -24,10 +25,12 @@ public class LoginControllerImpl implements LoginController{
     public void MainMenu(){
             System.out.println(MemberText.MENU_HEADER.getText());
             mainMenu = setMainMenu();
+        while(true) {
             Runnable action = mainMenu.get(
                     InputUtil.getIntegerInput(LoginText.LOGIN_MAINMENU.getText()));
             action.run();
-
+            if (this.loginFlag) {return;}
+        }
     }
     public Map<Integer,Runnable> setMainMenu(){
         mainMenu.put(1,()->login());
@@ -57,6 +60,7 @@ public class LoginControllerImpl implements LoginController{
                     String result = memberService.logIn(id, password);
                     LoginUtil.setLoginMember(loginMember);
                     System.out.println(LoginText.LOGIN_SUCCESS.getText());
+                    this.loginFlag = true;
                 }
             }
         }

@@ -1,5 +1,7 @@
 package controller;
 
+import common.util.LoginUtil;
+
 public class MainController {
     InboundController inboundController;
     FranchiseController franchiseController;
@@ -21,6 +23,19 @@ public class MainController {
 
     public void run() {
         loginController.MainMenu();
+        int authority = LoginUtil.getLoginMember().getAuthorityId();
+
+        switch (authority) {
+            case 1: // 본사관리자
+                // inboundController.Headquarters();
+                break;
+            case 2:
+                // 창고관리자
+                break;
+            case 3:
+                // 점주
+                break;
+        }
 
 
     }
