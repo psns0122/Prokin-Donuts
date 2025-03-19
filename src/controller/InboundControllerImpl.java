@@ -32,7 +32,7 @@ public class InboundControllerImpl implements InboundController {
     /**
      * 창고 관리자 호출
      */
-    void warehouseManager() {
+    public void warehouseManager() {
         int warehouseId = getWarehouseId(LoginUtil.getLoginMember().getMemberNo());
         while(true) {
             System.out.println("1. 입고검수");
@@ -193,7 +193,7 @@ public class InboundControllerImpl implements InboundController {
 
 
     // 총관리자 호출
-    void Headquarters() {
+    public void Headquarters() {
         while(true) {
             System.out.println("1. 입고요청 승인");
             System.out.println("2. 입고 고지서 출력");
