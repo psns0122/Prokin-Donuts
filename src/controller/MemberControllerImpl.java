@@ -149,7 +149,7 @@ public class MemberControllerImpl implements MemberController {
                                 MemberText.MEMBER_ID.getText()).get();
         MemberDTO updateMember = updateMember();
         MemberDTO result = memberService.updateMember(updateMemberID,updateMember);
-        System.out.println(updateMemberID);
+        System.out.print(updateMemberID);
         System.out.println(MemberText.UPDATE_MEMBER_SUCCESS.getText());
     }
 
