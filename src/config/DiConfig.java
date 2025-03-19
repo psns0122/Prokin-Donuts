@@ -2,15 +2,7 @@ package config;
 
 import controller.*;
 import repository.*;
-import repository.orderRepo.OrderRepo;
-import repository.orderRepo.OrderRepoImpl;
-import repository.outboundRepo.OutboundRepo;
-import repository.outboundRepo.OutboundRepoImpl;
 import service.*;
-import service.orderService.OrderService;
-import service.orderService.OrderServiceImpl;
-import service.outboundService.OutboundService;
-import service.outboundService.OutboundServiceImpl;
 
 public class DiConfig {
 
