@@ -29,7 +29,7 @@ public interface MemberController {
 
     public Map<Integer,Runnable> setFMSearchMenu();
 
-    public void MainMune(int authorityId);
+    public void MainMune();
 
 
     public void HQMenu();
