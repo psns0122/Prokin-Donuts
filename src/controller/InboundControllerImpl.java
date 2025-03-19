@@ -2,6 +2,7 @@ package controller;
 
 import common.inbound.InboundText;
 import common.util.InputUtil;
+import common.util.LoginUtil;
 import common.util.MenuUtil;
 import dto.inbound.ProductDTO;
 import repository.InboundRepoImpl;
@@ -14,11 +15,11 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class InboundControllerImpl implements InboundController {
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         InboundControllerImpl inboundController = new InboundControllerImpl(new InboundServiceImpl(new InboundRepoImpl()));
         inboundController.warehouseManager(1);
-        //inboundController.Headquarters();
-    }
+        inboundController.Headquarters();
+    }*/
 
     private final InboundService inboundService;
 
@@ -36,8 +37,8 @@ public class InboundControllerImpl implements InboundController {
     /**
      * 창고 관리자 호출
      */
-    public void warehouseManager(int warehouseId) {
-        //int warehouseId = getWarehouseId(LoginUtil.getLoginMember().getMemberNo());
+    public void warehouseManager() {
+        int warehouseId = getWarehouseId(LoginUtil.getLoginMember().getMemberNo());
         while (true) {
             printWmMenu(); //창고 관리자 메뉴 출력
             Map<Integer, Runnable> menuActions = new HashMap<>();
