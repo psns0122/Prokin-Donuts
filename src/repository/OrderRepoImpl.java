@@ -5,6 +5,7 @@ import config.DBUtil;
 import dto.orderDTO.OrderStatisticsDTO;
 import vo.orderVO.OrderDetailVO;
 import vo.orderVO.OrderVO;
+
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
@@ -13,19 +14,19 @@ public class OrderRepoImpl implements OrderRepo {
 
     @Override
     public String saveOrder(OrderVO order) {
+        // OrderId를 생성한 후 테이블의 실제 컬럼(orderId, orderDate, orderStatus, memberId)만 삽입
         String newOrderId = OrderIdGenerator.generateOrderId();
-        String sql = "INSERT INTO `Order` (orderId, orderQuantity, productId, orderDate, orderStatus, memberNo, authorityId) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO `Order` (orderId, orderDate, orderStatus, memberId) VALUES (?, ?, ?, ?)";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, newOrderId);
-            pstmt.setInt(2, 0); // 단일 주문일 경우 dummy 값 사용
-            pstmt.setString(3, "MULTI");
-            pstmt.setDate(4, Date.valueOf(order.getOrderDate()));
-            pstmt.setString(5, order.getOrderStatus());
-            pstmt.setString(6, order.getMemberNo());
-            pstmt.setString(7, order.getAuthorityId());
+            pstmt.setDate(2, Date.valueOf(order.getOrderDate()));
+            pstmt.setString(3, order.getOrderStatus());
+            pstmt.setString(4, order.getMemberId());
             int affectedRows = pstmt.executeUpdate();
-            if (affectedRows == 0) throw new SQLException("No rows affected");
+            if (affectedRows == 0) {
+                throw new SQLException("No rows affected");
+            }
             return newOrderId;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -35,11 +36,12 @@ public class OrderRepoImpl implements OrderRepo {
 
     @Override
     public void saveOrderDetail(OrderDetailVO detail) {
-        String sql = "INSERT INTO OrderDetail (orderDetailId, orderQuantity, productId, orderId) VALUES (NULL, ?, ?, ?)";
+        // orderDetailId는 AUTO_INCREMENT 이므로 명시하지 않고 나머지 컬럼만 삽입
+        String sql = "INSERT INTO OrderDetail (orderQuantity, productId, orderId) VALUES (?, ?, ?)";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, detail.getOrderQuantity());
-            pstmt.setString(2, detail.getProductId());
+            pstmt.setString(2, detail.getProductId()); // productId를 String으로 설정
             pstmt.setString(3, detail.getOrderId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -49,7 +51,7 @@ public class OrderRepoImpl implements OrderRepo {
 
     @Override
     public OrderVO findOrderById(String orderId) {
-        String sql = "SELECT orderId, orderDate, orderStatus, memberNo, authorityId FROM `Order` WHERE orderId = ?";
+        String sql = "SELECT orderId, orderDate, orderStatus, memberId FROM `Order` WHERE orderId = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, orderId);
@@ -59,8 +61,7 @@ public class OrderRepoImpl implements OrderRepo {
                             rs.getString("orderId"),
                             rs.getDate("orderDate").toString(),
                             rs.getString("orderStatus"),
-                            rs.getString("memberNo"),
-                            rs.getString("authorityId")
+                            rs.getString("memberId")
                     );
                 }
             }
@@ -72,14 +73,13 @@ public class OrderRepoImpl implements OrderRepo {
 
     @Override
     public void updateOrder(OrderVO order) {
-        String sql = "UPDATE `Order` SET orderDate = ?, orderStatus = ?, memberNo = ?, authorityId = ? WHERE orderId = ?";
+        String sql = "UPDATE `Order` SET orderDate = ?, orderStatus = ?, memberId = ? WHERE orderId = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setDate(1, Date.valueOf(order.getOrderDate()));
             pstmt.setString(2, order.getOrderStatus());
-            pstmt.setString(3, order.getMemberNo());
-            pstmt.setString(4, order.getAuthorityId());
-            pstmt.setString(5, order.getOrderId());
+            pstmt.setString(3, order.getMemberId());
+            pstmt.setString(4, order.getOrderId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -98,7 +98,7 @@ public class OrderRepoImpl implements OrderRepo {
                     details.add(new OrderDetailVO(
                             rs.getInt("orderDetailId"),
                             rs.getInt("orderQuantity"),
-                            rs.getString("productId"),
+                            rs.getString("productId"), // productId를 String으로 읽음
                             rs.getString("orderId")
                     ));
                 }
@@ -112,7 +112,7 @@ public class OrderRepoImpl implements OrderRepo {
     @Override
     public List<OrderVO> findOrdersByStatus(String status) {
         List<OrderVO> orders = new ArrayList<>();
-        String sql = "SELECT orderId, orderDate, orderStatus, memberNo, authorityId FROM `Order` WHERE orderStatus = ?";
+        String sql = "SELECT orderId, orderDate, orderStatus, memberId FROM `Order` WHERE orderStatus = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, status);
@@ -122,8 +122,7 @@ public class OrderRepoImpl implements OrderRepo {
                             rs.getString("orderId"),
                             rs.getDate("orderDate").toString(),
                             rs.getString("orderStatus"),
-                            rs.getString("memberNo"),
-                            rs.getString("authorityId")
+                            rs.getString("memberId")
                     ));
                 }
             }
@@ -135,8 +134,9 @@ public class OrderRepoImpl implements OrderRepo {
 
     @Override
     public List<OrderVO> findOrdersByFranchiseId(String franchiseId) {
+        // franchiseId는 Order 테이블의 memberId 컬럼과 매핑됨
         List<OrderVO> orders = new ArrayList<>();
-        String sql = "SELECT orderId, orderDate, orderStatus, memberNo, authorityId FROM `Order` WHERE memberNo = ?";
+        String sql = "SELECT orderId, orderDate, orderStatus, memberId FROM `Order` WHERE memberId = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, franchiseId);
@@ -146,8 +146,7 @@ public class OrderRepoImpl implements OrderRepo {
                             rs.getString("orderId"),
                             rs.getDate("orderDate").toString(),
                             rs.getString("orderStatus"),
-                            rs.getString("memberNo"),
-                            rs.getString("authorityId")
+                            rs.getString("memberId")
                     ));
                 }
             }
@@ -160,7 +159,7 @@ public class OrderRepoImpl implements OrderRepo {
     @Override
     public List<OrderVO> findOrdersByDate(String date) {
         List<OrderVO> orders = new ArrayList<>();
-        String sql = "SELECT orderId, orderDate, orderStatus, memberNo, authorityId FROM `Order` WHERE orderDate = ?";
+        String sql = "SELECT orderId, orderDate, orderStatus, memberId FROM `Order` WHERE orderDate = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setDate(1, Date.valueOf(date));
@@ -170,8 +169,7 @@ public class OrderRepoImpl implements OrderRepo {
                             rs.getString("orderId"),
                             rs.getDate("orderDate").toString(),
                             rs.getString("orderStatus"),
-                            rs.getString("memberNo"),
-                            rs.getString("authorityId")
+                            rs.getString("memberId")
                     ));
                 }
             }
@@ -184,7 +182,7 @@ public class OrderRepoImpl implements OrderRepo {
     @Override
     public List<OrderVO> findOrdersByDateRange(String startDate, String endDate) {
         List<OrderVO> orders = new ArrayList<>();
-        String sql = "SELECT orderId, orderDate, orderStatus, memberNo, authorityId FROM `Order` WHERE orderDate BETWEEN ? AND ?";
+        String sql = "SELECT orderId, orderDate, orderStatus, memberId FROM `Order` WHERE orderDate BETWEEN ? AND ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setDate(1, Date.valueOf(startDate));
@@ -195,8 +193,7 @@ public class OrderRepoImpl implements OrderRepo {
                             rs.getString("orderId"),
                             rs.getDate("orderDate").toString(),
                             rs.getString("orderStatus"),
-                            rs.getString("memberNo"),
-                            rs.getString("authorityId")
+                            rs.getString("memberId")
                     ));
                 }
             }
@@ -210,22 +207,26 @@ public class OrderRepoImpl implements OrderRepo {
     public OrderStatisticsDTO getOrderStatisticsByFranchiseAndMonth(String franchiseId, int year, int month) {
         int totalOrderRequests = 0;
         Map<String, Integer> productStats = new HashMap<>();
-        String monthStr = (month < 10 ? "0" + month : "" + month);
+        String monthStr = (month < 10 ? "0" + month : String.valueOf(month));
         String pattern = year + "-" + monthStr + "-%";
-        String sqlCount = "SELECT COUNT(*) AS orderCount FROM `Order` WHERE memberNo = ? AND orderDate LIKE ?";
+        String sqlCount = "SELECT COUNT(*) AS orderCount FROM `Order` WHERE memberId = ? AND orderDate LIKE ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sqlCount)) {
             pstmt.setString(1, franchiseId);
             pstmt.setString(2, pattern);
             try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) totalOrderRequests = rs.getInt("orderCount");
+                if (rs.next()) {
+                    totalOrderRequests = rs.getInt("orderCount");
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        // OrderDetail과 조인하여 각 productId별 총 주문 수량을 집계
         String sqlProduct = "SELECT OD.productId, SUM(OD.orderQuantity) AS totalQuantity " +
                 "FROM OrderDetail OD JOIN `Order` O ON OD.orderId = O.orderId " +
-                "WHERE O.memberNo = ? AND O.orderDate LIKE ? GROUP BY OD.productId";
+                "WHERE O.memberId = ? AND O.orderDate LIKE ? GROUP BY OD.productId";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sqlProduct)) {
             pstmt.setString(1, franchiseId);

@@ -22,14 +22,12 @@ public class OrderServiceImpl implements OrderService {
     private final OutboundService outboundService;
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-    // 기존 생성자: 모든 의존성을 외부에서 주입받음
     public OrderServiceImpl(OrderRepo orderRepo, InventoryRepo inventoryRepo, OutboundService outboundService) {
         this.orderRepo = orderRepo;
         this.inventoryRepo = inventoryRepo;
         this.outboundService = outboundService;
     }
 
-    // 새 생성자: OrderRepo만 주입받아 나머지 의존성은 기본 구현체로 생성
     public OrderServiceImpl(OrderRepo orderRepo) {
         this(
                 orderRepo,
@@ -42,8 +40,7 @@ public class OrderServiceImpl implements OrderService {
     public String submitOrder(OrderDTO dto) {
         String currentDate = sdf.format(new Date());
         String status = "발주 승인 대기중";
-        // 주문 헤더 생성; 실제 주문번호는 DB에서 OrderIdGenerator로 부여됨
-        OrderVO order = new OrderVO("", currentDate, status, dto.getFranchiseId(), "FRANCHISE");
+        OrderVO order = new OrderVO("", currentDate, status, dto.getFranchiseId());
         String orderId = orderRepo.saveOrder(order);
         for (OrderItemDTO item : dto.getItems()) {
             OrderDetailVO detail = new OrderDetailVO(0, item.getOrderQuantity(), item.getProductId(), orderId);
@@ -63,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
             System.out.println("현재 상태에서는 승인할 수 없습니다: " + order.getOrderStatus());
             return;
         }
-        OrderVO updated = new OrderVO(order.getOrderId(), order.getOrderDate(), "발주 승인", order.getMemberNo(), order.getAuthorityId());
+        OrderVO updated = new OrderVO(order.getOrderId(), order.getOrderDate(), "발주 승인", order.getMemberId());
         orderRepo.updateOrder(updated);
         System.out.println("발주 승인 완료: " + orderId);
     }
@@ -84,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
             System.out.println("현재 상태에서는 보류할 수 없습니다: " + order.getOrderStatus());
             return;
         }
-        OrderVO updated = new OrderVO(order.getOrderId(), order.getOrderDate(), "출고 보류", order.getMemberNo(), order.getAuthorityId());
+        OrderVO updated = new OrderVO(order.getOrderId(), order.getOrderDate(), "출고 보류", order.getMemberId());
         orderRepo.updateOrder(updated);
         System.out.println("출고 보류 처리 완료: " + orderId);
     }

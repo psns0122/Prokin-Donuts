@@ -5,26 +5,23 @@ import vo.outboundVO.OutboundDetailVO;
 import vo.outboundVO.OutboundVO;
 
 import java.sql.*;
-import java.util.UUID;
 
 public class OutboundRepoImpl implements OutboundRepo {
     @Override
     public String saveOutbound(OutboundVO outbound) {
-        String newOutboundId = UUID.randomUUID().toString();
-        String sql = "INSERT INTO Outbound (outboundId, outboundDate, productId, sectionId, warehouseId, authorityId, outboundStatus) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        // 본 예제에서는 헤더용이므로 dummy 값을 사용합니다.
+        String sql = "INSERT INTO Outbound (outboundDate, outboundStatus) VALUES (?, ?)";
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, newOutboundId);
-            pstmt.setDate(2, new java.sql.Date(outbound.getOutboundDate().getTime()));
-            pstmt.setString(3, "MULTI");
-            pstmt.setString(4, "DEFAULT");
-            pstmt.setString(5, "DEFAULT");
-            pstmt.setString(6, "DEFAULT");
-            pstmt.setString(7, outbound.getOutboundStatus());
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setDate(1, new java.sql.Date(outbound.getOutboundDate().getTime()));
+            pstmt.setString(2, outbound.getOutboundStatus());
             int affected = pstmt.executeUpdate();
             if (affected == 0) throw new SQLException("No rows affected");
-            return newOutboundId;
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return String.valueOf(rs.getInt(1));
+                }
+            }
+            return null;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -33,13 +30,12 @@ public class OutboundRepoImpl implements OutboundRepo {
 
     @Override
     public void saveOutboundDetail(OutboundDetailVO detail) {
-        // OutboundDetail 테이블 구조가 OrderDetail과 유사하다고 가정
-        String sql = "INSERT INTO OutboundDetail (outboundDetailId, quantity, productId, orderId) VALUES (NULL, ?, ?, ?)";
+        String sql = "INSERT INTO outboundDetail (quantity, productId, outboundId) VALUES (?, ?, ?)";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, detail.getQuantity());
-            pstmt.setString(2, detail.getProductId());
-            pstmt.setString(3, detail.getOutboundId());
+            pstmt.setInt(2, detail.getProductId()); // productId는 INT 타입
+            pstmt.setInt(3, detail.getOutboundId());  // VO의 outboundId가 int 타입이므로 바로 사용
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
