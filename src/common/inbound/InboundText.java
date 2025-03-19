@@ -9,7 +9,13 @@ public enum InboundText {
     MENU("1. 입고 검수\n2. 입고요청\n3. 입고요청 수정\n4.입고요청 취소\n5.입고고지서 출력\n6.입고 현황"),
 
     COMPLETE_INBOUND("입고를 완료할 ID를 입력하세요."),
-    COMPLETE_TEXT("입고가 완료되었습니다.");
+    COMPLETE_TEXT("입고가 완료되었습니다."),
+    PRODUCT_ID("상품 ID를 입력하세요."),
+
+    QUANTITY("수량을 입력하세요."),
+    SELECT_STOP("상품 선택: 1, 종료: 0을 입력하세요."),
+
+    INBOUND_DATE("입고예약 날짜를 입력해주세요.");
 
     private final String text;
 
