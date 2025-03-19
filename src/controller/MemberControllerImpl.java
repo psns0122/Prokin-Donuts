@@ -98,7 +98,7 @@ public class MemberControllerImpl implements MemberController {
         System.out.println(MemberText.MENU_HEADER.getText());
         mainMenu = setMainMenu();
         int authorityId = LoginUtil.getLoginMember().getAuthorityId();
-        Runnable action = mainMenu.get(authorityId);
+        Runnable action = mainMenu.get(1);
         action.run();
     }
 
