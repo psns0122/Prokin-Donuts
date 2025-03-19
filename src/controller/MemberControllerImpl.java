@@ -35,13 +35,6 @@ public class MemberControllerImpl implements MemberController {
     Map<Integer,Runnable> FMSearchMenu = new HashMap<>();
 
 
-    public Map<Integer,Runnable>  setMainMenu(){
-        mainMenu.put(1,()-> HQMenu());
-        mainMenu.put(2,()-> WMMenu());
-        mainMenu.put(3,()-> FMMenu());
-        return mainMenu;
-    }
-
     public Map<Integer,Runnable> setHQMenu(){
         HQAddMenu = setHQAddMenu();
         HQSearchMenu = setHQSearchMenu();
@@ -94,26 +87,22 @@ public class MemberControllerImpl implements MemberController {
         return FMMenu;
     }
 
-    public void MainMune(){
-        System.out.println(MemberText.MENU_HEADER.getText());
-        mainMenu = setMainMenu();
-        int authorityId = LoginUtil.getLoginMember().getAuthorityId();
-        Runnable action = mainMenu.get(authorityId);
-        action.run();
-    }
 
 
     public void HQMenu(){
+        System.out.println(MemberText.MENU_HEADER.getText());
         HQMenu =  setHQMenu();
         MenuUtil.handleMenuSelection(MemberText.HQ_MEMBER_MENU.getText(),HQMenu);
     }
 
     public void WMMenu(){
+        System.out.println(MemberText.MENU_HEADER.getText());
         WMMenu = setWMMenu();
         MenuUtil.handleMenuSelection(MemberText.WM_MEMBER_MENU.getText(),WMMenu);
     }
 
     public void FMMenu(){
+        System.out.println(MemberText.MENU_HEADER.getText());
         FMMenu = setFMMenu();
         MenuUtil.handleMenuSelection(MemberText.FM_MEMBER_MENU.getText(),FMMenu);
     }
