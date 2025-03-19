@@ -2,7 +2,6 @@ package repository;
 
 import common.franchise.FranchiseErrorCode;
 import config.DBUtil;
-import dto.OrderDTO;
 import dto.franchise.FranchiseDTO;
 import dto.franchise.ProductCategoryDTO;
 import dto.franchise.ProductDTO;
@@ -440,7 +439,9 @@ public class FranchiseRepoImpl implements FranchiseRepo{
      * @return
      */
     @Override
-    public Optional<List<ProductDTO>> showAllProduct() {}
+    public Optional<List<ProductDTO>> showAllProduct() {
+        return null;
+    }
 
     /**
      * [카테고리별 조회 기능]
@@ -462,26 +463,26 @@ public class FranchiseRepoImpl implements FranchiseRepo{
     public Optional<List<ProductDTO>> showOneProduct(int productId) {
         return Optional.empty();
     }
-
-    /**
-     * [전체 발주 기록 조회 기능]
-     * 본사관리자는 전체 가맹점주의 발주기록을 조회할 수 있다
-     * @return
-     */
-    @Override
-    public Optional<List<OrderDTO>> showAllOrder() {
-        return Optional.empty();
-    }
-
-    /**
-     * [가맹점별 발주 기록 조회 기능]
-     * 본사관리자는 가맹점별 발주 기록을 조회할 수 있다
-     * @return
-     */
-    @Override
-    public Optional<List<OrderDTO>> showAllOrderByFranchise() {
-        return Optional.empty();
-    }
+//
+//    /**
+//     * [전체 발주 기록 조회 기능]
+//     * 본사관리자는 전체 가맹점주의 발주기록을 조회할 수 있다
+//     * @return
+//     */
+//    @Override
+//    public Optional<List<OrderDTO>> showAllOrder() {
+//        return Optional.empty();
+//    }
+//
+//    /**
+//     * [가맹점별 발주 기록 조회 기능]
+//     * 본사관리자는 가맹점별 발주 기록을 조회할 수 있다
+//     * @return
+//     */
+//    @Override
+//    public Optional<List<OrderDTO>> showAllOrderByFranchise() {
+//        return Optional.empty();
+//    }
 
     /**
      * [발주 요청 승인 기능]

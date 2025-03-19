@@ -1,6 +1,5 @@
 package repository;
 
-import dto.OrderDTO;
 import dto.franchise.FranchiseDTO;
 import dto.franchise.ProductCategoryDTO;
 import dto.franchise.ProductDTO;
@@ -93,18 +92,18 @@ public interface FranchiseRepo {
      * 본사관리자는 제품아이디를 기준으로 조회할 수 있다
      */
     Optional<List<ProductDTO>> showOneProduct(int productId);
-
-    /**
-     * [전체 발주 기록 조회 기능]
-     * 본사관리자는 전체 가맹점주의 발주기록을 조회할 수 있다
-     */
-    Optional<List<OrderDTO>> showAllOrder();
-
-    /**
-     * [가맹점별 발주 기록 조회 기능]
-     * 본사관리자는 가맹점별 발주 기록을 조회할 수 있다
-     */
-    Optional<List<OrderDTO>> showAllOrderByFranchise();
+//
+//    /**
+//     * [전체 발주 기록 조회 기능]
+//     * 본사관리자는 전체 가맹점주의 발주기록을 조회할 수 있다
+//     */
+//    Optional<List<OrderDTO>> showAllOrder();
+//
+//    /**
+//     * [가맹점별 발주 기록 조회 기능]
+//     * 본사관리자는 가맹점별 발주 기록을 조회할 수 있다
+//     */
+//    Optional<List<OrderDTO>> showAllOrderByFranchise();
 
     /**
      * [발주 요청 승인 기능]

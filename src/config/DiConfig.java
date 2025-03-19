@@ -50,26 +50,7 @@ public class DiConfig {
     private final MemberController memberController = new MemberControllerImpl(memberService);
 
 
-    //발주 의존성 주입
-    //repo
-    private final OrderRepo orderRepo = new OrderRepoImpl();
 
-    //service
-    private final OrderService orderService = new OrderServiceImpl(orderRepo);
-
-    //controller
-    private final OrderController orderController = new OrderControllerImpl(orderService);
-
-
-    // 출고 의존성 주입
-    //repo
-    private final OutboundRepo outboundRepo = new OutboundRepoImpl();
-
-    //service
-    private final OutboundService outboundService = new OutboundServiceImpl(outboundRepo);
-
-    //controller
-    private final OutboundController outboundController = new OutboundControllerImpl(outboundService);
 
 
     // 재고 의존성 주입
@@ -88,8 +69,7 @@ public class DiConfig {
                 franchiseController,
                 inventoryController,
                 memberController,
-                orderController,
-                outboundController,
+                null,
                 warehouseController
         );
     }
