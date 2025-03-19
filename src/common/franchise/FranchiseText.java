@@ -11,10 +11,10 @@ public enum FranchiseText {
             "===================================="),
 
     /** 뒤로가기 */
-    BackAction("이전 메뉴로 돌아갑니다."),
+    BACK_ACTION("이전 메뉴로 돌아갑니다."),
 
     /** 본사-가맹점관리 메인메뉴 */
-    HQ_MENU("\n[본사 관리자 메뉴]\n" +
+    HQ_MENU("\n[본사 관리자 > 가맹점관리]\n" +
             "1. 가맹점 관리\n" +
             "2. 제품 관리\n" +
             "3. 발주 관리\n" +
@@ -22,7 +22,7 @@ public enum FranchiseText {
             "\n메뉴를 선택하세요: "),
 
     /** 본사-가맹점관리 > 가맹점관리 서브메뉴 */
-    HQ_FRANCHISE_MENU("\n[본사 관리자 > 가맹점 관리 메뉴]\n" +
+    HQ_FRANCHISE_MENU("\n[본사 관리자 > 가맹점관리 > 가맹점관리]\n" +
             "1. 가맹점 등록\n" +
             "2. 가맹점 수정\n" +
             "3. 가맹점 삭제\n" +
@@ -55,7 +55,7 @@ public enum FranchiseText {
     HQ_SHOW_MANAGER_BY_HAVE_NO_FRANCHISE_HEADER("=== 가맹점이 할당되지 않은 점주회원 조회 ==="),
 
     /** 본사-가맹점관리 > 제품관리 서브메뉴 */
-    HQ_PRODUCT_MENU("\n[본사 관리자 > 제품 관리]\n" +
+    HQ_PRODUCT_MENU("\n[본사 관리자 > 가맹점관리 > 제품 관리]\n" +
             "1. 제품 등록\n" +
             "2. 제품 수정\n" +
             "3. 제품 삭제\n" +
@@ -108,7 +108,7 @@ public enum FranchiseText {
     HQ_SHOW_PRODUCT_ID("조회할 제품 ID: "),
 
     /** 본사-가맹점관리 > 발주관리 서브메뉴 */
-    HQ_ORDER_MENU("\n[본사 관리자 > 발주 관리]\n" +
+    HQ_ORDER_MENU("\n[본사 관리자 > 가맹점관리 > 발주 관리]\n" +
             "1. 전체 발주 기록 조회\n" +
             "2. 가맹점별 발주 기록 조회\n" +
             "3. 발주 요청 승인\n" +

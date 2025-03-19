@@ -18,8 +18,6 @@ public class WarehouseControllerImpl implements WarehouseController {
 
     @Override
     public void showWarehouseMenu(int authorityId) {
-        // TODO : 본사 / 창고관리자 로그인 권한 정보가 전달되어야함
-
         switch (authorityId) {
             case 1 -> headQuartersMenu();
             case 2 -> warehouseManagerMenu();
@@ -109,7 +107,7 @@ public class WarehouseControllerImpl implements WarehouseController {
                 case 1 -> viewWarehouses();
                 case 2 -> viewWarehousesByLocation();
                 case 3 -> {
-                    System.out.println(WarehouseText.BACK_ACTION);
+                    System.out.println(WarehouseText.BACK_ACTION.getText());
                     return;
                 }
                 default -> System.out.println(WarehouseErrorCode.INPUT_ERROR.getText());
