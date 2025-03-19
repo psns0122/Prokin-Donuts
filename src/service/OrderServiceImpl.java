@@ -14,6 +14,7 @@ import vo.orderVO.OrderVO;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class OrderServiceImpl implements OrderService {
@@ -92,27 +93,27 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public java.util.List<vo.orderVO.OrderDetailVO> getOrderDetails(String orderId) {
+    public List<OrderDetailVO> getOrderDetails(String orderId) {
         return orderRepo.findOrderDetailsByOrderId(orderId);
     }
 
     @Override
-    public java.util.List<OrderVO> getOrdersByStatus(String status) {
+    public List<OrderVO> getOrdersByStatus(String status) {
         return orderRepo.findOrdersByStatus(status);
     }
 
     @Override
-    public java.util.List<OrderVO> getOrdersByFranchiseId(String franchiseId) {
+    public List<OrderVO> getOrdersByFranchiseId(String franchiseId) {
         return orderRepo.findOrdersByFranchiseId(franchiseId);
     }
 
     @Override
-    public java.util.List<OrderVO> getOrdersByDate(String date) {
+    public List<OrderVO> getOrdersByDate(String date) {
         return orderRepo.findOrdersByDate(date);
     }
 
     @Override
-    public java.util.List<OrderVO> getOrdersByDateRange(String startDate, String endDate) {
+    public List<OrderVO> getOrdersByDateRange(String startDate, String endDate) {
         return orderRepo.findOrdersByDateRange(startDate, endDate);
     }
 
