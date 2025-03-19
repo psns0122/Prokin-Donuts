@@ -21,6 +21,18 @@ public class InboundServiceImpl implements InboundService {
     //창고 관리자
 
     /**
+     * 창고관리자 작업시 필요한 창고ID를 loginUtil에 있는 멤버 ID로 가져온다.
+     * @param memberId
+     * @return warehouseId
+     */
+    @Override
+    public int getWarehouseId(int memberId) {
+        return inboundRepo.getWarehouseId(memberId).orElseThrow(
+                () -> new IllegalArgumentException("ee")
+        );
+    }
+
+    /**
      * [입고 검수 기능]
      * 입고(승인) 상태의 입고테이블 정보를 반환
      * @return 입고(승인) 리스트
@@ -126,14 +138,17 @@ public class InboundServiceImpl implements InboundService {
     }
 
     /**
+     * 창고관리자 현황 조회
      * 입고 ID 입력시 입고 상세 정보 출력
      * 창고 ID 필요
-     * @param inboundId
+     * @param warehouseId
      * @return 입고상세정보
      */
     @Override
-    public List<InboundDetailVO> getInboundDetail(int inboundId) {
-        return null;
+    public List<InboundDetailVO> getInboundDetail(int warehouseId) {
+        return inboundRepo.getInboundDetailList(warehouseId).orElseThrow(
+                () -> new IllegalArgumentException("e")
+        );
     }
 
 

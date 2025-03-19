@@ -3,9 +3,11 @@ package vo.inbound;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Builder
 @Getter
+@ToString
 public class InboundDetailVO {
     /** 입고 상세 아이디 */
     private int inboundDetailId;
