@@ -74,6 +74,12 @@ public interface InboundRepo {
      */
     Optional<List<InboundDetailVO>> getInboundDetail(int inboundId);
 
+    /**
+     * [입고 현황 조회]
+     * 해당 창고의 입고 상세 정보 List 출력
+     */
+    Optional<List<InboundDetailVO>> getInboundDetailList(int warehouseId);
+
     // 총관리자(본사)
 
     /**

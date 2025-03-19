@@ -296,6 +296,31 @@ public class InboundRepoImpl implements InboundRepo {
         }
     }
 
+    @Override
+    public Optional<List<InboundDetailVO>> getInboundDetailList(int warehouseId) {
+        List<InboundDetailVO> list = new ArrayList<>();
+        try {
+            String sql = "select * from inbound i, inboundDetail d where i.inboundid = d.inboundid and i.warehouseid = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, warehouseId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                InboundDetailVO inboundDetailVO = InboundDetailVO.builder()
+                        .inboundDetailId(rs.getInt("inboundDetatilId"))
+                        .quantity(rs.getInt("quantity"))
+                        .inboundId(rs.getInt("inboundId"))
+                        .productId(rs.getInt("productId"))
+                        .sectionId(rs.getInt("sectionId"))
+                        .build();
+                list.add(inboundDetailVO);
+            }
+            //DBUtil.closeQuietly(rs, cs, conn);
+            return Optional.of(list);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     // 총관리자(본사)
 
@@ -311,7 +336,7 @@ public class InboundRepoImpl implements InboundRepo {
         try {
             String sql = "SELECT * FROM inbound WHERE inboundStatus = ?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, "입고완료");
+            pstmt.setString(1, "입고요청");
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -345,6 +370,7 @@ public class InboundRepoImpl implements InboundRepo {
             cs = conn.prepareCall("{call updateApprovedStatus(?)}");
             cs.setInt(1, inboundId);
             cs.execute();
+            conn.commit();
             cs.close();
             //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
