@@ -117,7 +117,6 @@ public class LoginControllerImpl implements LoginController{
     public MemberRequestDTO newMemberRequest(){
         MemberRequestDTO newMemberRequest = new MemberRequestDTO();
         newMemberRequest.setName(InputUtil.getInput(LoginText.REQUEST.getText()+MemberText.MEMBER_NAME.getText()).get());
-        newMemberRequest.setAuthorityId(InputUtil.getMenuSelection(LoginText.REQUEST.getText()+MemberText.MEMBER_AUTHORITYID.getText()).get());
         newMemberRequest.setPhoneNumber(InputUtil.getInput(LoginText.REQUEST.getText()+MemberText.MEMBER_PHONE.getText()).get());
         newMemberRequest.setEmail(InputUtil.getInput(LoginText.REQUEST.getText()+MemberText.MEMBER_EMAIL.getText()).get());
         newMemberRequest.setAddress(InputUtil.getInput(LoginText.REQUEST.getText()+MemberText.MEMBER_ADDRESS.getText()).get());
