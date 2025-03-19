@@ -6,10 +6,7 @@ import dto.memberDTO.MemberRequestDTO;
 import vo.memberVO.MemberReauestVO;
 import vo.memberVO.MemberVO;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,19 +25,21 @@ public class MemberRepoImpl implements MemberRepo {
         conn = DBUtil.getConnection();
 
         try {
-            String sql = "{call insertMember('member',?,?,?,?,?,?,?)}";
+            String sql = "{call insertMember(?,?,?,?,?,?,?,?)}";
 
             cs = conn.prepareCall(sql);
-
-            cs.setInt(1, member.getAuthorityId());
-            cs.setString(2,member.getName());
-            cs.setString(3,member.getPhoneNumber());
-            cs.setString(4,member.getEmail());
-            cs.setString(5,member.getAddress());
-            cs.setString(6,member.getId());
-            cs.setString(7,member.getPassword());
+;
+            cs.setString(1, "member");
+            cs.setInt(2, member.getAuthorityId());
+            cs.setString(3,member.getName());
+            cs.setString(4,member.getPhoneNumber());
+            cs.setString(5,member.getEmail());
+            cs.setString(6,member.getAddress());
+            cs.setString(7,member.getId());
+            cs.setString(8,member.getPassword());
 
             int rs = cs.executeUpdate();
+            System.out.println(rs);
 
             //실행 성공 시 객체 반환, 실패 시 빈 optional반환
             if(rs > 0) return  Optional.of(member);
