@@ -104,18 +104,16 @@ public class MemberRepoImpl implements MemberRepo {
         conn = DBUtil.getConnection();
 
         try {
-            String sql = "call insertMember('memberrequest',?,?,?,?,?,?,?,?)";
 
-            cs = conn.prepareCall(sql);
+            cs = conn.prepareCall("insert into memberrequest (name,phoneNumber,email,address,id,password) values (?,?,?,?,?,?)");
 
-            cs.setInt(1, member.getAuthorityId());
-            cs.setString(2, member.getName());
-            cs.setString(3, member.getPhoneNumber());
-            cs.setString(4, member.getEmail());
-            cs.setString(5, member.getAddress());
-            cs.setString(6, member.getId());
-            cs.setString(7, member.getPassword());
 
+            cs.setString(1, member.getName());
+            cs.setString(2, member.getPhoneNumber());
+            cs.setString(3, member.getEmail());
+            cs.setString(4, member.getAddress());
+            cs.setString(5, member.getId());
+            cs.setString(6, member.getPassword());
             int rs = cs.executeUpdate();
 
             //실행 성공 시 객체 반환, 실패 시 빈 optional반환
@@ -127,6 +125,7 @@ public class MemberRepoImpl implements MemberRepo {
         }
         return Optional.empty();
     }
+
 
     //회원 승인 메서드
     @Override
@@ -323,7 +322,7 @@ public class MemberRepoImpl implements MemberRepo {
 
         try {
 
-            cs = conn.prepareCall("{insert into memberrquest('name','phoneNumber','email','address','id','password') values (?,?,?,?,?,?)}");
+            cs = conn.prepareCall("insert into memberrequest (name,phonNumber,email,address,id,password) values (?,?,?,?,?,?)");
 
 
             cs.setString(1, member.getName());
