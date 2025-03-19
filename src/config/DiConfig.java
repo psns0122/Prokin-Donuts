@@ -69,10 +69,9 @@ public class DiConfig {
     // 발주 controller
     private final OrderController orderController = new OrderControllerImpl(orderService);
     // 출고 controller
-//    private final OutboundController outboundController = new OutboundControllerImpl(outboundService);
+    //private final OutboundController outboundController = new OutboundControllerImpl(outboundService);
 
-
-    // 재고(창고) 의존성 주입
+    // 재고 의존성 주입
     //repo
     private final WarehouseRepo warehouseRepo = new WarehouseRepoImpl();
 
@@ -92,4 +91,5 @@ public class DiConfig {
                 warehouseController
         );
     }
+
 }
