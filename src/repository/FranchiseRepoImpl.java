@@ -33,13 +33,11 @@ public class FranchiseRepoImpl implements FranchiseRepo{
      */
     @Override
     public Optional<String> insertFranchise(FranchiseDTO franchise) {
-        conn = DBUtil.getConnection();
-
         try {
             // p_franchiseLocation , p_memberNo
             String sql = "{call RegisterFranchise(?, ?, ?)}";
 
-            cs = Objects.requireNonNull(conn).prepareCall(sql);
+            cs = conn.prepareCall(sql);
 
             // in 파라미터에 값 전달
             cs.setString(1, franchise.getFranchiseLocation());
@@ -284,22 +282,77 @@ public class FranchiseRepoImpl implements FranchiseRepo{
     /**
      * [제품 등록 기능]
      * 본사관리자가 신제품을 등록
+     *
      * @param productDTO
      * @return
      */
     @Override
-    public Optional<ProductDTO> insertProduct(ProductDTO productDTO) {
+    public Optional<String> insertProduct(ProductDTO productDTO) {
+        try {
+            // p_franchiseLocation , p_memberNo
+            String sql = "{call RegisterProduct(?, ?, ?, ?, ?)}";
+
+            cs = Objects.requireNonNull(conn).prepareCall(sql);
+
+            // in 파라미터에 값 전달
+            cs.setString(1, productDTO.getProductName());
+            cs.setInt(2, productDTO.getProductPrice());
+            cs.setInt(3, productDTO.getCategoryId());
+            cs.setString(4, productDTO.getProductType());
+
+            // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
+            cs.registerOutParameter(5, java.sql.Types.INTEGER);
+
+            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
+            cs.execute();
+            String resultMSG = cs.getString(5);
+
+            // resultMSG가 null이면 Optional.empty() 반환, 아니면 Optional.of(resultMSG) 반환
+            return Optional.ofNullable(resultMSG).filter(s -> !s.isEmpty());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
         return Optional.empty();
     }
 
     /**
      * [카테고리 등록 기능]
      * 본사관리자가 새로운 카테고리를 등록
+     *
      * @param productCategoryDTO
      * @return
      */
     @Override
-    public Optional<ProductCategoryDTO> insertProductCategory(ProductCategoryDTO productCategoryDTO) {
+    public Optional<String> insertProductCategory(ProductCategoryDTO productCategoryDTO) {
+        try {
+            // p_franchiseLocation , p_memberNo
+            String sql = "{call RegisterCategory(?, ?, ?, ?)}";
+
+            cs = Objects.requireNonNull(conn).prepareCall(sql);
+
+            // in 파라미터에 값 전달
+            cs.setInt(1, productCategoryDTO.getCategoryId());
+            cs.setString(2, productCategoryDTO.getCategoryMid());
+            cs.setString(3, productCategoryDTO.getCategorySub());
+
+            // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
+            cs.registerOutParameter(4, java.sql.Types.INTEGER);
+
+            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
+            cs.execute();
+            String resultMSG = cs.getString(4);
+
+            // resultMSG가 null이면 Optional.empty() 반환, 아니면 Optional.of(resultMSG) 반환
+            return Optional.ofNullable(resultMSG).filter(s -> !s.isEmpty());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
         return Optional.empty();
     }
 
@@ -307,11 +360,40 @@ public class FranchiseRepoImpl implements FranchiseRepo{
      * [제품 수정 기능]
      * 본사관리자는 제품의 정보를 수정할 수 있다
      * 수정하려는 제품이 없을 경우 Optional 처리
+     *
      * @param productDTO
      * @return
      */
     @Override
-    public Optional<ProductDTO> updateProduct(ProductDTO productDTO) {
+    public Optional<String> updateProduct(ProductDTO productDTO) {
+        try {
+            // p_franchiseLocation , p_memberNo
+            String sql = "{call UpdateProduct(?, ?, ?, ?, ?, ?)}";
+
+            cs = conn.prepareCall(sql);
+
+            // in 파라미터에 값 전달
+            cs.setInt(1, productDTO.getProductId());
+            cs.setString(2, productDTO.getProductName());
+            cs.setInt(1, productDTO.getProductPrice());
+            cs.setInt(2, productDTO.getCategoryId());
+            cs.setString(1, productDTO.getProductType());
+
+            // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
+            cs.registerOutParameter(6, java.sql.Types.INTEGER);
+
+            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
+            cs.execute();
+            String resultMSG = cs.getString(6);
+
+            // resultMSG가 null이면 Optional.empty() 반환, 아니면 Optional.of(resultMSG) 반환
+            return Optional.ofNullable(resultMSG).filter(s -> !s.isEmpty());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
         return Optional.empty();
     }
 
@@ -319,11 +401,36 @@ public class FranchiseRepoImpl implements FranchiseRepo{
      * [제품 삭제 기능]
      * 본사관리자는 제품아이디로 제품을 삭제
      * 삭제하려는 제품이 없을 경우 Optional 처리
-     * @param productDTO
+     *
+     * @param productId
      * @return
      */
     @Override
-    public Optional<ProductDTO> deleteProduct(ProductDTO productDTO) {
+    public Optional<String> deleteProduct(int productId) {
+        try {
+            // p_franchiseLocation , p_memberNo
+            String sql = "{call DeleteFranchise(?, ?)}";
+
+            cs = conn.prepareCall(sql);
+
+            // in 파라미터에 값 전달
+            cs.setInt(1, productId);
+
+            // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
+            cs.registerOutParameter(2, java.sql.Types.INTEGER);
+
+            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
+            cs.execute();
+            String resultMSG = cs.getString(2);
+
+            // resultMSG가 null이면 Optional.empty() 반환, 아니면 Optional.of(resultMSG) 반환
+            return Optional.ofNullable(resultMSG).filter(s -> !s.isEmpty());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
         return Optional.empty();
     }
 
@@ -333,9 +440,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
      * @return
      */
     @Override
-    public Optional<List<ProductDTO>> showAllProduct() {
-        return Optional.empty();
-    }
+    public Optional<List<ProductDTO>> showAllProduct() {}
 
     /**
      * [카테고리별 조회 기능]

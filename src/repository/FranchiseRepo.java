@@ -54,27 +54,27 @@ public interface FranchiseRepo {
      * [제품 등록 기능]
      * 본사관리자가 신제품을 등록
      */
-    Optional<ProductDTO> insertProduct(ProductDTO productDTO);
+    Optional<String> insertProduct(ProductDTO productDTO);
 
     /**
      * [카테고리 등록 기능]
      * 본사관리자가 새로운 카테고리를 등록
      */
-    Optional<ProductCategoryDTO> insertProductCategory(ProductCategoryDTO productCategoryDTO);
+    Optional<String> insertProductCategory(ProductCategoryDTO productCategoryDTO);
 
     /**
      * [제품 수정 기능]
      * 본사관리자는 제품의 정보를 수정할 수 있다
      * 수정하려는 제품이 없을 경우 Optional 처리
      */
-    Optional<ProductDTO> updateProduct(ProductDTO productDTO);
+    Optional<String> updateProduct(ProductDTO productDTO);
 
     /**
      * [제품 삭제 기능]
      * 본사관리자는 제품아이디로 제품을 삭제
      * 삭제하려는 제품이 없을 경우 Optional 처리
      */
-    Optional<ProductDTO> deleteProduct(ProductDTO productDTO);
+    Optional<String> deleteProduct(int productId);
 
     /**
      * [전체 제품 조회 기능]
