@@ -66,6 +66,10 @@ public enum FranchiseText {
     /** 제품 수정 관련 */
     HQ_UPDATE_PRODUCT_HEADER("=== 제품 수정 ==="),
     HQ_UPDATE_PRODUCT_MANAGER_ID("수정할 제품 ID: "),
+    HQ_UPDATE_PRODUCT_MANAGER_ID1("수정할 제품 카테고리 ID: "),
+    HQ_UPDATE_PRODUCT_MANAGER_ID2("수정할 제품명: "),
+    HQ_UPDATE_PRODUCT_MANAGER_ID3("수정할 제품 금액: "),
+    HQ_UPDATE_PRODUCT_MANAGER_ID4("수정할 제품 타입: "),
     HQ_UPDATE_PRODUCT("제품 정보가 수정되었습니다."),
 
     /** 제품 삭제 관련 */
@@ -82,7 +86,7 @@ public enum FranchiseText {
 
     /** 제품 등록 관련 */
     HQ_INSERT_PRODUCT_HEADER("=== 신제품 등록 ==="),
-    HQ_INSERT_PRODUCT_CATEGORY_NAME("신제품 소분류 카테고리: "),
+    HQ_INSERT_PRODUCT_CATEGORY_NAME("신제품 소분류 카테고리 ID: "),
     HQ_INSERT_PRODUCT_NAME("신제품 이름: "),
     HQ_INSERT_PRODUCT_PRICE("신제품 금액: "),
     HQ_INSERT_PRODUCT_TYPE("신제품 타입: "),
@@ -104,6 +108,7 @@ public enum FranchiseText {
     /** 제품 조회 관련 */
     HQ_SHOW_PRODUCT_BY_ALL_HEADER("=== 전체 제품 조회 ==="),
     HQ_SHOW_PRODUCT_BY_CATEGORY_HEADER("=== 카테고리별 조회 ==="),
+    HQ_SHOW_CATEGORY_ID("조회할 카테고리 ID: "),
     HQ_SHOW_PRODUCT_BY_ID("=== 제품 상세 조회 ==="),
     HQ_SHOW_PRODUCT_ID("조회할 제품 ID: "),
 
@@ -128,15 +133,6 @@ public enum FranchiseText {
     /// ////////////////////////////////////////////////////
     /// ////////////////////////////////////////////////////
     /// ////////////////////////////////////////////////////
-
-    // 테이블 조회시 헤더 등
-
-
-
-
-
-
-
 
     ;
 

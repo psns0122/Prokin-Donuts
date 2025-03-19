@@ -4,6 +4,10 @@ import common.franchise.FranchiseErrorCode;
 import common.franchise.FranchiseText;
 import common.warehouse.WarehouseErrorCode;
 import common.warehouse.WarehouseText;
+import dto.franchise.FranchiseDTO;
+import dto.franchise.ProductCategoryDTO;
+import dto.franchise.ProductDTO;
+import dto.warehouse.WarehouseDTO;
 import service.FranchiseService;
 import service.WarehouseService;
 
@@ -132,67 +136,164 @@ public class FranchiseControllerImpl implements FranchiseController {
 
     @Override
     public void insertFranchise() {
+        System.out.println(FranchiseText.HQ_INSERT_FRANCHISE_HEADER.getText());
 
+        System.out.print(FranchiseText.HQ_INSERT_FRANCHISE_LOCATION.getText());
+        String franchiseLocation = scanner.nextLine();
+        System.out.print(FranchiseText.HQ_INSERT_FRANCHISE_MANAGER_ID.getText());
+        int memberId = scanner.nextInt();
+        scanner.nextLine();
+
+        FranchiseDTO franchise = new FranchiseDTO();
+        franchise.setManagerNo(memberId);
+        franchise.setFranchiseLocation(franchiseLocation);
+        System.out.println(franchiseService.insertFranchise(franchise));
     }
 
     @Override
     public void updateFranchise() {
+        System.out.println(FranchiseText.HQ_UPDATE_FRANCHISE_HEADER.getText());
+        System.out.print(FranchiseText.HQ_UPDATE_FRANCHISE_MANAGER_ID.getText());
+        int memberId = scanner.nextInt();
+        scanner.nextLine();
 
+        FranchiseDTO franchise = new FranchiseDTO();
+        franchise.setManagerNo(memberId);
+        System.out.println(franchiseService.updateFranchise(franchise));
     }
 
     @Override
     public void deleteFranchise() {
+        System.out.println(FranchiseText.HQ_DELETE_FRANCHISE_HEADER.getText());
+        System.out.print(FranchiseText.HQ_DELETE_FRANCHISE_ID.getText());
+        int franchiseId = scanner.nextInt();
+        scanner.nextLine();
 
+        System.out.println(franchiseService.deleteFranchise(franchiseId));
     }
 
     @Override
     public void viewFranchiseAll() {
-
+        System.out.print(FranchiseText.HQ_SHOW_FRANCHISE_BY_ALL_HEADER.getText());
+        franchiseService.viewFranchises().forEach(System.out::println);
     }
 
     @Override
     public void viewFranchiseOne() {
+        System.out.println(FranchiseText.HQ_SHOW_FRANCHISE_BY_ID_HEADER.getText());
+        System.out.print(FranchiseText.HQ_SHOW_FRANCHISE_ID.getText());
+        int franchiseId = scanner.nextInt();
+        scanner.nextLine();
 
+        franchiseService.viewFranchiseById(franchiseId).forEach(System.out::println);
     }
 
     @Override
     public void viewManagerHaveNoFranchise() {
-
+        System.out.print(FranchiseText.HQ_SHOW_MANAGER_BY_HAVE_NO_FRANCHISE_HEADER.getText());
+        franchiseService.viewManagerHaveNoFranchise().forEach(System.out::println);
     }
 
     @Override
     public void insertProduct() {
+        System.out.println(FranchiseText.HQ_INSERT_PRODUCT_HEADER.getText());
 
+        System.out.print(FranchiseText.HQ_INSERT_PRODUCT_CATEGORY_NAME.getText());
+        int category = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print(FranchiseText.HQ_INSERT_PRODUCT_NAME.getText());
+        String name = scanner.nextLine();
+        System.out.print(FranchiseText.HQ_INSERT_PRODUCT_PRICE.getText());
+        int price = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print(FranchiseText.HQ_INSERT_PRODUCT_TYPE.getText());
+        String type = scanner.nextLine();
+
+        ProductDTO product = new ProductDTO();
+        product.setCategoryId(category);
+        product.setProductName(name);
+        product.setProductPrice(price);
+        product.setProductType(type);
+        System.out.println(franchiseService.insertProduct(product));
     }
 
     @Override
     public void insertProductCategory() {
+        System.out.println(FranchiseText.HQ_INSERT_PRODUCT_CATEGORY_HEADER.getText());
 
+        System.out.print(FranchiseText.HQ_INSERT_PRODUCT_CATEGORY_MID.getText());
+        String type1 = scanner.nextLine();
+        System.out.print(FranchiseText.HQ_INSERT_PRODUCT_CATEGORY_LAST.getText());
+        String type2 = scanner.nextLine();
+
+        ProductCategoryDTO productCategory = new ProductCategoryDTO();
+        productCategory.setCategoryMid(type1);
+        productCategory.setCategorySub(type2);
+        System.out.println(franchiseService.insertProductCategory(productCategory));
     }
 
     @Override
     public void updateProduct() {
+        System.out.println(FranchiseText.HQ_UPDATE_PRODUCT_HEADER.getText());
+        System.out.print(FranchiseText.HQ_UPDATE_PRODUCT_MANAGER_ID.getText());
+        int productId = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print(FranchiseText.HQ_UPDATE_PRODUCT_MANAGER_ID1.getText());
+        int productCategoryId = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print(FranchiseText.HQ_UPDATE_PRODUCT_MANAGER_ID2.getText());
+        String name = scanner.nextLine();
+        System.out.print(FranchiseText.HQ_UPDATE_PRODUCT_MANAGER_ID3.getText());
+        int price = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print(FranchiseText.HQ_UPDATE_PRODUCT_MANAGER_ID4.getText());
+        String type = scanner.nextLine();
 
+        ProductDTO product = new ProductDTO();
+        product.setProductId(productId);
+        product.setProductName(name);
+        product.setProductPrice(price);
+        product.setProductType(type);
+        product.setCategoryId(productCategoryId);
+        System.out.println(franchiseService.updateProduct(product));
     }
 
     @Override
     public void deleteProduct() {
+        System.out.println(FranchiseText.HQ_DELETE_PRODUCT_HEADER.getText());
+        System.out.print(FranchiseText.HQ_DELETE_PRODUCT_ID.getText());
+        int productId = scanner.nextInt();
+        scanner.nextLine();
 
+        System.out.println(franchiseService.deleteProduct(productId));
     }
 
     @Override
     public void viewProductAll() {
-
+        System.out.print(FranchiseText.HQ_SHOW_PRODUCT_BY_ALL_HEADER.getText());
+        franchiseService.viewFranchises().forEach(System.out::println);
     }
 
     @Override
     public void viewProductByCategory() {
+        System.out.println(FranchiseText.HQ_SHOW_PRODUCT_BY_CATEGORY_HEADER.getText());
+        System.out.print(FranchiseText.HQ_SHOW_CATEGORY_ID.getText());
+        int categoryId = scanner.nextInt();
+        scanner.nextLine();
 
+        franchiseService.viewProductByCategory(categoryId).forEach(System.out::println);
     }
 
     @Override
     public void viewProductById() {
+        System.out.println(FranchiseText.HQ_SHOW_PRODUCT_BY_ID.getText());
+        System.out.print(FranchiseText.HQ_SHOW_PRODUCT_ID.getText());
+        int productId = scanner.nextInt();
+        scanner.nextLine();
 
+        franchiseService.viewProductById(productId).forEach(System.out::println);
     }
 
     @Override
