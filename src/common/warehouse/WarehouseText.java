@@ -57,6 +57,7 @@ public enum WarehouseText {
     HQ_SHOW_INVENTORY_BY_LOGIN_HEADER("=== 내 창고 재고 조회 ==="),
 
     /** 본사-창고관리 > 창고조회 > 소재지별 창고 조회 서브메뉴 */
+    HQ_LOCATION("검색할 소재지명: "),
     HQ_WAREHOUSE_VIEW_LOCATION_MENU("\n[본사 관리자 > 창고 관리 > 창고 조회 > 소재지별 창고 조회]\n" +
             "1. 수도권\n" +
             "2. 비수도권\n" +

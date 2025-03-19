@@ -125,22 +125,8 @@ public class WarehouseControllerImpl implements WarehouseController {
 
     @Override
     public void viewWarehousesByLocation() {
-        System.out.print(WarehouseText.HQ_WAREHOUSE_VIEW_LOCATION_MENU.getText());
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-
-        if (choice == 3) {
-            return;
-        }
-
-        String location = switch (choice) {
-            case 1 -> "수도권";
-            case 2 -> "비수도권";
-            default -> {
-                System.out.println(WarehouseErrorCode.INPUT_ERROR.getText());
-                yield null;
-            }
-        };
+        System.out.print(WarehouseText.HQ_LOCATION.getText());
+        String location = scanner.nextLine();
 
         if (location != null) {
             System.out.println(WarehouseText.HQ_SHOW_WAREHOUSE_BY_LOCATION_HEADER.getText());
