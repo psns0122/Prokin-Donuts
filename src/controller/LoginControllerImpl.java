@@ -37,20 +37,26 @@ public class LoginControllerImpl implements LoginController{
         return mainMenu;
     }
 
-    public void login(){
+    public void login() {
         System.out.println(LoginText.LOGIN_HEADER.getText());
 
-        String id =InputUtil.getInput(LoginText.LOGIN_NO.getText()).get();
-        String password =InputUtil.getInput(LoginText.LOGIN_PASSWORD.getText()).get();
-        String loginstatus = memberService.logstatus(id);
-        if(loginstatus.equals("login"))System.out.println(LoginErrorCode.LOGIN_FAIL.getText()); //로그인 상태 확인
-        else {
-            String result = memberService.logIn(id, password);
-            if (result == null) System.out.println(LoginErrorCode.LOGIN_NOT_FOUND.getText());
+        String id = InputUtil.getInput(LoginText.LOGIN_NO.getText()).get();
+        String password = InputUtil.getInput(LoginText.LOGIN_PASSWORD.getText()).get();
+        String requst = memberService.searchRequestMember(id);
+        if (requst.equals("대기")) {
+            System.out.println(LoginErrorCode.LOGIN_FAIL_REQUEST.getText());
+        } else {
+
+            String loginstatus = memberService.logstatus(id);
+            if (loginstatus.equals("login")) System.out.println(LoginErrorCode.LOGIN_FAIL.getText()); //로그인 상태 확인
             else {
-                MemberDTO loginMember= memberService.searchMember(id);
-                LoginUtil.setLoginMember(loginMember);
-                System.out.println(LoginText.LOGIN_SUCCESS.getText());
+                String result = memberService.logIn(id, password);
+                if (result == null) System.out.println(LoginErrorCode.LOGIN_NOT_FOUND.getText());
+                else {
+                    MemberDTO loginMember = memberService.searchMember(id);
+                    LoginUtil.setLoginMember(loginMember);
+                    System.out.println(LoginText.LOGIN_SUCCESS.getText());
+                }
             }
         }
     }

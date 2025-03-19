@@ -118,17 +118,18 @@ public class MemberControllerImpl implements MemberController {
 
     public void addMenu() {
         System.out.println(MemberText.INSERT_MEMBER_NEW_HEADER.getText());
-        MemberDTO result = memberService.addMember(newMember());
-        if (result == null) System.out.println(MemberErrorCode.ID_FOUND.getText());
-        else {
-            System.out.println(result.getId());
-            System.out.println(MemberText.INSERT_MEMBER_SUCCESS.getText());
-        }
+        MemberDTO newMember = newMember();
+        if(memberService.checkId(newMember.getId())){ //아이디 중복검사
+            MemberDTO result = memberService.addMember(newMember);
+            if (result == null) System.out.println(MemberErrorCode.INSERT_FAIL.getText());
+            else System.out.println(MemberText.INSERT_MEMBER_SUCCESS.getText());
+        } else System.out.println(MemberErrorCode.ID_FOUND.getText());
+
     }
 
     public void approve(){
         System.out.println(MemberText.INSERT_MEMBER_APPROVE_HEADER.getText());
-        memberService.searchRequestMember().forEach(System.out::println);
+        memberService.searchRequestMemberAll().forEach(System.out::println);
         String result = memberService.approvalMember(InputUtil.getInput
                 (MemberText.INSERT_MEMBER.getText()+
                         MemberText.MEMBER_ID.getText()).get());
@@ -150,8 +151,9 @@ public class MemberControllerImpl implements MemberController {
 
         String updateMemberID = InputUtil.getInput(MemberText.UPDATE_MEMBER.getText()+
                                 MemberText.MEMBER_ID.getText()).get();
-        MemberDTO result = memberService.updateMember(updateMemberID,updateMember());
-        System.out.println(result.getId());
+        MemberDTO updateMember = updateMember();
+        MemberDTO result = memberService.updateMember(updateMemberID,updateMember);
+        System.out.println(updateMemberID);
         System.out.println(MemberText.UPDATE_MEMBER_SUCCESS);
     }
 

@@ -108,12 +108,18 @@ public interface MemberService {   /*
     [회원가입 요청 조회 기능]
     repo의 loadRequestMember 호출해 해당 권한의 회원정보 확인
     */
-     List<MemberRequestDTO> searchRequestMember ();
+     List<MemberRequestDTO> searchRequestMemberAll ();
 
      /*
      [로그인 상태 확인 기능]
      */
      public String logstatus(String memberId);
+     /*
+     [이메일을 찾는 메서드 ]
+      */
     public String findemail(String id);
-
+    /*
+    [요청상태 확인 메서드]
+    */
+    public String searchRequestMember(String id);
 }
