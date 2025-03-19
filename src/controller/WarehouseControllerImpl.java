@@ -65,6 +65,10 @@ public class WarehouseControllerImpl implements WarehouseController {
         scanner.nextLine();
 
         WarehouseDTO warehouse = new WarehouseDTO();
+        warehouse.setWarehouseName(warehouseName);
+        warehouse.setAddress(location);
+        warehouse.setCapacityLimit(size);
+        warehouse.setMemberNo(managerID);
         System.out.println(warehouseService.insertWarehouse(warehouse));
     }
 
@@ -77,13 +81,14 @@ public class WarehouseControllerImpl implements WarehouseController {
 
         System.out.print(WarehouseText.HQ_UPDATE_WAREHOUSE_NAME.getText());
         String newName = scanner.nextLine();
-        System.out.print(WarehouseText.HQ_UPDATE_WAREHOUSE_MANAGER_NAME.getText());
-        String newManagerName = scanner.nextLine();
         System.out.print(WarehouseText.HQ_UPDATE_WAREHOUSE_MANAGER_ID.getText());
         int newManagerID = scanner.nextInt();
         scanner.nextLine();
 
         WarehouseDTO warehouse = new WarehouseDTO();
+        warehouse.setWarehouseId(id);
+        warehouse.setWarehouseName(newName);
+        warehouse.setMemberNo(newManagerID);
         System.out.println(warehouseService.updateWarehouse(warehouse));
     }
 
