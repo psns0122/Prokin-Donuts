@@ -128,9 +128,10 @@ public class OrderControllerImpl implements OrderController {
         Map<Integer, Runnable> menuActions = new HashMap<>();
         menuActions.put(1, this::submitOrderCLI);
         menuActions.put(2, this::storeManagerCheckOrders);
-        menuActions.put(3, () -> showStoreManagerDetailedStatistics(getLastMonthYear(), getLastMonth()));
-        menuActions.put(4, () -> showStoreManagerDetailedStatistics(getCurrentYear(), getCurrentMonth()));
-        menuActions.put(5, this::logout);
+        menuActions.put(3, this::cancelOrderCLI);  // 발주 취소 기능
+        menuActions.put(4, () -> showStoreManagerDetailedStatistics(getLastMonthYear(), getLastMonth()));
+        menuActions.put(5, () -> showStoreManagerDetailedStatistics(getCurrentYear(), getCurrentMonth()));
+        menuActions.put(6, this::logout);
 
         System.out.println("\n" + LINE);
         System.out.println(OrderText.STORE_MENU.getText());
@@ -360,5 +361,12 @@ public class OrderControllerImpl implements OrderController {
             displayOrderList(pendingOrders);
         }
         System.out.println(LINE);
+    }
+
+    private void cancelOrderCLI() {
+        String orderId = getInputOrExit(OrderText.INPUT_ORDER_ID.getText());
+        orderService.cancelOrder(orderId);
+        // 취소 성공 메시지는 서비스 계층에서 출력하거나 여기서 추가 출력할 수 있음
+        System.out.println(OrderText.ORDER_CANCEL_SUCCESS.getText() + orderId);
     }
 }
