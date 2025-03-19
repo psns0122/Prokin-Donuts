@@ -60,7 +60,6 @@ public class MemberControllerImpl implements MemberController {
 
     public Map<Integer,Runnable> setWMMenu(){
         WMSearchMenu =setWMSearchMenu();
-        WMSearchMenu = setWMSearchMenu();
         WMMenu.put(1,()-> MenuUtil.handleMenuSelection(MemberText.WM_MEMBER_SEARCH_MENU.getText(),WMSearchMenu));
         WMMenu.put(2,()-> updateMenu());
         return WMMenu;
