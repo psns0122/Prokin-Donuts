@@ -39,10 +39,10 @@ public enum MemberText {
 
 
     /*회원 조회*/
-    SEARCH_MEMBER_SIMPLE_HEADER("=== 회원 정보 간편 조회==="),
-    SEARCH_MEMBER_DETAIL_HEADER("=== 회원 정보 상세 조회==="),
-    SEARCH_MEMBER_ALL_HEADER("===전체 회원 정보 조회==="),
-    SEARCH_MEMBER_AUTHORITY_HEADER("=== 권한별 회원 정보 조회==="),
+    SEARCH_MEMBER_SIMPLE_HEADER("\n=== 회원 정보 간편 조회==="),
+    SEARCH_MEMBER_DETAIL_HEADER("\n=== 회원 정보 상세 조회==="),
+    SEARCH_MEMBER_ALL_HEADER("\n===전체 회원 정보 조회==="),
+    SEARCH_MEMBER_AUTHORITY_HEADER("\n=== 권한별 회원 정보 조회==="),
     SEARCH_MEMBER_ID("조회할 ID : "),
     SEARCH_MEMBER_AUTHORITY("검색할 권한 : "),
 
@@ -52,22 +52,21 @@ public enum MemberText {
             "2. 회원 수정\n" +
             "3. 회원 삭제\n" +
             "4. 회원 조회\n" +
-            "\n메뉴를 선택하세요(\"exit\"입력 시 종료): "),
+            "메뉴를 선택하세요(\"exit\"입력 시 종료): "),
 
 
     /** 창고관리자 회원관리 메인메뉴 */
     WM_MEMBER_MENU("\n[창고 관리자 > 회원 관리]\n" +
             "1. 회원 조회\n" +
             "2. 회원 수정\n" +
-            "\n메뉴를 선택하세요(\"exit\"입력 시 종료): "),
+            "메뉴를 선택하세요(\"exit\"입력 시 종료): "),
 
   /** 가맹점주 회원관리 메인메뉴 */
     FM_MEMBER_MENU("\n[가맹점주 > 회원 관리]\n" +
             "1. 내 정보 조회\n" +
             "2. 내 정보 수정\n" +
             "3. 회원 탈퇴 \n"+
-          "5. 뒤로 가기(\"exit\"입력)"+
-                  "\n메뉴를 선택하세요(\"exit\"입력 시 종료): "),
+                  "메뉴를 선택하세요(\"exit\"입력 시 종료): "),
 
 
     /** 본사 관리자 조회 메뉴 */
@@ -76,28 +75,28 @@ public enum MemberText {
                            "2. 상세 조회\n" +
                            "3. 권한별 회원 조회 \n" +
                            "4. 전체회원 조회\n" +
-            "\n메뉴를 선택하세요(\"exit\"입력 시 종료): "),
+            "메뉴를 선택하세요(\"exit\"입력 시 종료): "),
 
     /** 본사 관리자 조회 메뉴 */
     WM_MEMBER_SEARCH_MENU("\n[창고 관리자 > 회원 관리 > 회원조회]\n" +
                                   "1. 간편 조회\n" +
                                   "2. 상세 조회\n" +
                                   "3. 전체회원 조회\n" +
-            "\n메뉴를 선택하세요(\"exit\"입력 시 종료): "),
+            "메뉴를 선택하세요(\"exit\"입력 시 종료): "),
 
 
     /** 본사 관리자 조회 메뉴 */
     HQ_MEMBER_ADD_MENU("\n[본사 관리자> 회원 관리 > 회원등록]\n" +
                                   "1 신규관리자 등록\n" +
                                   "2. 가맹점주 회원가입 승인\n" +
-                                  "\n메뉴를 선택하세요(\"exit\"입력 시 종료):"),
+                                  "메뉴를 선택하세요(\"exit\"입력 시 종료):"),
 
 
     /** 가맹점주 조회 메뉴 */
     FM_MEMBER_SEARCH_MENU("\n[가맹점주> 회원 관리 > 회원조회]\n" +
                                 "1. 간편 조회\n" +
                                 "2. 상세 조회\n" +
-                                "\n메뉴를 선택하세요(\"exit\"입력 시 종료): ");
+                                "메뉴를 선택하세요(\"exit\"입력 시 종료): ");
 
 
     private final String text;
