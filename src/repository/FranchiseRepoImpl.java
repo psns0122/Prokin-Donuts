@@ -1,6 +1,6 @@
 package repository;
 
-import dto.OrderDTO;
+import dto.orderDTO.OrderDTO;
 import dto.franchise.FranchiseDTO;
 import dto.franchise.ProductCategoryDTO;
 import dto.franchise.ProductDTO;

@@ -1,21 +1,26 @@
+package repository.orderRepo;
+
+import common.Order.OrderIdGenerator;
+import config.DBConnectionManager;
+import dto.orderDTO.OrderStatisticsDTO;
+import vo.orderVO.OrderDetailVO;
+import vo.orderVO.OrderVO;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
-import java.util.UUID;
 
 public class OrderRepoImpl implements OrderRepo {
 
     @Override
     public String saveOrder(OrderVO order) {
-        // 가독성 있는 주문번호 생성
+        // 주문번호 생성
         String newOrderId = OrderIdGenerator.generateOrderId();
         String sql = "INSERT INTO `Order` (orderId, orderQuantity, productId, orderDate, orderStatus, memberNo, authorityId) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnectionManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, newOrderId);
-            pstmt.setInt(2, 0);  // 단일 주문일 경우 dummy 값 사용 (여러 상품 주문은 OrderDetail에서 관리)
+            pstmt.setInt(2, 0);  // 단일 주문일 경우 dummy 값 사용
             pstmt.setString(3, "MULTI");
-            // orderDate는 "yyyy-MM-dd" 형식의 문자열이어야 합니다.
             pstmt.setDate(4, Date.valueOf(order.getOrderDate()));
             pstmt.setString(5, order.getOrderStatus());
             pstmt.setString(6, order.getMemberNo());
@@ -257,5 +262,15 @@ public class OrderRepoImpl implements OrderRepo {
             e.printStackTrace();
         }
         return pendingMap;
+    }
+
+    @Override
+    public OrderStatisticsDTO getLastMonthOrderStatistics(String franchiseId) {
+        // 지난 달의 통계 계산 (여기서는 단순히 Calendar를 사용)
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -1);
+        int lastMonth = cal.get(Calendar.MONTH) + 1;
+        int lastYear = cal.get(Calendar.YEAR);
+        return getOrderStatisticsByFranchiseAndMonth(franchiseId, lastYear, lastMonth);
     }
 }

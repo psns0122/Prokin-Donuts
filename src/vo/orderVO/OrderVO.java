@@ -1,24 +1,11 @@
-package vo;
+package vo.orderVO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@Getter
-@AllArgsConstructor
-/** 발주 테이블 */
 public class OrderVO {
-    /** 발주 아이디 */
     private String orderId;
-    /** 발주 수량 */
-    private int orderQuantity;
-    /** 제품 아이디 */
-    private String productId;
-    /** 발주일 */
     private String orderDate;
-    /** 회원번호 */
-    private String memberNo;
-    /** 권한 아이디 */
-    private String authorityId;
+    private String orderStatus;
+    private String memberNo;      // 가맹점(회원번호)
+    private String authorityId;   // 권한ID (예: "FRANCHISE")
 
     public OrderVO(String orderId, String orderDate, String orderStatus, String memberNo, String authorityId) {
         this.orderId = orderId;
@@ -27,7 +14,7 @@ public class OrderVO {
         this.memberNo = memberNo;
         this.authorityId = authorityId;
     }
-
+    // Getter 메서드들
     public String getOrderId() { return orderId; }
     public String getOrderDate() { return orderDate; }
     public String getOrderStatus() { return orderStatus; }

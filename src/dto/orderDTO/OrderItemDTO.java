@@ -1,3 +1,5 @@
+package dto.orderDTO;
+
 public class OrderItemDTO {
     private String productId;
     private int orderQuantity;
