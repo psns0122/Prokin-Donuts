@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
     //회원 가입  요청기능
     @Override
     public MemberRequestDTO requestMember(MemberRequestDTO member) {
-            Optional<MemberRequestDTO> result = memberRepo.requestMember(member);
+            Optional<MemberRequestDTO> result = memberRepo.insertRequestMember(member);
             return result.orElse(null);
     }
 
