@@ -96,16 +96,20 @@ public class MemberControllerImpl implements MemberController {
         }
     }
 
-    public void WMMenu(){
+    public void WMMenu() {
         System.out.println(MemberText.MENU_HEADER.getText());
         WMMenu = setWMMenu();
-        MenuUtil.handleMenuSelection(MemberText.WM_MEMBER_MENU.getText(),WMMenu);
+        while (true) {
+            MenuUtil.handleMenuSelection(MemberText.WM_MEMBER_MENU.getText(), WMMenu);
+        }
     }
 
-    public void FMMenu(){
+    public void FMMenu() {
         System.out.println(MemberText.MENU_HEADER.getText());
         FMMenu = setFMMenu();
-        MenuUtil.handleMenuSelection(MemberText.FM_MEMBER_MENU.getText(),FMMenu);
+        while (true) {
+            MenuUtil.handleMenuSelection(MemberText.FM_MEMBER_MENU.getText(), FMMenu);
+        }
     }
 
 
