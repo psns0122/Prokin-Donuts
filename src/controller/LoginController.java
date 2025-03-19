@@ -12,7 +12,7 @@ import java.util.Map;
 
 public interface LoginController {
 
-    public void MainMenu();
+    public void mainMenu();
     public Map<Integer,Runnable> setMainMenu();
 
     public void login();

@@ -21,14 +21,16 @@ public class LoginControllerImpl implements LoginController{
 
     Map<Integer,Runnable> mainMenu = new HashMap<>();
 
-    public void MainMenu(){
-            System.out.println(MemberText.MENU_HEADER.getText());
+    public void mainMenu(){
+            System.out.println(LoginText.MENU_HEADER.getText());
             mainMenu = setMainMenu();
-            Runnable action = mainMenu.get(
-                    InputUtil.getIntegerInput(LoginText.LOGIN_MAINMENU.getText()));
-            action.run();
-
+            while(true) {
+                Runnable action = mainMenu.get(
+                        InputUtil.getIntegerInput(LoginText.LOGIN_MAINMENU.getText()));
+                action.run();
+            }
     }
+
     public Map<Integer,Runnable> setMainMenu(){
         mainMenu.put(1,()->login());
         mainMenu.put(2,()->memberRequest());
@@ -59,6 +61,7 @@ public class LoginControllerImpl implements LoginController{
                     System.out.println(LoginText.LOGIN_SUCCESS.getText());
                 }
             }
+            System.exit(0);
         }
     }
 
