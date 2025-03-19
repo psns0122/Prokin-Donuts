@@ -8,6 +8,7 @@ public enum MemberErrorCode {
     DB_UPDATE_ERROR("[DB]: 정보를 수정할 수 없습니다."),
     DB_DELETE_ERROR("[DB]: 정보를 삭제할 수 없습니다."),
     INSERT_FAIL("회원 등록 실패"),
+    DELETE_FAIL("회원 삭제 실패"),
     ID_NOT_FOUND("[Service]: 존재하지 않는 ID입니다. "),
     ID_FOUND("[Service]: 이미 존재하는 ID입니다."),
 

@@ -26,12 +26,15 @@ public class MemberServiceImpl implements MemberService {
     //회원 수정 기능
     @Override
     public MemberDTO updateMember(String memberID ,MemberDTO updateMember) {
-        Optional<List<MemberDTO>> Memberlist = memberRepo.loadMember("id",memberID);
-        Optional<MemberDTO> loadMember = Memberlist.map(list -> list.get(0));
-        updateMember.setMemberNo(loadMember.get().getMemberNo());
+        Optional<List<MemberDTO>> memberList  = memberRepo.loadMember("id",memberID);
+        MemberDTO loadMember = memberList .get().get(0);
+        int updateMemberNo = loadMember.getMemberNo();
+        updateMember.setMemberNo(updateMemberNo);
         Optional<MemberDTO> result = memberRepo.updateMember(updateMember);
         return result.orElse(null);
     }
+
+
 
     //회원 삭제 기능
     @Override
@@ -126,9 +129,8 @@ public class MemberServiceImpl implements MemberService {
     //회원 승인 기능
     @Override
     public String approvalMember(String memberId) {
-        boolean approval = memberRepo.approvalMember(memberId);
-        if (approval) return "success";
-        else return "fail";
+        Optional<String> approval = memberRepo.approvalMember(memberId);
+        return approval.orElse(null);
     }
 
     //로그인 기능
