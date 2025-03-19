@@ -28,7 +28,7 @@ public interface InboundRepo {
      * 입고테이블에서 해당 ID의 입고 상태를 입고완료 상태로 변경한다.
      * + 트리거를 통해 재고에 반영(update)
      */
-    void updateCompletedStatus(int inboundId);
+    boolean updateCompletedStatus(int inboundId);
 
     /**
      * [입고 요청 기능]

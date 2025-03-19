@@ -17,7 +17,11 @@ public enum InboundText {
 
     INBOUND_DATE("입고예약 날짜를 입력해주세요."),
 
-    DELETE_ID("입고를 취소할 ID를 입력하세요.")
+    DELETE_ID("입고를 취소할 ID를 입력하세요."),
+
+    DELETE("입고 요청이 취소되었습니다."),
+
+    NOT_DELETE("입고 예정일 이틀 전부터는 취소할 수 없습니다.");
 
     private final String text;
 

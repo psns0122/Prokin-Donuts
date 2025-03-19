@@ -9,6 +9,7 @@ import service.InboundService;
 import service.InboundServiceImpl;
 import vo.inbound.InboundDetailVO;
 import vo.inbound.InboundVO;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -18,6 +19,7 @@ public class InboundControllerImpl implements InboundController {
         inboundController.warehouseManager(1);
         //inboundController.Headquarters();
     }
+
     private final InboundService inboundService;
 
     public InboundControllerImpl(InboundService inboundService) {
@@ -36,7 +38,7 @@ public class InboundControllerImpl implements InboundController {
      */
     public void warehouseManager(int warehouseId) {
         //int warehouseId = getWarehouseId(LoginUtil.getLoginMember().getMemberNo());
-        while(true) {
+        while (true) {
             printWmMenu(); //창고 관리자 메뉴 출력
             Map<Integer, Runnable> menuActions = new HashMap<>();
             menuActions.put(1, () -> inspect(warehouseId));
@@ -48,6 +50,7 @@ public class InboundControllerImpl implements InboundController {
             MenuUtil.handleMenuSelection("메뉴 선택 (숫자 입력, 종료: exit): ", menuActions);
         }
     }
+
     /**
      * 창고 관리자의 메뉴
      */
@@ -60,8 +63,6 @@ public class InboundControllerImpl implements InboundController {
     /**
      * 창고 관리자의 입고 검수 기능
      * inspect, printInboundList
-     * -> printInboundList 메서드 기능 구분
-     * -> Refactoring 필요
      */
     private void inspect(int warehouseId) {
         try {
@@ -70,16 +71,16 @@ public class InboundControllerImpl implements InboundController {
             //승인 할 입고 ID를 입력하면 해당 입고 ID는 (승인 -> 완료) 상태로 변경되며
             // Trigger 를 통해 재고에 반영된다.
             selectInboundId();
-        } catch(IllegalArgumentException e) {
-
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
-
     }
 
     /**
      * 입고 승인 상태인 입고요청을 출력
      * (입고 승인 상태인 입고 요청 출력 테스트 완료)
      * (입고 상태 변경 (승인 -> 완료) 테스트 완료)
+     *
      * @param warehouseId
      */
     private void printInboundList(int warehouseId) {
@@ -90,8 +91,11 @@ public class InboundControllerImpl implements InboundController {
 
     private void selectInboundId() {
         int inboundId = InputUtil.getIntegerInput(InboundText.COMPLETE_INBOUND.getText());
-        inboundService.completedInbound(inboundId); // 입고 ID 상태 (승인 -> 완료)
-        System.out.println(InboundText.COMPLETE_TEXT);
+        boolean check = inboundService.completedInbound(inboundId); // 입고 ID 상태 (승인 -> 완료)
+        if(check) System.out.println(InboundText.COMPLETE_TEXT.getText());
+        else {
+            System.out.println("입고를 완료할 수 없습니다.");
+        }
     }
 
     /**
@@ -108,11 +112,11 @@ public class InboundControllerImpl implements InboundController {
         // 상품 메뉴 출력
         printProductMenu();
         // 다음 입고 번호를 가져오는 기능  // 테스트 완료
-        int inboundId = inboundService.getNextInboundId()+1;
+        int inboundId = inboundService.getNextInboundId() + 1;
         // Refactoring 필요 !
         while (true) {
             // 입고할 상품과 수량 선택
-            int productId = InputUtil.getIntegerInput(InboundText.COMPLETE_TEXT.getText());
+            int productId = InputUtil.getIntegerInput(InboundText.PRODUCT_ID.getText());
             int quantity = InputUtil.getIntegerInput(InboundText.QUANTITY.getText());
             InboundDetailVO inboundDetailVO = InboundDetailVO.builder()
                     .productId(productId)
@@ -173,14 +177,17 @@ public class InboundControllerImpl implements InboundController {
 
         int inboundId = InputUtil.getIntegerInput(InboundText.DELETE_ID.getText());
         //취소 가능하면 -> 삭제
-        
-        if(inboundService.checkInboundDate(inboundId)) {
+
+        if (inboundService.checkInboundDate(inboundId)) {
             inboundService.deleteInboundInfo(inboundId);
-            System.out.println("취소 됨!");
+            System.out.println(InboundText.DELETE.getText());
+            System.out.println();
         } else {
-            System.out.println("취소 불가능합니다.");
+            System.out.println(InboundText.NOT_DELETE.getText());
+            System.out.println();
         }
     }
+
     private void printDeleteList(int warehouseId) {
         List<InboundVO> list = inboundService.getInboundList(warehouseId);
         list.forEach(System.out::println);
@@ -207,7 +214,7 @@ public class InboundControllerImpl implements InboundController {
 
     // 총관리자 호출
     public void Headquarters() {
-        while(true) {
+        while (true) {
             System.out.println("1. 입고요청 승인");
             System.out.println("2. 입고 고지서 출력");
 

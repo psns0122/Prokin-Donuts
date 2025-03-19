@@ -66,10 +66,10 @@ public class InboundRepoImpl implements InboundRepo {
                 list.add(inboundVO);
             }
             //DBUtil.closeQuietly(rs, cs, conn);
-            return Optional.of(list);
+            return Optional.ofNullable(list);
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[DB] 오류 발생");
         }
     }
 
@@ -81,13 +81,13 @@ public class InboundRepoImpl implements InboundRepo {
      * @param inboundId
      */
     @Override
-    public void updateCompletedStatus(int inboundId) {
+    public boolean updateCompletedStatus(int inboundId) {
         try {
             conn.setAutoCommit(false);
             cs = conn.prepareCall("{call updateCompletedStatus(?)}");
             cs.setInt(1, inboundId);
-            cs.execute();
-            conn.commit();
+            //입고완료가 안되면 오류
+            return cs.execute();
             //DBUtil.closeQuietly(null, cs, conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);

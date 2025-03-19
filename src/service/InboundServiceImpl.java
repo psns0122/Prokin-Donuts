@@ -38,9 +38,9 @@ public class InboundServiceImpl implements InboundService {
      * @return 입고(승인) 리스트
      */
     @Override
-    public List<InboundVO> getApprovalInboundList(int warehouseId) {
+    public List<InboundVO> getApprovalInboundList(int warehouseId) throws IllegalArgumentException{
         return inboundRepo.findByApprovedStatus(warehouseId).orElseThrow(
-                () -> new IllegalArgumentException("~~")
+                () -> new IllegalArgumentException("입고를 검수할 입고요청이 존재하지 않습니다.")
         );
 
     }
@@ -50,8 +50,8 @@ public class InboundServiceImpl implements InboundService {
      * @param inboundId 입고 아이디
      */
     @Override
-    public void completedInbound(int inboundId) {
-        inboundRepo.updateCompletedStatus(inboundId);
+    public boolean completedInbound(int inboundId) {
+        return inboundRepo.updateCompletedStatus(inboundId);
     }
 
     /**

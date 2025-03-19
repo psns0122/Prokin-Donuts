@@ -32,7 +32,7 @@ public interface InboundService {
      *
      * @param inboundId 입고 아이디
      */
-    void completedInbound(int inboundId);
+    boolean completedInbound(int inboundId);
 
     // [입고 요청 Service]
 
