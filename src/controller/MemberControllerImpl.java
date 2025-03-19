@@ -5,6 +5,7 @@ import common.util.InputUtil;
 import common.util.LoginUtil;
 import common.util.MenuUtil;
 import dto.memberDTO.MemberDTO;
+import repository.MemberRepo;
 import repository.MemberRepoImpl;
 import service.MemberService;
 import service.MemberServiceImpl;
@@ -48,9 +49,9 @@ public class MemberControllerImpl implements MemberController {
         return HQMenu;
     }
     public Map<Integer,Runnable> setHQAddMenu(){
-        HQSearchMenu.put(1,()-> addMenu());
-        HQSearchMenu.put(2,()-> approve());
-        return HQSearchMenu;
+        HQAddMenu.put(1,()-> addMenu());
+        HQAddMenu.put(2,()-> approve());
+        return HQAddMenu;
     }
 
     public Map<Integer,Runnable>  setHQSearchMenu(){
@@ -142,7 +143,10 @@ public class MemberControllerImpl implements MemberController {
 
     public void updateMenu(){
         System.out.println(MemberText.UPDATE_MEMBER_HEADER.getText());
-        MemberDTO result = memberService.updateMember(updateMember());
+
+        String updateMemberID = InputUtil.getInput(MemberText.UPDATE_MEMBER.getText()+
+                                MemberText.MEMBER_ID.getText()).get();
+        MemberDTO result = memberService.updateMember(updateMemberID,updateMember());
         System.out.println(result.getId());
         System.out.println(MemberText.UPDATE_MEMBER_SUCCESS);
     }
@@ -183,13 +187,13 @@ public class MemberControllerImpl implements MemberController {
 
     public MemberDTO updateMember(){
         MemberDTO updateMember = new MemberDTO();
-        updateMember.setName(InputUtil.getInput(MemberText.UPDATE_MEMBER.getText()+MemberText.MEMBER_NAME.getText()).get());
-        updateMember.setAuthorityId(InputUtil.getMenuSelection(MemberText.UPDATE_MEMBER.getText()+MemberText.MEMBER_AUTHORITYID.getText()).get());
-        updateMember.setPhoneNumber(InputUtil.getInput(MemberText.UPDATE_MEMBER.getText()+MemberText.MEMBER_PHONE.getText()).get());
-        updateMember.setEmail(InputUtil.getInput(MemberText.UPDATE_MEMBER.getText()+MemberText.MEMBER_EMAIL.getText()).get());
-        updateMember.setAddress(InputUtil.getInput(MemberText.UPDATE_MEMBER.getText()+MemberText.MEMBER_ADDRESS.getText()).get());
-        updateMember.setId(InputUtil.getInput(MemberText.UPDATE_MEMBER.getText()+MemberText.MEMBER_ID.getText()).get());
-        updateMember.setPassword(InputUtil.getInput(MemberText.UPDATE_MEMBER.getText()+MemberText.MEMBER_PASSWORD.getText()).get());
+        updateMember.setName(InputUtil.getInput(MemberText.MEMBER_NAME.getText()).get());
+        updateMember.setAuthorityId(InputUtil.getMenuSelection(MemberText.MEMBER_AUTHORITYID.getText()).get());
+        updateMember.setPhoneNumber(InputUtil.getInput(MemberText.MEMBER_PHONE.getText()).get());
+        updateMember.setEmail(InputUtil.getInput(MemberText.MEMBER_EMAIL.getText()).get());
+        updateMember.setAddress(InputUtil.getInput(MemberText.MEMBER_ADDRESS.getText()).get());
+        updateMember.setId(InputUtil.getInput(MemberText.MEMBER_ID.getText()).get());
+        updateMember.setPassword(InputUtil.getInput(MemberText.MEMBER_PASSWORD.getText()).get());
         return updateMember;
     }
 
@@ -198,7 +202,7 @@ public class MemberControllerImpl implements MemberController {
        int loginMember = LoginUtil.getLoginMember().getMemberNo();
        MemberDTO updateMember= updateMember();
        updateMember().setMemberNo(loginMember);
-       memberService.updateMember(updateMember);
+       memberService.updateMember(LoginUtil.getLoginMember().getId(),updateMember);
     }
 
     //로그인한 회원의 탈퇴
