@@ -20,12 +20,18 @@ public class LoginControllerImpl implements LoginController{
 
     Map<Integer,Runnable> mainMenu = new HashMap<>();
 
-    public void setMainMenu(){
+    public void MainMenu(){
+            System.out.println(MemberText.MENU_HEADER.getText());
+            mainMenu = setMainMenu();
+
+    }
+    public Map<Integer,Runnable> setMainMenu(){
         mainMenu.put(1,()->login());
         mainMenu.put(2,()->memberRequest());
         mainMenu.put(3,()->findId());
         mainMenu.put(4,()->findPassword());
         mainMenu.put(5,()->logout());
+        return mainMenu;
     }
 
     public void login(){
