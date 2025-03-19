@@ -7,7 +7,7 @@ import lombok.Getter;
 public class LoginUtil {
     @Getter
     // private static MemberDTO loginMember = new MemberDTO(1, 2, "", "", "", "" , "", "", "");
-    private static MemberDTO loginMember = null;
+    private static MemberDTO loginMember = new MemberDTO();
 
     public static void setLoginMember(MemberDTO loginMember) {
         LoginUtil.loginMember = loginMember;
