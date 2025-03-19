@@ -96,6 +96,12 @@ public class MemberServiceImpl implements MemberService {
         return result.orElse(null);
     }
 
+    // 이메일 찾기 기능
+    public String findemail(String id) {
+        Optional<String> result = memberRepo.searchLoginfo("email","id",id);
+        return result.orElse(null);
+    }
+
     //비밀번호 찾기 기능
     @Override
     public String findPassword(String memberId) {

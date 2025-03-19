@@ -114,5 +114,6 @@ public interface MemberService {   /*
      [로그인 상태 확인 기능]
      */
      public String logstatus(String memberId);
+    public String findemail(String id);
 
 }
