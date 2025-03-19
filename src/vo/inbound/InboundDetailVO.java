@@ -21,12 +21,12 @@ public class InboundDetailVO {
 
     @Override
     public String toString() {
-        return "{" +
+        return "[" +
                 "입고상세Id: " + inboundDetailId +
                 ", 수량: " + quantity +
                 ", 입고Id: " + inboundId +
                 ", 상품Id: " + productId +
                 ", 섹션Id: " + sectionId +
-                '}';
+                ']';
     }
 }

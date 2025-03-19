@@ -23,11 +23,11 @@ public class InboundVO {
 
     @Override
     public String toString() {
-        return "{" +
+        return "[" +
                 "입고Id: " + inboundId +
                 ", 입고예정 날짜: " + inboundDate +
                 ", 입고 상태: '" + status + '\'' +
                 ", 창고Id: " + warehouseId +
-                '}';
+                ']';
     }
 }
