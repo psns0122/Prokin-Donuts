@@ -44,8 +44,6 @@ public class MemberRepoImpl implements MemberRepo {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBUtil.closeQuietly(null, cs, conn);
         }
         return Optional.empty();
     }
@@ -74,8 +72,6 @@ public class MemberRepoImpl implements MemberRepo {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBUtil.closeQuietly(null, cs, conn);
         }
         return Optional.empty();
     }
@@ -98,8 +94,6 @@ public class MemberRepoImpl implements MemberRepo {
             } else return Optional.empty();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBUtil.closeQuietly(null, cs, conn);
         }
         return Optional.empty();
     }
@@ -130,8 +124,6 @@ public class MemberRepoImpl implements MemberRepo {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBUtil.closeQuietly(null, cs, conn);
         }
         return Optional.empty();
     }
@@ -152,8 +144,6 @@ public class MemberRepoImpl implements MemberRepo {
             else return false;
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBUtil.closeQuietly(null, cs, conn);
         }
         return false;
     }
@@ -199,8 +189,6 @@ public class MemberRepoImpl implements MemberRepo {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBUtil.closeQuietly(rs, cs, conn);
         }
         return Optional.empty();
     }
@@ -238,8 +226,6 @@ public class MemberRepoImpl implements MemberRepo {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBUtil.closeQuietly(rs, cs, conn);
         }
         return Optional.empty();
     }
@@ -262,8 +248,6 @@ public class MemberRepoImpl implements MemberRepo {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBUtil.closeQuietly(rs, cs, conn);
         }
         return Optional.empty();
     }
@@ -283,8 +267,6 @@ public class MemberRepoImpl implements MemberRepo {
             else return Optional.empty();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBUtil.closeQuietly(null, cs, conn);
         }
         return Optional.empty();
     }
@@ -312,8 +294,6 @@ public class MemberRepoImpl implements MemberRepo {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBUtil.closeQuietly(rs, cs, conn);
         }
         return Optional.empty();
     }
@@ -332,8 +312,6 @@ public class MemberRepoImpl implements MemberRepo {
             } else return Optional.empty();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBUtil.closeQuietly(rs, cs, conn);
         }
         return Optional.empty();
     }
@@ -362,8 +340,6 @@ public class MemberRepoImpl implements MemberRepo {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBUtil.closeQuietly(null, cs, conn);
         }
         return Optional.empty();
     }
