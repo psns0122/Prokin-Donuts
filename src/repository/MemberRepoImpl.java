@@ -26,7 +26,7 @@ public class MemberRepoImpl implements MemberRepo {
 
         try {
 
-            cs = conn.prepareCall("insert into member('authorityid','name','phoneNumber','email','address','id','password') values (?,?,?,?,?,?,?)");
+            cs = conn.prepareCall("insert into `member` (authorityid,name,phoneNumber,email,address,id,password) values (?,?,?,?,?,?,?)");
 
 
             cs.setInt(1, member.getAuthorityId());
@@ -86,11 +86,12 @@ public class MemberRepoImpl implements MemberRepo {
         conn = DBUtil.getConnection();
 
         try {
-            String sql = "call deleteMember(?)";
+            String sql = "DELETE FROM `member` WHERE id = ?";
             cs = conn.prepareCall(sql);
             cs.setString(1, memberId);
 
             int rs = cs.executeUpdate();
+
 
             if (rs > 0) {
                 return Optional.of(memberId);
