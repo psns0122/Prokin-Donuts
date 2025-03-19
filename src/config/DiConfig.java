@@ -5,7 +5,6 @@ import repository.*;
 import service.*;
 
 public class DiConfig {
-
     //입고 의존성 주입
     //repo
     private final InboundRepo inboundRepo = new InboundRepoImpl();
@@ -49,6 +48,9 @@ public class DiConfig {
     //controller
     private final MemberController memberController = new MemberControllerImpl(memberService);
 
+    //로그인 의존성 주입
+    private final LoginController loginController = new LoginControllerImpl(memberService);
+
 
     // 발주 repository
     private final OrderRepo orderRepo = new OrderRepoImpl();
@@ -80,7 +82,9 @@ public class DiConfig {
                 inventoryController,
                 memberController,
                 orderController,
-                warehouseController
+                warehouseController,
+                loginController
+
         );
     }
 
