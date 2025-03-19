@@ -4,6 +4,7 @@ import dto.OrderDTO;
 import dto.franchise.FranchiseDTO;
 import dto.franchise.ProductCategoryDTO;
 import dto.franchise.ProductDTO;
+import dto.memberDTO.MemberDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -21,14 +22,14 @@ public interface FranchiseRepo {
      * 본사관리자는 가맹점의 정보를 수정할 수 있다
      * 수정하려는 가맹점이 없을 경우 Optional 처리
      */
-    Optional<FranchiseDTO> updateFranchise(FranchiseDTO franchise);
+    Optional<String> updateFranchise(FranchiseDTO franchise);
 
     /**
      * [가맹점 삭제 기능]
      * 본사관리자는 가맹점 아이디로 가맹점을 삭제
      * 존재하지 않는 아이디일 경우 Optional 처리
      */
-    Optional<FranchiseDTO> deleteFranchise(int franchiseId);
+    Optional<String> deleteFranchise(int franchiseId);
 
     /**
      * [가맹점 전체 조회 기능]
@@ -47,7 +48,7 @@ public interface FranchiseRepo {
      * [가맹점이 할당되지 않은 점주회원 조회 기능]
      * 본사관리자는 아직 본인의 가맹점이 주어지지 않은 점주회원을 조회할 수 있다
      */
-    Optional<List<FranchiseDTO>> showHaveNoFranchiseFM();
+    Optional<List<MemberDTO>> showHaveNoFranchiseFM();
 
     /**
      * [제품 등록 기능]

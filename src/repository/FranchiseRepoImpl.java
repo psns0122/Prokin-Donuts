@@ -6,12 +6,10 @@ import dto.OrderDTO;
 import dto.franchise.FranchiseDTO;
 import dto.franchise.ProductCategoryDTO;
 import dto.franchise.ProductDTO;
+import dto.memberDTO.MemberDTO;
 
 import java.sql.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class FranchiseRepoImpl implements FranchiseRepo{
     Connection conn = DBUtil.getConnection();
@@ -19,12 +17,12 @@ public class FranchiseRepoImpl implements FranchiseRepo{
     CallableStatement cs = null;
     ResultSet rs = null;
 
-//    public static void main(String[] args) {
-//        FranchiseDTO franchise = new FranchiseDTO(5, "수원 영통구", 7);
-//        String result = new FranchiseRepoImpl().insertFranchise(franchise)
-//                .orElse(FranchiseErrorCode.DB_PROCEDURE_ERROR.getText());
-//        System.out.println(FranchiseErrorCode.DB_ERROR.getText() + result);
-//    }
+    public static void main(String[] args) {
+        FranchiseDTO franchise = new FranchiseDTO(5, "수원 영통구", 7);
+        String result = new FranchiseRepoImpl().insertFranchise(franchise)
+                .orElse(FranchiseErrorCode.DB_PROCEDURE_ERROR.getText());
+        System.out.println(FranchiseErrorCode.DB_ERROR.getText() + result);
+    }
 
     /**
      * [가맹점 등록 기능]
@@ -44,7 +42,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             cs = Objects.requireNonNull(conn).prepareCall(sql);
 
             // in 파라미터에 값 전달
-            cs.setString(1, franchise.getFranchiseIdLocation());
+            cs.setString(1, franchise.getFranchiseLocation());
             cs.setInt(2, franchise.getManagerNo());
 
             // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
@@ -69,54 +67,217 @@ public class FranchiseRepoImpl implements FranchiseRepo{
      * [가맹점 수정 기능]
      * 본사관리자는 가맹점의 정보를 수정할 수 있다
      * 수정하려는 가맹점이 없을 경우 Optional 처리
+     *
      * @param franchise
      * @return
      */
     @Override
-    public Optional<FranchiseDTO> updateFranchise(FranchiseDTO franchise) {
-        return Optional.empty();
-    }
+    public Optional<String> updateFranchise(FranchiseDTO franchise) {
+        try {
+            // p_franchiseLocation , p_memberNo
+            String sql = "{call UpdateFranchiseManager(?, ?, ?)}";
+
+            cs = conn.prepareCall(sql);
+
+            // in 파라미터에 값 전달
+            cs.setInt(1, franchise.getFranchiseId());
+            cs.setInt(2, franchise.getManagerNo());
+
+            // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
+            cs.registerOutParameter(3, java.sql.Types.INTEGER);
+
+            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
+            cs.execute();
+            String resultMSG = cs.getString(3);
+
+            // resultMSG가 null이면 Optional.empty() 반환, 아니면 Optional.of(resultMSG) 반환
+            return Optional.ofNullable(resultMSG).filter(s -> !s.isEmpty());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
+            return Optional.empty();
+        }
+
 
     /**
      * [가맹점 삭제 기능]
      * 본사관리자는 가맹점 아이디로 가맹점을 삭제
      * 존재하지 않는 아이디일 경우 Optional 처리
+     *
      * @param franchiseId
      * @return
      */
     @Override
-    public Optional<FranchiseDTO> deleteFranchise(int franchiseId) {
+    public Optional<String> deleteFranchise(int franchiseId) {
+        try {
+            // p_franchiseLocation , p_memberNo
+            String sql = "{call DeleteFranchise(?, ?)}";
+
+            cs = conn.prepareCall(sql);
+
+            // in 파라미터에 값 전달
+            cs.setInt(1, franchiseId);
+
+            // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
+            cs.registerOutParameter(2, java.sql.Types.INTEGER);
+
+            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
+            cs.execute();
+            String resultMSG = cs.getString(2);
+
+            // resultMSG가 null이면 Optional.empty() 반환, 아니면 Optional.of(resultMSG) 반환
+            return Optional.ofNullable(resultMSG).filter(s -> !s.isEmpty());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
         return Optional.empty();
     }
 
     /**
      * [가맹점 전체 조회 기능]
      * 본사관리자는 전체 가맹점의 정보를 조회할 수 있다
+     *
      * @return
      */
     @Override
     public Optional<List<FranchiseDTO>> showAllFranchise() {
+        try {
+            // p_franchiseLocation , p_memberNo
+            String sql = "{call GetAllFranchises(?)}";
+
+            cs = conn.prepareCall(sql);
+
+            // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
+            cs.registerOutParameter(1, java.sql.Types.INTEGER);
+
+            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
+            rs = cs.executeQuery();
+            String resultMSG = cs.getString(1);
+
+            List<FranchiseDTO> loadFranchises = new ArrayList<>();
+            while (rs.next()){
+                FranchiseDTO franchise = new FranchiseDTO();
+                franchise.setFranchiseId(rs.getInt("franchiseId"));
+                franchise.setFranchiseLocation(rs.getString("managerNo"));
+                franchise.setManagerNo(rs.getInt("franchiseLocation"));
+                loadFranchises.add(franchise);
+            }
+
+            if (!loadFranchises.isEmpty()) {
+                return Optional.of(loadFranchises);
+            } else {
+                return Optional.of(Collections.emptyList());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
         return Optional.empty();
     }
 
     /**
      * [가맹점 상세 조회 기능]
      * 본사관리자는 가맹점아이디를 기준으로 조회할 수 있다
+     *
      * @param franchiseId
      * @return
      */
     @Override
     public Optional<List<FranchiseDTO>> showOneFranchise(int franchiseId) {
+        try {
+            // p_franchiseLocation , p_memberNo
+            String sql = "{call GetFranchiseById(?, ?)}";
+
+            cs = conn.prepareCall(sql);
+
+            // in 파라미터에 값 전달
+            cs.setInt(1, franchiseId);
+
+            // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
+            cs.registerOutParameter(2, java.sql.Types.INTEGER);
+
+            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
+            rs = cs.executeQuery();
+            String resultMSG = cs.getString(2);
+
+            List<FranchiseDTO> loadFranchises = new ArrayList<>();
+            while (rs.next()){
+                FranchiseDTO franchise = new FranchiseDTO();
+                franchise.setFranchiseId(rs.getInt("franchiseId"));
+                franchise.setFranchiseLocation(rs.getString("managerNo"));
+                franchise.setManagerNo(rs.getInt("franchiseLocation"));
+                loadFranchises.add(franchise);
+            }
+
+            if (!loadFranchises.isEmpty()) {
+                return Optional.of(loadFranchises);
+            } else {
+                return Optional.of(Collections.emptyList());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
         return Optional.empty();
     }
 
     /**
      * [가맹점이 할당되지 않은 점주회원 조회 기능]
      * 본사관리자는 아직 본인의 가맹점이 주어지지 않은 점주회원을 조회할 수 있다
+     *
      * @return
      */
     @Override
-    public Optional<List<FranchiseDTO>> showHaveNoFranchiseFM() {
+    public Optional<List<MemberDTO>> showHaveNoFranchiseFM() {
+        try {
+            // p_franchiseLocation , p_memberNo
+            String sql = "{call GetUnassignedFranchiseOwners(?)}";
+
+            cs = conn.prepareCall(sql);
+
+            // out 파라미터에 저장된 프로시저의 수행결과에 대한 외부 변수 등록
+            cs.registerOutParameter(1, java.sql.Types.INTEGER);
+
+            // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
+            rs = cs.executeQuery();
+            String resultMSG = cs.getString(1);
+
+            List<MemberDTO> loadMemberList = new ArrayList<>();
+            while (rs.next()){
+                MemberDTO memberDTO = new MemberDTO();
+                memberDTO.setMemberNo(rs.getInt("memberNo"));
+                memberDTO.setAuthorityId(rs.getInt("authorityId"));
+                memberDTO.setName(rs.getString("name"));
+                memberDTO.setPhoneNumber(rs.getString("phoneNumber"));
+                memberDTO.setEmail(rs.getString("email"));
+                memberDTO.setAddress(rs.getString("address"));
+                memberDTO.setId(rs.getString("id"));
+                memberDTO.setPassword(rs.getString("password"));
+                memberDTO.setLogstatus(rs.getString("logstatus"));
+                loadMemberList.add(memberDTO);
+            }
+
+            if (!loadMemberList.isEmpty()) {
+                return Optional.of(loadMemberList);
+            } else {
+                return Optional.of(Collections.emptyList());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeQuietly(null,cs,conn);
+        }
         return Optional.empty();
     }
 

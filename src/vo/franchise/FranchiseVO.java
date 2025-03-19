@@ -10,7 +10,7 @@ public class FranchiseVO {
     /** 가맹점 아이디 */
     private int franchiseId;
     /** 가맹점 위치 */
-    private String franchiseIdLocation;
+    private String franchiseLocation;
     /** 회원번호 */
     private int managerNo;
 }
