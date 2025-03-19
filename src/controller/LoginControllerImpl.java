@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class LoginControllerImpl implements LoginController{
     MemberService memberService;
+
     public LoginControllerImpl(MemberService memberService) {
         this.memberService = memberService;
     }
@@ -43,17 +44,17 @@ public class LoginControllerImpl implements LoginController{
         String id = InputUtil.getInput(LoginText.LOGIN_NO.getText()).get();
         String password = InputUtil.getInput(LoginText.LOGIN_PASSWORD.getText()).get();
         String requst = memberService.searchRequestMember(id);
-        if (requst.equals("대기")) {
+        if (requst !=null && requst.equals("대기")) {
             System.out.println(LoginErrorCode.LOGIN_FAIL_REQUEST.getText());
         } else {
-
             String loginstatus = memberService.logstatus(id);
             if (loginstatus.equals("login")) System.out.println(LoginErrorCode.LOGIN_FAIL.getText()); //로그인 상태 확인
             else {
-                String result = memberService.logIn(id, password);
-                if (result == null) System.out.println(LoginErrorCode.LOGIN_NOT_FOUND.getText());
+                MemberDTO loginMember = memberService.searchMember(id);
+
+                if (loginMember == null) System.out.println(LoginErrorCode.LOGIN_NOT_FOUND.getText());
                 else {
-                    MemberDTO loginMember = memberService.searchMember(id);
+                    String result = memberService.logIn(id, password);
                     LoginUtil.setLoginMember(loginMember);
                     System.out.println(LoginText.LOGIN_SUCCESS.getText());
                 }
@@ -64,7 +65,7 @@ public class LoginControllerImpl implements LoginController{
     public void memberRequest(){
         System.out.println(LoginText.REQUEST_HEADER.getText());
         MemberRequestDTO memberRequest = newMemberRequest();
-        if(memberService.checkId(memberRequest.getId())) { //아이디 중복확인
+        if(!memberService.checkId(memberRequest.getId())) { //아이디 중복확인
             MemberRequestDTO result = memberService.requestMember(memberRequest);
             if(result == null) System.out.println(LoginErrorCode.REQUEST_NOT_FOUND.getText());
             else System.out.println(LoginText.REQUEST_SUCCESS.getText());

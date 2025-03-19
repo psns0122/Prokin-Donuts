@@ -26,7 +26,7 @@ public class MemberRepoImpl implements MemberRepo {
 
         try {
 
-            cs = conn.prepareCall("{insert into member('authorityid','name','phoneNumber','email','address','id','password') values (?,?,?,?,?,?,?)}");
+            cs = conn.prepareCall("insert into member('authorityid','name','phoneNumber','email','address','id','password') values (?,?,?,?,?,?,?)");
 
 
             cs.setInt(1, member.getAuthorityId());
@@ -56,7 +56,7 @@ public class MemberRepoImpl implements MemberRepo {
         conn = DBUtil.getConnection();
 
         try {
-            String sql = "{call updateMember(?, ?, ? ,? ,? ,? ,? )}";
+            String sql = "call updateMember(?, ?, ? ,? ,? ,? ,? )";
             cs = conn.prepareCall(sql);
 
             cs.setInt(1, updateMember.getMemberNo());
@@ -86,7 +86,7 @@ public class MemberRepoImpl implements MemberRepo {
         conn = DBUtil.getConnection();
 
         try {
-            String sql = "{call deleteMember(?)}";
+            String sql = "call deleteMember(?)";
             cs = conn.prepareCall(sql);
             cs.setString(1, memberId);
 
@@ -109,7 +109,7 @@ public class MemberRepoImpl implements MemberRepo {
         conn = DBUtil.getConnection();
 
         try {
-            String sql = "{call insertMember('memberrequest',?,?,?,?,?,?,?,?)}";
+            String sql = "call insertMember('memberrequest',?,?,?,?,?,?,?,?)";
 
             cs = conn.prepareCall(sql);
 
@@ -163,7 +163,7 @@ public class MemberRepoImpl implements MemberRepo {
         List<MemberDTO> loadMemberList = new ArrayList<>();
         conn = DBUtil.getConnection();
         try {
-            String sql = "{call searchMember(?,?)}";
+            String sql = "call searchMember(?,?)";
             cs = conn.prepareCall(sql);
             cs.setString(1, searchAttribute);
 
@@ -210,7 +210,7 @@ public class MemberRepoImpl implements MemberRepo {
         List<MemberDTO> allLoadMemberList = new ArrayList<>();
         conn = DBUtil.getConnection();
         try {
-            String sql = "{call loadMember()}";
+            String sql = "call loadMember()";
             cs = conn.prepareCall(sql);
             rs = cs.executeQuery();
 
@@ -248,7 +248,7 @@ public class MemberRepoImpl implements MemberRepo {
     public Optional<String> searchLoginfo(String findField, String searchField, String searchValue) {
         conn = DBUtil.getConnection();
         try {
-            String sql = "{call searchStatusMember(?,?,?)}";
+            String sql = "call searchStatusMember(?,?,?)";
             cs = conn.prepareCall(sql);
             cs.setString(1, findField);
             cs.setString(2, searchField);
@@ -272,7 +272,7 @@ public class MemberRepoImpl implements MemberRepo {
     public Optional<String> logInnOut(String memberId) {
         conn = DBUtil.getConnection();
         try {
-            String sql = "{call logInOut(?)}";
+            String sql = "call logInOut(?)";
             cs = conn.prepareCall(sql);
             cs.setString(1,memberId);
           
@@ -294,7 +294,7 @@ public class MemberRepoImpl implements MemberRepo {
         List<MemberRequestDTO> allLoadRequestMemberList = new ArrayList<>();
         conn = DBUtil.getConnection();
         try {
-            String sql = "{call loadRequestMember()}";
+            String sql = "call loadRequestMember()";
             cs = conn.prepareCall(sql);
             rs = cs.executeQuery();
             while (rs.next()) {
@@ -322,7 +322,7 @@ public class MemberRepoImpl implements MemberRepo {
     public Optional<String> RequestMember(String id) {
         conn = DBUtil.getConnection();
         try {
-            cs = conn.prepareCall("{selete request from memberrequest where id = ?}");
+            cs = conn.prepareCall("SELECT request FROM memberrequest WHERE id =?");
             cs.setString(1, id);
             rs = cs.executeQuery();
             if (rs.next()) {

@@ -5,6 +5,7 @@ import common.member.MemberText;
 import common.util.InputUtil;
 import common.util.LoginUtil;
 import common.util.MenuUtil;
+import config.DBUtil;
 import dto.memberDTO.MemberDTO;
 import repository.MemberRepo;
 import repository.MemberRepoImpl;
@@ -23,6 +24,7 @@ public class MemberControllerImpl implements MemberController {
     public MemberControllerImpl(MemberService memberService) {
         this.memberService = memberService;
     }
+
     Map<Integer,Runnable> mainMenu = new HashMap<>();
     Map<Integer,Runnable> HQMenu = new HashMap<>();
     Map<Integer,Runnable> HQSearchMenu = new HashMap<>();
@@ -92,9 +94,10 @@ public class MemberControllerImpl implements MemberController {
         return FMMenu;
     }
 
-    public void MainMune(int authorityId){
+    public void MainMune(){
         System.out.println(MemberText.MENU_HEADER.getText());
         mainMenu = setMainMenu();
+        int authorityId = LoginUtil.getLoginMember().getAuthorityId();
         Runnable action = mainMenu.get(authorityId);
         action.run();
     }
