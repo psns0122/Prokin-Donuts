@@ -118,12 +118,13 @@ public class MemberControllerImpl implements MemberController {
 
     public void addMenu() {
         System.out.println(MemberText.INSERT_MEMBER_NEW_HEADER.getText());
-        MemberDTO result = memberService.addMember(newMember());
-        if (result == null) System.out.println(MemberErrorCode.ID_FOUND.getText());
-        else {
-            System.out.println(result.getId());
-            System.out.println(MemberText.INSERT_MEMBER_SUCCESS.getText());
-        }
+        MemberDTO newMember = newMember();
+        if(memberService.checkId(newMember.getId())){ //아이디 중복검사
+            MemberDTO result = memberService.addMember(newMember);
+            if (result == null) System.out.println(MemberErrorCode.INSERT_FAIL.getText());
+            else System.out.println(MemberText.INSERT_MEMBER_SUCCESS.getText());
+        } else System.out.println(MemberErrorCode.ID_FOUND.getText());
+
     }
 
     public void approve(){
