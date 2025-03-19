@@ -12,6 +12,11 @@ import java.util.Optional;
 
 public interface InboundService {
 
+    /**
+     * 창고관리자 작업시 필요한 창고ID를 loginUtil에 있는 멤버 ID로 가져온다.
+     */
+    int getWarehouseId(int memberId);
+
     // [입고 검수 Service]
 
     /**
