@@ -25,7 +25,10 @@ public class MemberServiceImpl implements MemberService {
 
     //회원 수정 기능
     @Override
-    public MemberDTO updateMember(MemberDTO updateMember) {
+    public MemberDTO updateMember(String memberID ,MemberDTO updateMember) {
+        Optional<List<MemberDTO>> Memberlist = memberRepo.loadMember("id",memberID);
+        Optional<MemberDTO> loadMember = Memberlist.map(list -> list.get(0));
+        updateMember.setMemberNo(loadMember.get().getMemberNo());
         Optional<MemberDTO> result = memberRepo.updateMember(updateMember);
         return result.orElse(null);
     }
@@ -65,7 +68,7 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberDTO> searchAuthority(String authority) {
         int authorityId = 0;
 
-        if (authority.equals("총관리자")) authorityId = 1;
+        if (authority.equals("본사관리자")) authorityId = 1;
         else if (authority.equals("창고관리자"))authorityId = 2;
         else authorityId = 3;
 
