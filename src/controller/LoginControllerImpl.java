@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class LoginControllerImpl implements LoginController{
     MemberService memberService;
+
     public LoginControllerImpl(MemberService memberService) {
         this.memberService = memberService;
     }
