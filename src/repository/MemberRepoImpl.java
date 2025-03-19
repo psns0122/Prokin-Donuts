@@ -13,36 +13,33 @@ import java.util.List;
 import java.util.Optional;
 
 public class MemberRepoImpl implements MemberRepo {
-
-
-    Connection conn = null;
+    Connection conn = DBUtil.getConnection();;
     CallableStatement cs = null;
     ResultSet rs = null;
+
+    public static void main(String[] args) {
+        MemberRepoImpl memberRepo = new MemberRepoImpl();
+//        memberRepo.insertMember(new MemberDTO(1, 3, "","","","","","",""));
+        memberRepo.allLoadMember().isPresent();
+    }
 
     // 회원 등록 메서드
     @Override
     public Optional<MemberDTO> insertMember(MemberDTO member) {
-        conn = DBUtil.getConnection();
-
         try {
-            String sql = "{call insertMember(?,?,?,?,?,?,?,?)}";
+            String sql = "{call insertMember2(?)}";
 
             cs = conn.prepareCall(sql);
-;
-            cs.setString(1, "member");
-            cs.setInt(2, member.getAuthorityId());
-            cs.setString(3,member.getName());
-            cs.setString(4,member.getPhoneNumber());
-            cs.setString(5,member.getEmail());
-            cs.setString(6,member.getAddress());
-            cs.setString(7,member.getId());
-            cs.setString(8,member.getPassword());
 
-            int rs = cs.executeUpdate();
-            System.out.println(rs);
+            System.out.println("권힌 : " + member.getAuthorityId());
+            cs.setInt(1,member.getAuthorityId());
+
+            // 프로시저 실행
+            int hasResult = cs.executeUpdate();
+            System.out.println(hasResult);
 
             //실행 성공 시 객체 반환, 실패 시 빈 optional반환
-            if(rs > 0) return  Optional.of(member);
+            if(hasResult > 0) return  Optional.of(member);
             else return Optional.empty();
 
         } catch (SQLException e) {

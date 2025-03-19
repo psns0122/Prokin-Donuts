@@ -276,7 +276,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(null,cs,conn);
+            DBUtil.closeQuietly(rs,cs,conn);
         }
         return Optional.of(Collections.emptyList());
     }
@@ -482,7 +482,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(null,cs,conn);
+            DBUtil.closeQuietly(rs,cs,conn);
         }
         return Optional.of(Collections.emptyList());
     }
@@ -536,7 +536,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(null,cs,conn);
+            DBUtil.closeQuietly(rs,cs,conn);
         }
         return Optional.of(Collections.emptyList());
     }
@@ -590,7 +590,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(null,cs,conn);
+            DBUtil.closeQuietly(rs,cs,conn);
         }
         return Optional.of(Collections.emptyList());
     }
