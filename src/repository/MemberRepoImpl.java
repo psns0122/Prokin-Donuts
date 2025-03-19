@@ -25,30 +25,27 @@ public class MemberRepoImpl implements MemberRepo {
         conn = DBUtil.getConnection();
 
         try {
-            String sql = "{call insertMember(?,?,?,?,?,?,?,?)}";
 
-            cs = conn.prepareCall(sql);
-;
-            cs.setString(1, "member");
-            cs.setInt(2, member.getAuthorityId());
-            cs.setString(3,member.getName());
-            cs.setString(4,member.getPhoneNumber());
-            cs.setString(5,member.getEmail());
-            cs.setString(6,member.getAddress());
-            cs.setString(7,member.getId());
-            cs.setString(8,member.getPassword());
+            cs = conn.prepareCall("{insert into member('authorityid','name','phoneNumber','email','address','id','password') values (?,?,?,?,?,?,?)}");
 
+
+            cs.setInt(1, member.getAuthorityId());
+            cs.setString(2, member.getName());
+            cs.setString(3, member.getPhoneNumber());
+            cs.setString(4, member.getEmail());
+            cs.setString(5, member.getAddress());
+            cs.setString(6, member.getId());
+            cs.setString(7, member.getPassword());
             int rs = cs.executeUpdate();
-            System.out.println(rs);
 
             //실행 성공 시 객체 반환, 실패 시 빈 optional반환
-            if(rs > 0) return  Optional.of(member);
+            if (rs > 0) return Optional.of(member);
             else return Optional.empty();
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            DBUtil.closeQuietly(null,cs,conn);
+        } finally {
+            DBUtil.closeQuietly(null, cs, conn);
         }
         return Optional.empty();
     }
@@ -56,30 +53,30 @@ public class MemberRepoImpl implements MemberRepo {
     // 회원 수정 메서드
     @Override
     public Optional<MemberDTO> updateMember(MemberDTO updateMember) {
-        conn =DBUtil.getConnection();
+        conn = DBUtil.getConnection();
 
         try {
             String sql = "{call updateMember(?, ?, ? ,? ,? ,? ,? )}";
             cs = conn.prepareCall(sql);
 
-            cs.setInt(1,updateMember.getMemberNo());
-            cs.setString(2,updateMember.getName());
-            cs.setString(3,updateMember.getPhoneNumber());
-            cs.setString(4,updateMember.getEmail());
-            cs.setString(5,updateMember.getAddress());
-            cs.setString(6,updateMember.getId());
-            cs.setString(7,updateMember.getPassword());
+            cs.setInt(1, updateMember.getMemberNo());
+            cs.setString(2, updateMember.getName());
+            cs.setString(3, updateMember.getPhoneNumber());
+            cs.setString(4, updateMember.getEmail());
+            cs.setString(5, updateMember.getAddress());
+            cs.setString(6, updateMember.getId());
+            cs.setString(7, updateMember.getPassword());
 
             int rs = cs.executeUpdate();
             //실행 성공 시 객체 반환, 실패 시 빈 optional반환
-            if(rs > 0) return  Optional.of(updateMember);
+            if (rs > 0) return Optional.of(updateMember);
             else return Optional.empty();
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            DBUtil.closeQuietly(null,cs,conn);
-            }
+        } finally {
+            DBUtil.closeQuietly(null, cs, conn);
+        }
         return Optional.empty();
     }
 
@@ -91,17 +88,17 @@ public class MemberRepoImpl implements MemberRepo {
         try {
             String sql = "{call deleteMember(?)}";
             cs = conn.prepareCall(sql);
-            cs.setString(1,memberId);
+            cs.setString(1, memberId);
 
             int rs = cs.executeUpdate();
 
-            if(rs>0) {
+            if (rs > 0) {
                 return Optional.of(memberId);
             } else return Optional.empty();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            DBUtil.closeQuietly(null,cs,conn);
+        } finally {
+            DBUtil.closeQuietly(null, cs, conn);
         }
         return Optional.empty();
     }
@@ -117,23 +114,23 @@ public class MemberRepoImpl implements MemberRepo {
             cs = conn.prepareCall(sql);
 
             cs.setInt(1, member.getAuthorityId());
-            cs.setString(2,member.getName());
-            cs.setString(3,member.getPhoneNumber());
-            cs.setString(4,member.getEmail());
-            cs.setString(5,member.getAddress());
-            cs.setString(6,member.getId());
-            cs.setString(7,member.getPassword());
+            cs.setString(2, member.getName());
+            cs.setString(3, member.getPhoneNumber());
+            cs.setString(4, member.getEmail());
+            cs.setString(5, member.getAddress());
+            cs.setString(6, member.getId());
+            cs.setString(7, member.getPassword());
 
             int rs = cs.executeUpdate();
 
             //실행 성공 시 객체 반환, 실패 시 빈 optional반환
-            if(rs > 0) return  Optional.of(member);
+            if (rs > 0) return Optional.of(member);
             else return Optional.empty();
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            DBUtil.closeQuietly(null,cs,conn);
+        } finally {
+            DBUtil.closeQuietly(null, cs, conn);
         }
         return Optional.empty();
     }
@@ -147,15 +144,15 @@ public class MemberRepoImpl implements MemberRepo {
             String sql = "{call Approval(?)}";
             cs = conn.prepareCall(sql);
 
-            cs.setString(1,memberId);
+            cs.setString(1, memberId);
             int rs = cs.executeUpdate();
 
-            if (rs > 0 ) return true;
+            if (rs > 0) return true;
             else return false;
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            DBUtil.closeQuietly(null,cs,conn);
+        } finally {
+            DBUtil.closeQuietly(null, cs, conn);
         }
         return false;
     }
@@ -168,7 +165,7 @@ public class MemberRepoImpl implements MemberRepo {
         try {
             String sql = "{call searchMember(?,?)}";
             cs = conn.prepareCall(sql);
-            cs.setString(1,searchAttribute);
+            cs.setString(1, searchAttribute);
 
             //타입검사
             //Integer 타입일 경우
@@ -179,7 +176,7 @@ public class MemberRepoImpl implements MemberRepo {
 
             rs = cs.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 MemberDTO memberDTO = new MemberDTO();
                 memberDTO.setMemberNo(rs.getInt("memberNo"));
                 memberDTO.setAuthorityId(rs.getInt("authorityId"));
@@ -201,8 +198,8 @@ public class MemberRepoImpl implements MemberRepo {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            DBUtil.closeQuietly(rs,cs,conn);
+        } finally {
+            DBUtil.closeQuietly(rs, cs, conn);
         }
         return Optional.empty();
     }
@@ -217,7 +214,7 @@ public class MemberRepoImpl implements MemberRepo {
             cs = conn.prepareCall(sql);
             rs = cs.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 MemberDTO memberDTO = new MemberDTO();
                 memberDTO.setMemberNo(rs.getInt("memberNo"));
                 memberDTO.setAuthorityId(rs.getInt("authorityId"));
@@ -240,8 +237,8 @@ public class MemberRepoImpl implements MemberRepo {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            DBUtil.closeQuietly(rs,cs,conn);
+        } finally {
+            DBUtil.closeQuietly(rs, cs, conn);
         }
         return Optional.empty();
     }
@@ -253,20 +250,19 @@ public class MemberRepoImpl implements MemberRepo {
         try {
             String sql = "{call searchStatusMember(?,?,?)}";
             cs = conn.prepareCall(sql);
-            cs.setString(1,findField);
-            cs.setString(2,searchField);
-            cs.setString(3,searchValue);
+            cs.setString(1, findField);
+            cs.setString(2, searchField);
+            cs.setString(3, searchValue);
 
             rs = cs.executeQuery();
             if (rs.next()) {
                 return Optional.of(rs.getString(1)); // 첫 번째 컬럼 값 반환
-            }
-            else return Optional.empty();
+            } else return Optional.empty();
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            DBUtil.closeQuietly(rs,cs,conn);
+        } finally {
+            DBUtil.closeQuietly(rs, cs, conn);
         }
         return Optional.empty();
     }
@@ -278,28 +274,30 @@ public class MemberRepoImpl implements MemberRepo {
         try {
             String sql = "{call logInOut(?)}";
             cs = conn.prepareCall(sql);
-            cs.setString(1,memberId);
+            cs.setString(1, memberId);
+
             int rs = cs.executeUpdate();
-            if(rs>0) return Optional.of(memberId);
+
+            if (rs > 0) return Optional.of(memberId);
             else return Optional.empty();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            DBUtil.closeQuietly(null,cs,conn);
+        } finally {
+            DBUtil.closeQuietly(null, cs, conn);
         }
         return Optional.empty();
     }
 
     //회원 가입 요청 조회 기능
     @Override
-    public Optional<List<MemberRequestDTO>> loadRequestMember() {
+    public Optional<List<MemberRequestDTO>> loadRequestMemberall() {
         List<MemberRequestDTO> allLoadRequestMemberList = new ArrayList<>();
-        conn =DBUtil.getConnection();
+        conn = DBUtil.getConnection();
         try {
             String sql = "{call loadRequestMember()}";
             cs = conn.prepareCall(sql);
             rs = cs.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 MemberRequestDTO MemberReauestDTO = new MemberRequestDTO();
                 MemberReauestDTO.setAuthorityId(rs.getInt("authorityId"));
                 MemberReauestDTO.setName(rs.getString("name"));
@@ -313,9 +311,60 @@ public class MemberRepoImpl implements MemberRepo {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            DBUtil.closeQuietly(rs,cs,conn);
+        } finally {
+            DBUtil.closeQuietly(rs, cs, conn);
         }
         return Optional.empty();
     }
+
+    //회원 가입 요청 조회 기능
+    @Override
+    public Optional<String> RequestMember(String id) {
+        conn = DBUtil.getConnection();
+        try {
+            cs = conn.prepareCall("{selete request from memberrequest where id = ?}");
+            cs.setString(1, id);
+            rs = cs.executeQuery();
+            if (rs.next()) {
+                return Optional.of(rs.getString(1));
+                // 첫 번째 컬럼 값 반환
+            } else return Optional.empty();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeQuietly(rs, cs, conn);
+        }
+        return Optional.empty();
+    }
+
+    // 회원가입요청 메서드
+    @Override
+    public Optional<MemberRequestDTO> insertRequestMember(MemberRequestDTO member) {
+        conn = DBUtil.getConnection();
+
+        try {
+
+            cs = conn.prepareCall("{insert into memberrquest('name','phoneNumber','email','address','id','password') values (?,?,?,?,?,?)}");
+
+
+            cs.setString(1, member.getName());
+            cs.setString(2, member.getPhoneNumber());
+            cs.setString(3, member.getEmail());
+            cs.setString(4, member.getAddress());
+            cs.setString(5, member.getId());
+            cs.setString(6, member.getPassword());
+            int rs = cs.executeUpdate();
+
+            //실행 성공 시 객체 반환, 실패 시 빈 optional반환
+            if (rs > 0) return Optional.of(member);
+            else return Optional.empty();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeQuietly(null, cs, conn);
+        }
+        return Optional.empty();
+    }
+
 }
