@@ -264,13 +264,12 @@ public class OrderRepoImpl implements OrderRepo {
         return pendingMap;
     }
 
+    /**
+     * @param franchiseId
+     * @return
+     */
     @Override
     public OrderStatisticsDTO getLastMonthOrderStatistics(String franchiseId) {
-        // 지난 달의 통계 계산 (여기서는 단순히 Calendar를 사용)
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MONTH, -1);
-        int lastMonth = cal.get(Calendar.MONTH) + 1;
-        int lastYear = cal.get(Calendar.YEAR);
-        return getOrderStatisticsByFranchiseAndMonth(franchiseId, lastYear, lastMonth);
+        return null;
     }
 }
