@@ -26,7 +26,7 @@ public class MemberRepoImpl implements MemberRepo {
 
         try {
 
-            cs = conn.prepareCall("insert into member('authorityid','name','phoneNumber','email','address','id','password') values (?,?,?,?,?,?,?)");
+            cs = conn.prepareCall("insert into `member` (authorityid,name,phoneNumber,email,address,id,password) values (?,?,?,?,?,?,?)");
 
 
             cs.setInt(1, member.getAuthorityId());
@@ -56,16 +56,16 @@ public class MemberRepoImpl implements MemberRepo {
         conn = DBUtil.getConnection();
 
         try {
-            String sql = "call updateMember(?, ?, ? ,? ,? ,? ,? )";
+            String sql = "UPDATE `member` SET name = ?, phoneNumber = ?, email = ?, address = ?, id = ?, password = ? WHERE memberNo = ?";
             cs = conn.prepareCall(sql);
 
-            cs.setInt(1, updateMember.getMemberNo());
-            cs.setString(2, updateMember.getName());
-            cs.setString(3, updateMember.getPhoneNumber());
-            cs.setString(4, updateMember.getEmail());
-            cs.setString(5, updateMember.getAddress());
-            cs.setString(6, updateMember.getId());
-            cs.setString(7, updateMember.getPassword());
+            cs.setString(1, updateMember.getName());
+            cs.setString(2, updateMember.getPhoneNumber());
+            cs.setString(3, updateMember.getEmail());
+            cs.setString(4, updateMember.getAddress());
+            cs.setString(5, updateMember.getId());
+            cs.setString(6, updateMember.getPassword());
+            cs.setInt(7, updateMember.getMemberNo());
 
             int rs = cs.executeUpdate();
             //실행 성공 시 객체 반환, 실패 시 빈 optional반환
@@ -86,11 +86,12 @@ public class MemberRepoImpl implements MemberRepo {
         conn = DBUtil.getConnection();
 
         try {
-            String sql = "call deleteMember(?)";
+            String sql = "DELETE FROM `member` WHERE id = ?";
             cs = conn.prepareCall(sql);
             cs.setString(1, memberId);
 
             int rs = cs.executeUpdate();
+
 
             if (rs > 0) {
                 return Optional.of(memberId);

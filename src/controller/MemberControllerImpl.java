@@ -35,13 +35,6 @@ public class MemberControllerImpl implements MemberController {
     Map<Integer,Runnable> FMSearchMenu = new HashMap<>();
 
 
-    public Map<Integer,Runnable>  setMainMenu(){
-        mainMenu.put(1,()-> HQMenu());
-        mainMenu.put(2,()-> WMMenu());
-        mainMenu.put(3,()-> FMMenu());
-        return mainMenu;
-    }
-
     public Map<Integer,Runnable> setHQMenu(){
         HQAddMenu = setHQAddMenu();
         HQSearchMenu = setHQSearchMenu();
@@ -67,7 +60,6 @@ public class MemberControllerImpl implements MemberController {
 
     public Map<Integer,Runnable> setWMMenu(){
         WMSearchMenu =setWMSearchMenu();
-        WMSearchMenu = setWMSearchMenu();
         WMMenu.put(1,()-> MenuUtil.handleMenuSelection(MemberText.WM_MEMBER_SEARCH_MENU.getText(),WMSearchMenu));
         WMMenu.put(2,()-> updateMenu());
         return WMMenu;
@@ -89,18 +81,11 @@ public class MemberControllerImpl implements MemberController {
     }
 
     public Map<Integer,Runnable> setFMSearchMenu(){
-        FMMenu.put(1,()->loginMemberSimpleSearch());
-        FMMenu.put(2,()->loginMemberDetailSearch());
-        return FMMenu;
+        FMSearchMenu.put(1,()->loginMemberSimpleSearch());
+        FMSearchMenu.put(2,()->loginMemberDetailSearch());
+        return FMSearchMenu;
     }
 
-    public void MainMune(){
-        System.out.println(MemberText.MENU_HEADER.getText());
-        mainMenu = setMainMenu();
-        int authorityId = LoginUtil.getLoginMember().getAuthorityId();
-        Runnable action = mainMenu.get(1);
-        action.run();
-    }
 
 
     public void HQMenu(){
@@ -109,11 +94,13 @@ public class MemberControllerImpl implements MemberController {
     }
 
     public void WMMenu(){
+        System.out.println(MemberText.MENU_HEADER.getText());
         WMMenu = setWMMenu();
         MenuUtil.handleMenuSelection(MemberText.WM_MEMBER_MENU.getText(),WMMenu);
     }
 
     public void FMMenu(){
+        System.out.println(MemberText.MENU_HEADER.getText());
         FMMenu = setFMMenu();
         MenuUtil.handleMenuSelection(MemberText.FM_MEMBER_MENU.getText(),FMMenu);
     }
@@ -122,7 +109,7 @@ public class MemberControllerImpl implements MemberController {
     public void addMenu() {
         System.out.println(MemberText.INSERT_MEMBER_NEW_HEADER.getText());
         MemberDTO newMember = newMember();
-        if(memberService.checkId(newMember.getId())){ //아이디 중복검사
+        if(!memberService.checkId(newMember.getId())){ //아이디 중복검사
             MemberDTO result = memberService.addMember(newMember);
             if (result == null) System.out.println(MemberErrorCode.INSERT_FAIL.getText());
             else System.out.println(MemberText.INSERT_MEMBER_SUCCESS.getText());
@@ -144,9 +131,12 @@ public class MemberControllerImpl implements MemberController {
 
     public void deleteMenu(){
         System.out.println(MemberText.DELETE_MEMBER_HEADER.getText());
-        String result = memberService.deleteMember(InputUtil.getInput(MemberText.DELETE_MEMBER.getText()+MemberText.MEMBER_ID.getText()).get());
-        System.out.println(result);
-        System.out.println(MemberText.DELETE_MEMBER_SUCCESS);
+        String deleteMemberId = InputUtil.getInput(MemberText.DELETE_MEMBER.getText()+MemberText.MEMBER_ID.getText()).get();
+        String result = memberService.deleteMember(deleteMemberId);
+        if(result!=null){
+        System.out.print(result);
+        System.out.println(MemberText.DELETE_MEMBER_SUCCESS.getText());
+        }else System.out.println(MemberErrorCode.DELETE_FAIL.getText());
     }
 
     public void updateMenu(){
@@ -156,14 +146,16 @@ public class MemberControllerImpl implements MemberController {
                                 MemberText.MEMBER_ID.getText()).get();
         MemberDTO updateMember = updateMember();
         MemberDTO result = memberService.updateMember(updateMemberID,updateMember);
-        System.out.println(updateMemberID);
-        System.out.println(MemberText.UPDATE_MEMBER_SUCCESS);
+        System.out.print(updateMemberID);
+        System.out.println(MemberText.UPDATE_MEMBER_SUCCESS.getText());
     }
 
     public void searchSimpleMenu(){
-        MemberText.SEARCH_MEMBER_SIMPLE_HEADER.getText();
+        System.out.println(MemberText.SEARCH_MEMBER_SIMPLE_HEADER.getText());
         MemberDTO result = memberService.searchMember(InputUtil.getInput(MemberText.SEARCH_MEMBER_ID.getText()).get());
-        System.out.println(result.getName()+" "+result.getId()+" "+result.getEmail());
+        System.out.println("이름: "+result.getName()+
+                            " 아이디 : "+result.getId()+
+                            " 이메일: "+result.getEmail());
     }
     public void searchDitailMenu(){
         System.out.println(MemberText.SEARCH_MEMBER_DETAIL_HEADER.getText());
@@ -183,26 +175,42 @@ public class MemberControllerImpl implements MemberController {
 
 
     public MemberDTO newMember(){
+
+        String name = InputUtil.getInput(MemberText.INSERT_MEMBER.getText()+MemberText.MEMBER_NAME.getText()).get();
+        int authority = InputUtil.getMenuSelection(MemberText.INSERT_MEMBER.getText()+MemberText.MEMBER_AUTHORITYID.getText()).get();
+        String phoneNumber = InputUtil.getInput(MemberText.INSERT_MEMBER.getText()+MemberText.MEMBER_PHONE.getText()).get();
+        String email =InputUtil.getInput(MemberText.INSERT_MEMBER.getText()+MemberText.MEMBER_EMAIL.getText()).get();
+        String address =InputUtil.getInput(MemberText.INSERT_MEMBER.getText()+MemberText.MEMBER_ADDRESS.getText()).get();
+        String id = InputUtil.getInput(MemberText.INSERT_MEMBER.getText()+MemberText.MEMBER_ID.getText()).get();
+        String password = InputUtil.getInput(MemberText.INSERT_MEMBER.getText()+MemberText.MEMBER_PASSWORD.getText()).get();
+
         MemberDTO newmember = new MemberDTO();
-        newmember.setName(InputUtil.getInput(MemberText.INSERT_MEMBER.getText()+MemberText.MEMBER_NAME.getText()).get());
-        newmember.setAuthorityId(InputUtil.getMenuSelection(MemberText.INSERT_MEMBER.getText()+MemberText.MEMBER_AUTHORITYID.getText()).get());
-        newmember.setPhoneNumber(InputUtil.getInput(MemberText.INSERT_MEMBER.getText()+MemberText.MEMBER_PHONE.getText()).get());
-        newmember.setEmail(InputUtil.getInput(MemberText.INSERT_MEMBER.getText()+MemberText.MEMBER_EMAIL.getText()).get());
-        newmember.setAddress(InputUtil.getInput(MemberText.INSERT_MEMBER.getText()+MemberText.MEMBER_ADDRESS.getText()).get());
-        newmember.setId(InputUtil.getInput(MemberText.INSERT_MEMBER.getText()+MemberText.MEMBER_ID.getText()).get());
-        newmember.setPassword(InputUtil.getInput(MemberText.INSERT_MEMBER.getText()+MemberText.MEMBER_PASSWORD.getText()).get());
+        newmember.setName(name);
+        newmember.setAuthorityId(authority);
+        newmember.setPhoneNumber(phoneNumber);
+        newmember.setEmail(email);
+        newmember.setId(id);
+        newmember.setPassword(password);
         return newmember;
     }
 
     public MemberDTO updateMember(){
         MemberDTO updateMember = new MemberDTO();
-        updateMember.setName(InputUtil.getInput(MemberText.MEMBER_NAME.getText()).get());
-        updateMember.setAuthorityId(InputUtil.getMenuSelection(MemberText.MEMBER_AUTHORITYID.getText()).get());
-        updateMember.setPhoneNumber(InputUtil.getInput(MemberText.MEMBER_PHONE.getText()).get());
-        updateMember.setEmail(InputUtil.getInput(MemberText.MEMBER_EMAIL.getText()).get());
-        updateMember.setAddress(InputUtil.getInput(MemberText.MEMBER_ADDRESS.getText()).get());
-        updateMember.setId(InputUtil.getInput(MemberText.MEMBER_ID.getText()).get());
-        updateMember.setPassword(InputUtil.getInput(MemberText.MEMBER_PASSWORD.getText()).get());
+        String name = InputUtil.getInput(MemberText.MEMBER_NAME.getText()).get();
+        int authority = InputUtil.getMenuSelection(MemberText.MEMBER_AUTHORITYID.getText()).get();
+        String phoneNumber = InputUtil.getInput(MemberText.MEMBER_PHONE.getText()).get();
+        String email =InputUtil.getInput(MemberText.MEMBER_EMAIL.getText()).get();
+        String address =InputUtil.getInput(MemberText.MEMBER_ADDRESS.getText()).get();
+        String id = InputUtil.getInput(MemberText.MEMBER_ID.getText()).get();
+        String password = InputUtil.getInput(MemberText.MEMBER_PASSWORD.getText()).get();
+
+        updateMember.setName(name);
+        updateMember.setAuthorityId(authority);
+        updateMember.setPhoneNumber(phoneNumber);
+        updateMember.setEmail(email);
+        updateMember.setAddress(address);
+        updateMember.setId(id);
+        updateMember.setPassword(password);
         return updateMember;
     }
 
@@ -221,10 +229,14 @@ public class MemberControllerImpl implements MemberController {
     }
 
     //로그인한 회원의 간편조회
-    public void loginMemberSimpleSearch(){
-       String loginMember = LoginUtil.getLoginMember().getId();
-        MemberDTO result = memberService.searchMember(loginMember);
-        System.out.println(result.getName()+" "+result.getId()+" "+result.getEmail());
+    public void loginMemberSimpleSearch() {
+        MemberText.SEARCH_MEMBER_SIMPLE_HEADER.getText();
+        String loginMember = LoginUtil.getLoginMember().getId();
+        if (loginMember == null) System.out.println(MemberErrorCode.MEMBER_NOT_FOUND.getText());
+        else {
+            MemberDTO result = memberService.searchMember(loginMember);
+            System.out.println("이름 : "+result.getName() + " 아이디: " + result.getId() + " 이메일:" + result.getEmail());
+        }
     }
 
     //로그인한 회원의 상세조회

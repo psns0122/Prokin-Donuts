@@ -50,8 +50,7 @@ public class MainController {
 
     public void run() {
         while (true) {
-            // 로그인 메뉴
-            memberController.MainMune();
+            // 로그인 메뉴        loginController.loginPlay();
 
             // 로그인 후 권한 가져오기
             int authority = LoginUtil.getLoginMember().getAuthorityId();

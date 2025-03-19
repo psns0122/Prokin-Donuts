@@ -22,8 +22,8 @@ public class LoginControllerImpl implements LoginController{
 
     Map<Integer,Runnable> mainMenu = new HashMap<>();
 
-    public void MainMenu(){
-            System.out.println(MemberText.MENU_HEADER.getText());
+    public void loginPlay(){
+            System.out.println(LoginText.MENU_HEADER.getText());
             mainMenu = setMainMenu();
         while(true) {
             Runnable action = mainMenu.get(
