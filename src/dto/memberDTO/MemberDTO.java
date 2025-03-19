@@ -27,4 +27,20 @@ public class MemberDTO {
     private String password;
     /* 로그인 상태 */
     private String logstatus;
+
+    @Override
+    public String toString() {
+        return "MemberDTO{" +
+                "memberNo=" + memberNo +
+                ", authorityId=" + authorityId +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", id='" + id + '\'' +
+                ", password='" + password + '\'' +
+                ", logstatus='" + logstatus + '\'' +
+                '}';
+    }
+
 }
