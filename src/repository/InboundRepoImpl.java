@@ -204,7 +204,7 @@ public class InboundRepoImpl implements InboundRepo {
                 list.add(inboundVO);
             }
             //DBUtil.closeQuietly(rs, cs, conn);
-            return Optional.of(list);
+            return list.isEmpty() ? Optional.empty() : Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -312,7 +312,7 @@ public class InboundRepoImpl implements InboundRepo {
                 list.add(inboundDetailVO);
             }
             //DBUtil.closeQuietly(rs, cs, conn);
-            return Optional.of(list);
+            return list.isEmpty() ? Optional.empty() : Optional.of(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -440,10 +440,34 @@ public class InboundRepoImpl implements InboundRepo {
         }
     }
 
-    // 입고 현황 조회 추후 개발 예정
+    // 입고 현황 조회 추후
     @Override
-    public Optional<List<InboundVO>> getAllInbound() {
-        return Optional.empty();
+    public Optional<List<InboundStatusVO>> getAllInbound() {
+        List<InboundStatusVO> list = new ArrayList<>();
+        try {
+            String sql = "SELECT i.inboundId, d.productId, i.warehouseId, d.sectionId, i.inboundDate, i.inboundStatus, d.quantity\n" +
+                    "FROM inbound i, inboundDetail d\n" +
+                    "WHERE i.inboundId = d.inboundId";
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                InboundStatusVO inboundStatusVO = InboundStatusVO.builder()
+                        .inboundId(rs.getInt("inboundId"))
+                        .productId(rs.getInt("productId"))
+                        .warehouseId(rs.getInt("warehouseId"))
+                        .sectionId(rs.getInt("sectionId"))
+                        .inboundDate(rs.getDate("inboundDate").toLocalDate())
+                        .status(rs.getString("inboundStatus"))
+                        .quantity(rs.getInt("quantity"))
+                        .build();
+                list.add(inboundStatusVO);
+            }
+            //DBUtil.closeQuietly(rs, cs, conn);
+            return Optional.of(list);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

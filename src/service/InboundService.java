@@ -139,7 +139,7 @@ public interface InboundService {
      * (전체 창고 입고현황 리스트)
      * 추후 DTO 변경
      */
-    List<InboundDTO> getAllInbound();
+    List<InboundStatusVO> getAllInbound();
 
     /**
      * 입고 현황 조회

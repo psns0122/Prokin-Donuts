@@ -103,9 +103,9 @@ public class InboundServiceImpl implements InboundService {
      * @return 입고 요청 리스트
      */
     @Override
-    public List<InboundVO> getInboundList(int warehouseId) {
+    public List<InboundVO> getInboundList(int warehouseId) throws IllegalArgumentException{
         return inboundRepo.getInboundStatus(warehouseId).orElseThrow(
-                () -> new IllegalArgumentException("ee")
+                () -> new IllegalArgumentException(InboundErrorCode.NOT_FOUND_DELETE_LIST.getText())
         );
     }
 
@@ -125,7 +125,6 @@ public class InboundServiceImpl implements InboundService {
     /**
      * 입고 예정 날짜 확인 후 수정 및 취소 가능 여부 판단
      * 입고ID -> 입고 상세 테이블의 예정입고일 확인
-     * --> 추후 개발 예정
      * @param inboundId
      * @return
      */
@@ -151,9 +150,9 @@ public class InboundServiceImpl implements InboundService {
      * @return 입고상세정보
      */
     @Override
-    public List<InboundStatusVO> getInboundDetail(int warehouseId) {
+    public List<InboundStatusVO> getInboundDetail(int warehouseId) throws IllegalArgumentException{
         return inboundRepo.getInboundDetailList(warehouseId).orElseThrow(
-                () -> new IllegalArgumentException("e")
+                () -> new IllegalArgumentException(InboundErrorCode.NOT_FOUND_RECEIPT.getText())
         );
     }
 
@@ -172,9 +171,9 @@ public class InboundServiceImpl implements InboundService {
      * @return
      */
     @Override
-    public List<InboundVO> getInboundRequest() {
+    public List<InboundVO> getInboundRequest() throws IllegalArgumentException{
         return inboundRepo.getInboundRequest().orElseThrow(
-                () -> new IllegalArgumentException("d")
+                () -> new IllegalArgumentException(InboundErrorCode.NOT_FOUND_HQ_LIST.getText())
         );
     }
 
@@ -193,15 +192,17 @@ public class InboundServiceImpl implements InboundService {
      * @return 모든 창고의 입고 고지서
      */
     @Override
-    public List<InboundVO> getAllInboundInfo() {
+    public List<InboundVO> getAllInboundInfo() throws IllegalArgumentException{
         return inboundRepo.getAllInboundInfo().orElseThrow(
-                () -> new IllegalArgumentException("d")
+                () -> new IllegalArgumentException(InboundErrorCode.NOT_FOUND_RECEIPT.getText())
         );
      }
 
     @Override
-    public List<InboundDTO> getAllInbound() {
-        return null;
+    public List<InboundStatusVO> getAllInbound() {
+        return inboundRepo.getAllInbound().orElseThrow(
+                () -> new IllegalArgumentException("존재X")
+        );
     }
 
     @Override
@@ -210,9 +211,9 @@ public class InboundServiceImpl implements InboundService {
     }
 
     @Override
-    public int getNextInboundId() {
+    public int getNextInboundId() throws IllegalArgumentException{
         return inboundRepo.getNextInboundId().orElseThrow(
-                () -> new IllegalArgumentException("~")
+                () -> new IllegalArgumentException(InboundErrorCode.NOT_FOUND_NEXT_NUMBER.getText())
         );
     }
 
