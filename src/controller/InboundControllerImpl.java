@@ -17,8 +17,8 @@ import java.util.*;
 public class InboundControllerImpl implements InboundController {
     public static void main(String[] args) {
         InboundControllerImpl inboundController = new InboundControllerImpl(new InboundServiceImpl(new InboundRepoImpl()));
-        inboundController.warehouseManager(1);
-        //inboundController.Headquarters();
+        //inboundController.warehouseManager(1);
+        inboundController.Headquarters();
     }
 
     private final InboundService inboundService;
@@ -222,6 +222,7 @@ public class InboundControllerImpl implements InboundController {
         while (true) {
             System.out.println("1. 입고요청 승인");
             System.out.println("2. 입고 고지서 출력");
+            System.out.println("3. (전체창고) 입고현황");
 
             Map<Integer, Runnable> menuActions = new HashMap<>();
             menuActions.put(1, () -> approved());
@@ -237,8 +238,10 @@ public class InboundControllerImpl implements InboundController {
      */
     private void approved() {
         // 입고 '요청'상태인 입고요청 리스트 출력
+        System.out.println(InboundText.MENU_HEADER.getText());
         List<InboundVO> list = inboundService.getInboundRequest();
         list.forEach(System.out::println);
+        System.out.println(InboundText.MENU_BOTTOM.getText());
 
         // 입고를 승인할 입고 ID를 입력 받으면 해당 입고 ID의 상태를 (요청 -> 승인) 상태로 변경한다.
         int inboundId = InputUtil.getIntegerInput("입고를 승인할 입고 ID를 입력하세요.");
