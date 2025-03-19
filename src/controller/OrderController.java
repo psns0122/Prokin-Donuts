@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface OrderController {
+    void run();
     String submitOrder(OrderDTO dto);
     void approveOrder(String orderId);
     void shipOrder(String orderId);
