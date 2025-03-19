@@ -20,7 +20,7 @@ public class MainController {
     }
 
     public void run() {
-        loginController.mainMenu();
+        loginController.loginPlay();
 
 
     }
