@@ -7,7 +7,6 @@ import lombok.ToString;
 
 @Builder
 @Getter
-@ToString
 public class InboundDetailVO {
     /** 입고 상세 아이디 */
     private int inboundDetailId;
@@ -20,4 +19,14 @@ public class InboundDetailVO {
     /** 섹션 아이디 */
     private int sectionId;
 
+    @Override
+    public String toString() {
+        return "[" +
+                "입고상세Id: " + inboundDetailId +
+                ", 수량: " + quantity +
+                ", 입고Id: " + inboundId +
+                ", 상품Id: " + productId +
+                ", 섹션Id: " + sectionId +
+                ']';
+    }
 }

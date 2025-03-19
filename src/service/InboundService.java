@@ -4,6 +4,7 @@ import dto.inbound.InboundDTO;
 
 import dto.inbound.ProductDTO;
 import vo.inbound.InboundDetailVO;
+import vo.inbound.InboundStatusVO;
 import vo.inbound.InboundVO;
 
 import java.util.Date;
@@ -32,7 +33,7 @@ public interface InboundService {
      *
      * @param inboundId 입고 아이디
      */
-    void completedInbound(int inboundId);
+    boolean completedInbound(int inboundId);
 
     // [입고 요청 Service]
 
@@ -93,7 +94,7 @@ public interface InboundService {
      * 입고 ID 입력시 입고 상세 정보 출력
      * 입고ID
      */
-    List<InboundDetailVO> getInboundDetail(int warehouseId);
+    List<InboundStatusVO> getInboundDetail(int warehouseId);
 
     // [입고 현황 조회 Service]
 
