@@ -62,8 +62,6 @@ public class WarehouseControllerImpl implements WarehouseController {
         System.out.print(WarehouseText.HQ_INSERT_WAREHOUSE_SIZE.getText());
         int size = scanner.nextInt();
         scanner.nextLine();
-        System.out.print(WarehouseText.HQ_INSERT_WAREHOUSE_MANAGER_NAME.getText());
-        String managerName = scanner.nextLine();
         System.out.print(WarehouseText.HQ_INSERT_WAREHOUSE_MANAGER_ID.getText());
         int managerID = scanner.nextInt();
         scanner.nextLine();

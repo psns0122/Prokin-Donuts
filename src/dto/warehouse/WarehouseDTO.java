@@ -2,6 +2,8 @@ package dto.warehouse;
 
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Setter
@@ -22,4 +24,11 @@ public class WarehouseDTO {
     private int capacityLimit;
     /** 회원번호 */
     private int memberNo;
+
+    /** 창고관리자 이름 */
+    private String WMName;
+    /** 창고관리자 번호 */
+    private String WHPhone;
+    /** 창고관리자 이메일 */
+    private String WHEmail;
 }

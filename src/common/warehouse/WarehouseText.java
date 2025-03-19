@@ -15,7 +15,6 @@ public enum WarehouseText {
     HQ_INSERT_WAREHOUSE_NAME("창고 이름: "),
     HQ_INSERT_WAREHOUSE_LOCATION("창고 소재지: "),
     HQ_INSERT_WAREHOUSE_SIZE("창고 수용한도: "),
-    HQ_INSERT_WAREHOUSE_MANAGER_NAME("창고 담당관리자 이름: "),
     HQ_INSERT_WAREHOUSE_MANAGER_ID("창고 담당관리자 ID: "),
     HQ_INSERT_WAREHOUSE("창고가 등록되었습니다."),
 
