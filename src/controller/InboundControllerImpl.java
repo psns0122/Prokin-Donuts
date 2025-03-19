@@ -15,6 +15,7 @@ public class InboundControllerImpl implements InboundController {
     public static void main(String[] args) {
         InboundControllerImpl inboundController = new InboundControllerImpl(new InboundServiceImpl(new InboundRepoImpl()));
         inboundController.warehouseManager(1);
+        //inboundController.Headquarters();
     }
     private final InboundService inboundService;
 
@@ -29,17 +30,25 @@ public class InboundControllerImpl implements InboundController {
      * @param warehouseId
      */
     void warehouseManager(int warehouseId) {
-        Map<Integer, Runnable> menuActions = new HashMap<>();
-        menuActions.put(1, () -> inspect(warehouseId));
-        menuActions.put(2, () -> request(warehouseId));
-        menuActions.put(3, () -> inboundUpdate(warehouseId));
-        menuActions.put(4, () -> inboundDelete(warehouseId));
-        menuActions.put(5, () -> receipt(warehouseId));
-        /** menuActions.put(6, () -> Status()); */
+        while(true) {
+            System.out.println("1. 입고검수");
+            System.out.println("2. 입고요청");
+            System.out.println("3. 입고요청 수정");
+            System.out.println("4. 입고요청 취소");
+            System.out.println("5. 입고고지서 출력");
+            System.out.println("6. 입고 현황");
 
+            Map<Integer, Runnable> menuActions = new HashMap<>();
+            menuActions.put(1, () -> inspect(warehouseId));
+            menuActions.put(2, () -> request(warehouseId));
+            menuActions.put(3, () -> inboundUpdate(warehouseId));
+            menuActions.put(4, () -> inboundDelete(warehouseId));
+            menuActions.put(5, () -> receipt(warehouseId));
+            menuActions.put(6, () -> Status(warehouseId));
 
+            MenuUtil.handleMenuSelection("메뉴 선택 (숫자 입력, 종료: exit): ", menuActions);
+        }
 
-        MenuUtil.handleMenuSelection("메뉴 선택 (숫자 입력, 종료: exit): ", menuActions);
     }
 
     /**
@@ -85,7 +94,7 @@ public class InboundControllerImpl implements InboundController {
         // 상품 메뉴 출력
         printProductMenu();
         // 다음 입고 번호를 가져오는 기능  // 테스트 완료
-        int inboundId = inboundService.getNextInboundId();
+        int inboundId = inboundService.getNextInboundId()+1;
         // Refactoring 필요 !
         while (true) {
             // 입고할 상품과 수량 선택
@@ -153,9 +162,7 @@ public class InboundControllerImpl implements InboundController {
 
         int inboundId = InputUtil.getIntegerInput("입고를 취소할 입고ID를 입력하세요.");
         //취소 가능하면 -> 삭제
-        /**
-         * checkInboundDate 기능 구현 필요!
-         */
+
         if(inboundService.checkInboundDate(inboundId)) {
             inboundService.deleteInboundInfo(inboundId);
             System.out.println("취소 됨!");
@@ -173,15 +180,47 @@ public class InboundControllerImpl implements InboundController {
         list.forEach(System.out::println);
     }
 
-
-
-
-
+    /**
+     * 창고 관리자 입고 현황 조회
+     * (입고 상세 정보 출력)
+     */
+    private void Status(int warehouseId) {
+        List<InboundDetailVO> list = inboundService.getInboundDetail(warehouseId);
+        list.forEach(System.out::println);
+    }
 
 
     // 총관리자 호출
     void Headquarters() {
+        while(true) {
+            System.out.println("1. 입고요청 승인");
+            System.out.println("2. 입고 고지서 출력");
 
+            Map<Integer, Runnable> menuActions = new HashMap<>();
+            menuActions.put(1, () -> approved());
+            menuActions.put(2, () -> printInbound());
+
+
+            MenuUtil.handleMenuSelection("메뉴 선택 (숫자 입력, 종료: exit): ", menuActions);
+        }
+    }
+
+    /**
+     * 총관리자의 입고 요청 승인 기능 (테스트 완료)
+     */
+    private void approved() {
+        // 입고 '요청'상태인 입고요청 리스트 출력
+        List<InboundVO> list = inboundService.getInboundRequest();
+        list.forEach(System.out::println);
+
+        // 입고를 승인할 입고 ID를 입력 받으면 해당 입고 ID의 상태를 (요청 -> 승인) 상태로 변경한다.
+        int inboundId = InputUtil.getIntegerInput("입고를 승인할 입고 ID를 입력하세요.");
+        inboundService.updateInboundStatus(inboundId);
+    }
+
+    private void printInbound() {
+        int warehouseId = InputUtil.getIntegerInput("고지서를 출력할 창고 ID를 입력하세요.");
+        receipt(warehouseId);
     }
 
 }
