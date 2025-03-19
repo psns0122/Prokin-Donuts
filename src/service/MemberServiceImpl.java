@@ -68,7 +68,7 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberDTO> searchAuthority(String authority) {
         int authorityId = 0;
 
-        if (authority.equals("총관리자")) authorityId = 1;
+        if (authority.equals("본사관리자")) authorityId = 1;
         else if (authority.equals("창고관리자"))authorityId = 2;
         else authorityId = 3;
 
