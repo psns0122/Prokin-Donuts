@@ -39,6 +39,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
             cs.registerOutParameter(3, java.sql.Types.VARCHAR);
 
             // 쿼리 수행, flag 값은 RS의 경우 true, 갱신, 카운트 또는 결과가 없는 경우 false 리턴
+            cs.execute();
             String resultMSG = cs.getString(3);
 
             // resultMSG가 null이면 Optional.empty() 반환, 아니면 Optional.of(resultMSG) 반환
@@ -47,7 +48,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            DBUtil.closeQuietly(null,cs,conn);
+            DBUtil.closeQuietly(null,cs,null);
         }
         return Optional.empty();
     }
@@ -85,7 +86,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(null,cs,conn);
+            DBUtil.closeQuietly(null,cs,null);
         }
             return Optional.empty();
         }
@@ -123,7 +124,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(null,cs,conn);
+            DBUtil.closeQuietly(null,cs,null);
         }
         return Optional.empty();
     }
@@ -172,7 +173,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(rs,cs,conn);
+            DBUtil.closeQuietly(rs,cs,null);
         }
         return Optional.of(Collections.emptyList());
     }
@@ -225,7 +226,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(null,cs,conn);
+            DBUtil.closeQuietly(null,cs,null);
         }
         return Optional.of(Collections.emptyList());
     }
@@ -276,7 +277,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(rs,cs,conn);
+            DBUtil.closeQuietly(rs,cs,null);
         }
         return Optional.of(Collections.emptyList());
     }
@@ -315,7 +316,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            DBUtil.closeQuietly(null,cs,conn);
+            DBUtil.closeQuietly(null,cs,null);
         }
         return Optional.empty();
     }
@@ -353,7 +354,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            DBUtil.closeQuietly(null,cs,conn);
+            DBUtil.closeQuietly(null,cs,null);
         }
         return Optional.empty();
     }
@@ -394,7 +395,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(null,cs,conn);
+            DBUtil.closeQuietly(null,cs,null);
         }
         return Optional.empty();
     }
@@ -431,7 +432,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(null,cs,conn);
+            DBUtil.closeQuietly(null,cs,null);
         }
         return Optional.empty();
     }
@@ -482,7 +483,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(rs,cs,conn);
+            DBUtil.closeQuietly(rs,cs,null);
         }
         return Optional.of(Collections.emptyList());
     }
@@ -536,7 +537,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(rs,cs,conn);
+            DBUtil.closeQuietly(rs,cs,null);
         }
         return Optional.of(Collections.emptyList());
     }
@@ -590,7 +591,7 @@ public class FranchiseRepoImpl implements FranchiseRepo{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.closeQuietly(rs,cs,conn);
+            DBUtil.closeQuietly(rs,cs,null);
         }
         return Optional.of(Collections.emptyList());
     }
