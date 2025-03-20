@@ -17,10 +17,10 @@ public class MemberServiceImpl implements MemberService {
     //회원 등록 기능
     @Override
     public MemberDTO addMember(MemberDTO member) {
-            //insertMember 반환된 객체를 result 에 저장
-            Optional<MemberDTO> result = memberRepo.insertMember(member);
-            //결과값을 반환, 하지만 결과값이 optional.empty면 null 반환
-            return result.orElse(null);
+        //insertMember 반환된 객체를 result 에 저장
+        Optional<MemberDTO> result = memberRepo.insertMember(member);
+        //결과값을 반환, 하지만 결과값이 optional.empty면 null 반환
+        return result.orElse(null);
     }
 
     //회원 수정 기능
@@ -46,8 +46,8 @@ public class MemberServiceImpl implements MemberService {
     //회원 가입  요청기능
     @Override
     public MemberRequestDTO requestMember(MemberRequestDTO member) {
-            Optional<MemberRequestDTO> result = memberRepo.insertRequestMember(member);
-            return result.orElse(null);
+        Optional<MemberRequestDTO> result = memberRepo.insertRequestMember(member);
+        return result.orElse(null);
     }
 
     //회원아이디 중복검사 기능
@@ -120,11 +120,12 @@ public class MemberServiceImpl implements MemberService {
     public boolean checkRandomNumber(String memberEmail, String userRandomNumber) {
         //email(키)가 존재하고, 키의 값(인증번호)이 유저가 입력한 인증번호와 같다면, 인증번호 폐기 후 true 리턴
         if (randomNumber.containsKey(memberEmail) && randomNumber.get(memberEmail).equals(userRandomNumber)) {
-           randomNumber.remove(memberEmail); // 인증번호 폐기
+            randomNumber.remove(memberEmail); // 인증번호 폐기
             return true;
         }
         return false;
     }
+
 
     //회원 승인 기능
     @Override
@@ -133,11 +134,12 @@ public class MemberServiceImpl implements MemberService {
         return approval.orElse(null);
     }
 
+
     //로그인 기능
     @Override
     public String logIn(String memberId,String password) {
-            Optional<String> result = memberRepo.logInnOut(memberId);
-            return result.orElse(null);
+        Optional<String> result = memberRepo.logInnOut(memberId);
+        return result.orElse(null);
     }
 
 
@@ -165,7 +167,7 @@ public class MemberServiceImpl implements MemberService {
     //로그인 상태 확인 기능
     @Override
     public String logstatus(String memberId){
-        Optional<String> result = memberRepo.searchLoginfo("logstatus","id",memberId);
+        Optional<String> result = memberRepo.searchLoginfo("logstatus","id", memberId);
         return result.orElse(null);
     }
 

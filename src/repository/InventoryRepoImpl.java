@@ -20,10 +20,10 @@ public class InventoryRepoImpl implements InventoryRepo {
                 List<InventoryDTO> list = new ArrayList<>();
                 while (rs.next()) {
                     InventoryDTO dto = new InventoryDTO();
-                    dto.setInventoryId(rs.getString("inventoryId"));
+                    dto.setInventoryId(rs.getInt("inventoryId"));
                     dto.setQuantity(rs.getInt("quantity"));
                     dto.setProductId(rs.getString("productId"));
-                    dto.setWarehouseId(rs.getString("warehouseId"));
+                    dto.setWarehouseId(rs.getInt("warehouseId"));
                     list.add(dto);
                 }
 

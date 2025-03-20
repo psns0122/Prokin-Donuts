@@ -25,7 +25,7 @@ public class LoginControllerImpl implements LoginController{
     Map<Integer,Runnable> mainMenu = new HashMap<>();
 
     public void loginPlay(){
-            mainMenu = setMainMenu();
+        mainMenu = setMainMenu();
         while(true) {
             System.out.println(LoginText.MENU_HEADER.getText());
             Runnable action = mainMenu.get(
@@ -52,8 +52,8 @@ public class LoginControllerImpl implements LoginController{
         if (requst !=null && requst.equals("대기")) {
             System.out.println(LoginErrorCode.LOGIN_FAIL_REQUEST.getText());
         } else {
-            String loginstatus = memberService.logstatus(id);
-            if (loginstatus.equals("login")) System.out.println(LoginErrorCode.LOGIN_FAIL.getText()); //로그인 상태 확인
+            String logstatus = memberService.logstatus(id);
+            if (logstatus.equals("login")) System.out.println(LoginErrorCode.LOGIN_FAIL.getText()); //로그인 상태 확인
             else {
                 MemberDTO loginMember = memberService.searchMember(id);
 
@@ -119,15 +119,15 @@ public class LoginControllerImpl implements LoginController{
 
     public void logout(){
         String id = LoginUtil.getLoginMember().getId();
-        String loginstatus = memberService.logstatus(id); //로그인 상태 확인
-        if (loginstatus.equals("logout"))
+        String logstatus = memberService.logstatus(id); //로그인 상태 확인
+        if (logstatus.equals("logout"))
             System.out.println(LoginErrorCode.LOGIN_FAIL_OUT.getText());
         else {
             String result = memberService.logOut(id);
             if(result == null) System.out.println(LoginErrorCode.LOGOUT_FAIL.getText());
             else {
-                LoginUtil.setLoginMember(null);
                 System.out.println(LoginText.LOGOUT_SUCCESS.getText());
+                LoginUtil.setLoginMember(null);
             }
         }
     }
@@ -141,6 +141,6 @@ public class LoginControllerImpl implements LoginController{
         newMemberRequest.setAddress(InputUtil.getInput(LoginText.REQUEST.getText()+MemberText.MEMBER_ADDRESS.getText()).get());
         newMemberRequest.setId(InputUtil.getInput(LoginText.REQUEST.getText()+MemberText.MEMBER_ID.getText()).get());
         newMemberRequest.setPassword(InputUtil.getInput(LoginText.REQUEST.getText()+MemberText.MEMBER_PASSWORD.getText()).get());
-       return newMemberRequest;
+        return newMemberRequest;
     }
 }
