@@ -4,13 +4,18 @@ import lombok.*;
 
 @Setter
 @Getter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class InventoryDTO {
-    private int inventoryId;
-    private String productId;
-    private String productName;
+    /** 재고 아이디 */
+    private String inventoryId;
+    /** 수량 */
     private int quantity;
-    private int warehouseId;
+    /** 제품 아이디 */
+    private String productId;
+    /** 안전재고량 */
+    private int safetyInventory;
+    /** 창고 아이디 */
+    private String warehouseId;
 }
