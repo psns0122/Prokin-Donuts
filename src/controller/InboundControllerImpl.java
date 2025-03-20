@@ -2,11 +2,10 @@ package controller;
 
 import common.inbound.InboundText;
 import common.util.InputUtil;
+import common.util.LoginUtil;
 import common.util.MenuUtil;
 import dto.inbound.ProductDTO;
-import repository.InboundRepoImpl;
 import service.InboundService;
-import service.InboundServiceImpl;
 import vo.inbound.InboundDetailVO;
 import vo.inbound.InboundStatusVO;
 import vo.inbound.InboundVO;
@@ -15,11 +14,11 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class InboundControllerImpl implements InboundController {
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         InboundControllerImpl inboundController = new InboundControllerImpl(new InboundServiceImpl(new InboundRepoImpl()));
         inboundController.warehouseManager(1);
         //inboundController.Headquarters();
-    }
+    }*/
 
     private final InboundService inboundService;
 
@@ -38,7 +37,8 @@ public class InboundControllerImpl implements InboundController {
     /**
      * 창고 관리자 호출
      */
-    public void warehouseManager(int warehouseId) {
+    public void warehouseManager() {
+        int warehouseId = getWarehouseId(LoginUtil.getLoginMember().getMemberNo());
         while (true) {
             try {
                 printWmMenu(); //창고 관리자 메뉴 출력
@@ -53,10 +53,7 @@ public class InboundControllerImpl implements InboundController {
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
-
         }
-        //int warehouseId = getWarehouseId(LoginUtil.getLoginMember().getMemberNo());
-
     }
 
     /**
@@ -243,10 +240,11 @@ public class InboundControllerImpl implements InboundController {
             }
         }
     }
+
     /**
      * (전체창고) 입고현황 출력
      */
-    private void printTotalInbound() throws IllegalArgumentException{
+    private void printTotalInbound() throws IllegalArgumentException {
         List<InboundStatusVO> list = inboundService.getAllInbound();
         list.forEach(System.out::println);
     }
