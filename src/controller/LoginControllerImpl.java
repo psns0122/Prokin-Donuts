@@ -7,13 +7,16 @@ import common.util.InputUtil;
 import common.util.LoginUtil;
 import dto.memberDTO.MemberDTO;
 import dto.memberDTO.MemberRequestDTO;
+import repository.MemberRepoImpl;
 import service.MemberService;
+import service.MemberServiceImpl;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class LoginControllerImpl implements LoginController{
     MemberService memberService;
+    private boolean loginFlag = false;
 
     public LoginControllerImpl(MemberService memberService) {
         this.memberService = memberService;
@@ -21,13 +24,15 @@ public class LoginControllerImpl implements LoginController{
 
     Map<Integer,Runnable> mainMenu = new HashMap<>();
 
-    public void MainMenu(){
-            System.out.println(MemberText.MENU_HEADER.getText());
+    public void loginPlay(){
             mainMenu = setMainMenu();
+        while(true) {
+            System.out.println(LoginText.MENU_HEADER.getText());
             Runnable action = mainMenu.get(
                     InputUtil.getIntegerInput(LoginText.LOGIN_MAINMENU.getText()));
             action.run();
-
+            if (this.loginFlag) {return;}
+        }
     }
     public Map<Integer,Runnable> setMainMenu(){
         mainMenu.put(1,()->login());
@@ -57,6 +62,7 @@ public class LoginControllerImpl implements LoginController{
                     String result = memberService.logIn(id, password);
                     LoginUtil.setLoginMember(loginMember);
                     System.out.println(LoginText.LOGIN_SUCCESS.getText());
+                    this.loginFlag = true;
                 }
             }
         }
@@ -75,25 +81,37 @@ public class LoginControllerImpl implements LoginController{
     public void findId(){
         System.out.println(LoginText.SEARCH_ID_HEADER.getText());
         String email = InputUtil.getInput(LoginText.SEARCH_email.getText()).get();
+
         String code = memberService.randomNumber(email);
-        System.out.print(LoginText.RANDOM_NUM.getText()+code);
+        System.out.println(LoginText.RANDOM_NUM.getText()+code);
+
         String userCode = InputUtil.getInput(LoginText.RANDOM_NUM_CHECK.getText()).get();
+
         if(memberService.checkRandomNumber(email,userCode)) {
             System.out.println(LoginText.RANDOM_NUM_CHECK_S.getText());
-            System.out.println(memberService.findId(email));
+            String result = memberService.findId(email);
+            System.out.println(LoginText.FIND_ID.getText()+result);
         }
         else System.out.println(LoginErrorCode.RANDOM_NUM_CHECK_F.getText());
     }
     public void findPassword(){
         System.out.println(LoginText.SEARCH_P_HEADER.getText());
         String id = InputUtil.getInput(LoginText.SEARCH_ID.getText()).get();
-        String email = memberService.findemail(id);
-        String code = memberService.randomNumber(email);
-        System.out.print(LoginText.RANDOM_NUM.getText()+code);
+        String email = InputUtil.getInput(LoginText.SEARCH_email.getText()).get();
+
+        String userEmail = memberService.findemail(id);
+
+        String code = memberService.randomNumber(userEmail);
+        System.out.println(LoginText.RANDOM_NUM.getText()+code);
+
         String userCode = InputUtil.getInput(LoginText.RANDOM_NUM_CHECK.getText()).get();
-        if(memberService.checkRandomNumber(email,userCode)){
+
+        if(memberService.checkRandomNumber(userEmail,userCode)
+                && userEmail.equals(email)
+        ){
             System.out.println(LoginText.RANDOM_NUM_CHECK_S.getText());
-            System.out.println(memberService.findPassword(id));
+            String result = memberService.findPassword(id);
+            System.out.println(LoginText.FIND_P.getText()+result);
         }
         else System.out.println(LoginErrorCode.RANDOM_NUM_CHECK_F.getText());
     }

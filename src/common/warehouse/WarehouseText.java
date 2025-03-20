@@ -15,7 +15,6 @@ public enum WarehouseText {
     HQ_INSERT_WAREHOUSE_NAME("창고 이름: "),
     HQ_INSERT_WAREHOUSE_LOCATION("창고 소재지: "),
     HQ_INSERT_WAREHOUSE_SIZE("창고 수용한도: "),
-    HQ_INSERT_WAREHOUSE_MANAGER_NAME("창고 담당관리자 이름: "),
     HQ_INSERT_WAREHOUSE_MANAGER_ID("창고 담당관리자 ID: "),
     HQ_INSERT_WAREHOUSE("창고가 등록되었습니다."),
 
@@ -58,6 +57,7 @@ public enum WarehouseText {
     HQ_SHOW_INVENTORY_BY_LOGIN_HEADER("=== 내 창고 재고 조회 ==="),
 
     /** 본사-창고관리 > 창고조회 > 소재지별 창고 조회 서브메뉴 */
+    HQ_LOCATION("검색할 소재지명: "),
     HQ_WAREHOUSE_VIEW_LOCATION_MENU("\n[본사 관리자 > 창고 관리 > 창고 조회 > 소재지별 창고 조회]\n" +
             "1. 수도권\n" +
             "2. 비수도권\n" +

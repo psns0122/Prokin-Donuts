@@ -3,8 +3,6 @@ package repository;
 import config.DBUtil;
 import dto.memberDTO.MemberDTO;
 import dto.memberDTO.MemberRequestDTO;
-import vo.memberVO.MemberReauestVO;
-import vo.memberVO.MemberVO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,6 +17,22 @@ public class MemberRepoImpl implements MemberRepo {
     CallableStatement cs = null;
     ResultSet rs = null;
 
+    public static void main(String[] args) {
+        MemberDTO entity = new MemberDTO(
+                1,
+                1,
+                "test",
+                "test",
+                "test",
+                "test",
+                "test",
+                "test",
+                "test"
+                );
+        MemberRepoImpl repo = new MemberRepoImpl();
+        repo.insertMember(entity).ifPresent(System.out::println);
+    }
+
     // 회원 등록 메서드
     @Override
     public Optional<MemberDTO> insertMember(MemberDTO member) {
@@ -26,8 +40,8 @@ public class MemberRepoImpl implements MemberRepo {
 
         try {
 
-            cs = conn.prepareCall("insert into member('authorityid','name','phoneNumber','email','address','id','password') values (?,?,?,?,?,?,?)");
-
+            String sql = "call insertMember(?, ?, ? ,? ,? ,? ,?)";
+            cs = conn.prepareCall(sql);
 
             cs.setInt(1, member.getAuthorityId());
             cs.setString(2, member.getName());
@@ -36,10 +50,10 @@ public class MemberRepoImpl implements MemberRepo {
             cs.setString(5, member.getAddress());
             cs.setString(6, member.getId());
             cs.setString(7, member.getPassword());
-            int rs = cs.executeUpdate();
+            boolean rs = cs.execute();
 
             //실행 성공 시 객체 반환, 실패 시 빈 optional반환
-            if (rs > 0) return Optional.of(member);
+            if (rs) return Optional.of(member);
             else return Optional.empty();
 
         } catch (SQLException e) {
