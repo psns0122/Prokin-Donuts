@@ -25,7 +25,7 @@ public class LoginControllerImpl implements LoginController{
     Map<Integer,Runnable> mainMenu = new HashMap<>();
 
     public void loginPlay(){
-            mainMenu = setMainMenu();
+        mainMenu = setMainMenu();
         while(true) {
             System.out.println(LoginText.MENU_HEADER.getText());
             Runnable action = mainMenu.get(
@@ -141,6 +141,6 @@ public class LoginControllerImpl implements LoginController{
         newMemberRequest.setAddress(InputUtil.getInput(LoginText.REQUEST.getText()+MemberText.MEMBER_ADDRESS.getText()).get());
         newMemberRequest.setId(InputUtil.getInput(LoginText.REQUEST.getText()+MemberText.MEMBER_ID.getText()).get());
         newMemberRequest.setPassword(InputUtil.getInput(LoginText.REQUEST.getText()+MemberText.MEMBER_PASSWORD.getText()).get());
-       return newMemberRequest;
+        return newMemberRequest;
     }
 }

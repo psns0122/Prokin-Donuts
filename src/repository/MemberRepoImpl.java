@@ -12,26 +12,9 @@ import java.util.Optional;
 
 public class MemberRepoImpl implements MemberRepo {
 
-
     Connection conn = null;
     CallableStatement cs = null;
     ResultSet rs = null;
-
-    public static void main(String[] args) {
-        MemberDTO entity = new MemberDTO(
-                1,
-                1,
-                "test",
-                "test",
-                "test",
-                "test",
-                "test",
-                "test",
-                "test"
-                );
-        MemberRepoImpl repo = new MemberRepoImpl();
-        repo.insertMember(entity).ifPresent(System.out::println);
-    }
 
     // 회원 등록 메서드
     @Override
