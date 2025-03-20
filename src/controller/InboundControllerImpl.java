@@ -17,8 +17,8 @@ import java.util.*;
 public class InboundControllerImpl implements InboundController {
     public static void main(String[] args) {
         InboundControllerImpl inboundController = new InboundControllerImpl(new InboundServiceImpl(new InboundRepoImpl()));
-        //inboundController.warehouseManager(1);
-        inboundController.Headquarters();
+        inboundController.warehouseManager(1);
+        //inboundController.Headquarters();
     }
 
     private final InboundService inboundService;
@@ -28,7 +28,8 @@ public class InboundControllerImpl implements InboundController {
     }
 
     /**
-     * 창고관리자 작업시 필요한 창고ID를 loginUtil에 있는 멤버 ID로 가져온다.
+     * 창고관리자 작업시 필요한 창고ID를
+     * loginUtil에 있는 멤버 ID로 가져온다.
      */
     private int getWarehouseId(int memberId) throws IllegalArgumentException {
         return inboundService.getWarehouseId(memberId);
@@ -37,17 +38,22 @@ public class InboundControllerImpl implements InboundController {
     /**
      * 창고 관리자 호출
      */
-    public void warehouseManager(int warehouseId)  {
+    public void warehouseManager(int warehouseId) {
         while (true) {
-            printWmMenu(); //창고 관리자 메뉴 출력
-            Map<Integer, Runnable> menuActions = new HashMap<>();
-            menuActions.put(1, () -> inspectInbound(warehouseId));
-            menuActions.put(2, () -> requestInbound(warehouseId));
-            menuActions.put(3, () -> updateInbound(warehouseId));
-            menuActions.put(4, () -> deleteInbound(warehouseId));
-            menuActions.put(5, () -> printRecepit(warehouseId));
-            menuActions.put(6, () -> InboundStatus(warehouseId));
-            MenuUtil.handleMenuSelection(InboundText.MENU_CHOICE.getText(), menuActions);
+            try {
+                printWmMenu(); //창고 관리자 메뉴 출력
+                Map<Integer, Runnable> menuActions = new HashMap<>();
+                menuActions.put(1, () -> inspectInbound(warehouseId));
+                menuActions.put(2, () -> requestInbound(warehouseId));
+                menuActions.put(3, () -> updateInbound(warehouseId));
+                menuActions.put(4, () -> deleteInbound(warehouseId));
+                menuActions.put(5, () -> printReceipt(warehouseId));
+                menuActions.put(6, () -> InboundStatus(warehouseId));
+                MenuUtil.handleMenuSelection(InboundText.MENU_CHOICE.getText(), menuActions);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+
         }
         //int warehouseId = getWarehouseId(LoginUtil.getLoginMember().getMemberNo());
 
@@ -66,14 +72,9 @@ public class InboundControllerImpl implements InboundController {
      * 창고 관리자의 입고 검수 기능
      * inspect, printInboundList
      */
-    private void inspectInbound(int warehouseId) {
-        try {
-            printInboundList(warehouseId);
-            selectInboundId();
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
-
+    private void inspectInbound(int warehouseId) throws IllegalArgumentException {
+        printInboundList(warehouseId);
+        selectInboundId();
     }
 
     /**
@@ -109,34 +110,29 @@ public class InboundControllerImpl implements InboundController {
      * 4. 모두 선택하면 List 로 담아서 저장
      * 5. 저장 시 입고 테이블, 입고 상세 테이블에 각각 저장
      */
-    private void requestInbound(int warehouseId) {
-        try {
-            List<InboundDetailVO> list = new ArrayList<>();
-            // 상품 메뉴 출력
-            printProductMenu();
-            // 다음 입고 번호를 가져오는 기능
-            int inboundId = inboundService.getNextInboundId() + 1;
-            getInboundList(inboundId, list);
+    private void requestInbound(int warehouseId) throws IllegalArgumentException {
+        List<InboundDetailVO> list = new ArrayList<>();
+        // 상품 메뉴 출력
+        printProductMenu();
+        // 다음 입고 번호를 가져오는 기능
+        int inboundId = inboundService.getNextInboundId() + 1;
+        getInboundList(inboundId, list);
 
-            //날짜 선택 InputUtil 작성  2025-03-18 형식
-            LocalDate date = InputUtil.getDate(InboundText.INBOUND_DATE.getText());
+        //날짜 선택 InputUtil 작성  2025-03-18 형식
+        LocalDate date = InputUtil.getDate(InboundText.INBOUND_DATE.getText());
 
-            //입고 테이블에 입고 요청 등록
-            InboundVO inboundVO = InboundVO.builder()
-                    .inboundDate(date)
-                    .status("입고요청")
-                    .warehouseId(warehouseId)
-                    .build();
-            // 입고 테이블에 입고 요청 등록
-            inboundService.registerInbound(inboundVO);
-            // 입고 요청 상세 테이블에 입고요청 상세 등록
-            inboundService.registerDetailInfo(list);
-            // 입고, 입고요청 상세 등록 완료되면 성공 !
-            System.out.println("성공");
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
-
+        //입고 테이블에 입고 요청 등록
+        InboundVO inboundVO = InboundVO.builder()
+                .inboundDate(date)
+                .status("입고요청")
+                .warehouseId(warehouseId)
+                .build();
+        // 입고 테이블에 입고 요청 등록
+        inboundService.registerInbound(inboundVO);
+        // 입고 요청 상세 테이블에 입고요청 상세 등록
+        inboundService.registerDetailInfo(list);
+        // 입고, 입고요청 상세 등록 완료되면 성공 !
+        System.out.println("성공");
     }
 
     /**
@@ -167,9 +163,9 @@ public class InboundControllerImpl implements InboundController {
      * 상품 메뉴 출력
      */
     private void printProductMenu() throws IllegalArgumentException {
-            List<ProductDTO> list = inboundService.getProductMenu();
-            list.forEach(System.out::println);
-            System.out.println();
+        List<ProductDTO> list = inboundService.getProductMenu();
+        list.forEach(System.out::println);
+        System.out.println();
     }
 
     /**
@@ -188,82 +184,69 @@ public class InboundControllerImpl implements InboundController {
      * 4. 취소 가능하면 삭제 / 취소 불가능하면 불가능하다 안내
      * Refactoring -> 기능 별로 메서드 추출 예정
      */
-    private void deleteInbound(int warehouseId) {
-        try {
-            // 입고 요청 리스트 출력(요청, 승인 상태인 경우에만 가능)
-            printDeleteList(warehouseId);
+    private void deleteInbound(int warehouseId) throws IllegalArgumentException {
+        // 입고 요청 리스트 출력(요청, 승인 상태인 경우에만 가능)
+        printDeleteList(warehouseId);
 
-            int inboundId = InputUtil.getIntegerInput(InboundText.DELETE_ID.getText());
-            //취소 가능하면 -> 삭제
+        int inboundId = InputUtil.getIntegerInput(InboundText.DELETE_ID.getText());
+        //취소 가능하면 -> 삭제
 
-            if (inboundService.checkInboundDate(inboundId)) {
-                inboundService.deleteInboundInfo(inboundId);
-                System.out.println(InboundText.DELETE.getText());
-                System.out.println();
-            } else {
-                System.out.println(InboundText.NOT_DELETE.getText());
-                System.out.println();
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+        if (inboundService.checkInboundDate(inboundId)) {
+            inboundService.deleteInboundInfo(inboundId);
+            System.out.println(InboundText.DELETE.getText());
+            System.out.println();
+        } else {
+            System.out.println(InboundText.NOT_DELETE.getText());
+            System.out.println();
         }
-
     }
 
     private void printDeleteList(int warehouseId) throws IllegalArgumentException {
-            List<InboundVO> list = inboundService.getInboundList(warehouseId);
-            list.forEach(System.out::println);
-            System.out.println();
+        List<InboundVO> list = inboundService.getInboundList(warehouseId);
+        list.forEach(System.out::println);
+        System.out.println();
     }
 
     /**
      * 입고 고지서 출력
      */
-    private void printRecepit(int warehouseId) {
+    private void printReceipt(int warehouseId) throws IllegalArgumentException {
         // 입고 요청, 승인 상태인 입고고지서를 가져와 출력한다.
-        try {
-            List<InboundVO> list = inboundService.getInboundList(warehouseId);
-            list.forEach(System.out::println);
-            System.out.println();
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            System.out.println();
-        }
+        List<InboundVO> list = inboundService.getInboundList(warehouseId);
+        list.forEach(System.out::println);
+        System.out.println();
     }
 
     /**
      * 창고 관리자 입고 현황 조회
      * (입고 상세 정보 출력)
      */
-    private void InboundStatus(int warehouseId)  {
-        try {
-            List<InboundStatusVO> list = inboundService.getInboundDetail(warehouseId);
-            list.forEach(System.out::println);
-            System.out.println();
-        } catch(IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            System.out.println();
-        }
-
+    private void InboundStatus(int warehouseId) throws IllegalArgumentException {
+        List<InboundStatusVO> list = inboundService.getInboundDetail(warehouseId);
+        list.forEach(System.out::println);
+        System.out.println();
     }
 
 
     // 총관리자 호출
     public void Headquarters() {
         while (true) {
-            printHqMenu();
-            Map<Integer, Runnable> menuActions = new HashMap<>();
-            menuActions.put(1, () -> approved());
-            menuActions.put(2, () -> printInbound());
-            menuActions.put(3, () -> printTotalInbound());
-            MenuUtil.handleMenuSelection(InboundText.MENU_CHOICE.getText(), menuActions);
+            try {
+                printHqMenu();
+                Map<Integer, Runnable> menuActions = new HashMap<>();
+                menuActions.put(1, () -> approved());
+                menuActions.put(2, () -> printInbound());
+                menuActions.put(3, () -> printTotalInbound());
+                MenuUtil.handleMenuSelection(InboundText.MENU_CHOICE.getText(), menuActions);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
-
     /**
      * (전체창고) 입고현황 출력
      */
-    private void printTotalInbound() {
+    private void printTotalInbound() throws IllegalArgumentException{
         List<InboundStatusVO> list = inboundService.getAllInbound();
         list.forEach(System.out::println);
     }
@@ -275,9 +258,9 @@ public class InboundControllerImpl implements InboundController {
     }
 
     /**
-     * 총관리자의 입고 요청 승인 기능 (테스트 완료)
+     * 총관리자의 입고 요청 승인 기능
      */
-    private void approved() {
+    private void approved() throws IllegalArgumentException {
         // 입고 '요청'상태인 입고요청 리스트 출력
         List<InboundVO> list = inboundService.getInboundRequest();
         list.forEach(System.out::println);
@@ -286,6 +269,7 @@ public class InboundControllerImpl implements InboundController {
         // 입고를 승인할 입고 ID를 입력 받으면 해당 입고 ID의 상태를 (요청 -> 승인) 상태로 변경한다.
         int inboundId = InputUtil.getIntegerInput("입고를 승인할 입고 ID를 입력하세요.");
         inboundService.updateInboundStatus(inboundId);
+        System.out.println("입고 승인이 완료되었습니다.");
     }
 
     /**
@@ -293,7 +277,7 @@ public class InboundControllerImpl implements InboundController {
      */
     private void printInbound() {
         int warehouseId = InputUtil.getIntegerInput("고지서를 출력할 창고 ID를 입력하세요.");
-        printRecepit(warehouseId);
+        printReceipt(warehouseId);
     }
 
 }

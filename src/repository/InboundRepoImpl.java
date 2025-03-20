@@ -440,7 +440,7 @@ public class InboundRepoImpl implements InboundRepo {
         }
     }
 
-    // 입고 현황 조회 추후
+    // 입고 현황 조회
     @Override
     public Optional<List<InboundStatusVO>> getAllInbound() {
         List<InboundStatusVO> list = new ArrayList<>();
