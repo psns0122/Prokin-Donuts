@@ -1,11 +1,10 @@
 package repository;
 
-import common.Order.OrderIdGenerator;
 import config.DBUtil;
 import dto.orderDTO.OrderStatisticsDTO;
 import vo.orderVO.OrderDetailVO;
 import vo.orderVO.OrderVO;
-
+//
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
@@ -14,32 +13,36 @@ public class OrderRepoImpl implements OrderRepo {
 
     @Override
     public String saveOrder(OrderVO order) {
-        String newOrderId = OrderIdGenerator.generateOrderId();
-        String sql = "{CALL sp_saveOrder(?, ?, ?, ?, ?)}";
+        String sql = "{CALL sp_saveOrder(?, ?, ?, ?)}";
+        String newOrderId = null;
         try (Connection conn = DBUtil.getConnection();
-             CallableStatement cstmt = conn.prepareCall(sql)) {
-            cstmt.setString(1, newOrderId);
-            cstmt.setDate(2, Date.valueOf(order.getOrderDate()));
-            cstmt.setString(3, order.getOrderStatus());
-            cstmt.setString(4, order.getMemberId());
-            cstmt.registerOutParameter(5, Types.VARCHAR);
-            cstmt.execute();
-            return cstmt.getString(5);
+             CallableStatement cs = conn.prepareCall(sql)) {
+
+            cs.setString(1, order.getOrderDate());
+            cs.setString(2, order.getOrderStatus());
+            cs.setInt(3, Integer.parseInt(order.getMemberId()));
+
+            cs.registerOutParameter(4, Types.INTEGER);
+
+            cs.execute();
+
+            newOrderId = String.valueOf(cs.getInt(4));
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return newOrderId;
     }
-
     @Override
     public void saveOrderDetail(OrderDetailVO detail) {
         String sql = "{CALL sp_saveOrderDetail(?, ?, ?)}";
         try (Connection conn = DBUtil.getConnection();
-             CallableStatement cstmt = conn.prepareCall(sql)) {
-            cstmt.setInt(1, detail.getOrderQuantity());
-            cstmt.setString(2, detail.getProductId());
-            cstmt.setString(3, detail.getOrderId());
-            cstmt.execute();
+             CallableStatement cs = conn.prepareCall(sql)) {
+
+            cs.setInt(1, detail.getOrderQuantity());
+            cs.setInt(2, Integer.parseInt(detail.getProductId()));
+            cs.setInt(3, Integer.parseInt(detail.getOrderId()));
+
+            cs.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
