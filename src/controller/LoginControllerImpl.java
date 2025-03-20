@@ -52,8 +52,8 @@ public class LoginControllerImpl implements LoginController{
         if (requst !=null && requst.equals("대기")) {
             System.out.println(LoginErrorCode.LOGIN_FAIL_REQUEST.getText());
         } else {
-            String loginstatus = memberService.logstatus(id);
-            if (loginstatus.equals("login")) System.out.println(LoginErrorCode.LOGIN_FAIL.getText()); //로그인 상태 확인
+            String logstatus = memberService.logstatus(id);
+            if (logstatus.equals("login")) System.out.println(LoginErrorCode.LOGIN_FAIL.getText()); //로그인 상태 확인
             else {
                 MemberDTO loginMember = memberService.searchMember(id);
 
@@ -119,8 +119,8 @@ public class LoginControllerImpl implements LoginController{
 
     public void logout(){
         String id = LoginUtil.getLoginMember().getId();
-        String loginstatus = memberService.logstatus(id); //로그인 상태 확인
-        if (loginstatus.equals("logout"))
+        String logstatus = memberService.logstatus(id); //로그인 상태 확인
+        if (logstatus.equals("logout"))
             System.out.println(LoginErrorCode.LOGIN_FAIL_OUT.getText());
         else {
             String result = memberService.logOut(id);

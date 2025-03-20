@@ -42,31 +42,47 @@ public class MainController {
         scanner.nextLine();
 
         switch (choice) {
-            case 1 -> warehouseController.showWarehouseMenu(authority);
-            case 2 -> franchiseController.showFranchiseMenu(authority);
-            case 3 -> warehouseController.showWarehouseMenu(authority);
-            case 4 -> warehouseController.showWarehouseMenu(authority);
-            case 5 -> warehouseController.showWarehouseMenu(authority);
-            case 6 -> warehouseController.showWarehouseMenu(authority);
+            case 1 -> memberController.HQMenu();
+            case 2 -> warehouseController.showWarehouseMenu(authority);
+            case 3 -> inventoryController.showInventoryMenu(authority);
+            case 4 -> franchiseController.showFranchiseMenu(authority);
+            case 5 -> orderController.runHeadquartersMenu();
+            case 6 -> inboundController.Headquarters();
             // 본사관리자
         }
     }
     private void printWMMenu(int authority) {
         System.out.println(LoginText.WM_MAINMENU.getText());
-        warehouseController.showWarehouseMenu(authority);
-        // 창고관리자
+        System.out.print("메뉴 선택 : ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1 -> memberController.WMMenu();
+            case 2 -> warehouseController.showWarehouseMenu(authority);
+            case 3 -> inventoryController.showInventoryMenu(authority);
+            case 4 -> orderController.runWarehouseMenu();
+            case 5 -> inboundController.warehouseManager();
+            // 본사관리자
+        }
     }
     private void printFMMenu(int authority) {
         System.out.println(LoginText.FM_MAINMENU.getText());
-        // 점주
+        System.out.print("메뉴 선택 : ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1 -> memberController.FMMenu();
+            case 2 -> orderController.runStoreManagerMenu();
+            // 본사관리자
+        }
     }
 
     public void run() {
-        inventoryController.showInventoryMenu(1);
-
         while (true) {
             // 로그인 메뉴
-            //memberController.MainMune();
+            loginController.loginPlay();
 
             // 로그인 후 권한 가져오기
             int authority = LoginUtil.getLoginMember().getAuthorityId();

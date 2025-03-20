@@ -141,8 +141,8 @@ public class MemberControllerImpl implements MemberController {
         String deleteMemberId = InputUtil.getInput(MemberText.DELETE_MEMBER.getText()+MemberText.MEMBER_ID.getText()).get();
         String result = memberService.deleteMember(deleteMemberId);
         if(result!=null){
-        System.out.print(result);
-        System.out.println(MemberText.DELETE_MEMBER_SUCCESS.getText());
+            System.out.print(result);
+            System.out.println(MemberText.DELETE_MEMBER_SUCCESS.getText());
         }else System.out.println(MemberErrorCode.DELETE_FAIL.getText());
     }
 
@@ -150,7 +150,7 @@ public class MemberControllerImpl implements MemberController {
         System.out.println(MemberText.UPDATE_MEMBER_HEADER.getText());
 
         String updateMemberID = InputUtil.getInput(MemberText.UPDATE_MEMBER.getText()+
-                                MemberText.MEMBER_ID.getText()).get();
+                MemberText.MEMBER_ID.getText()).get();
         MemberDTO updateMember = updateMember();
         MemberDTO result = memberService.updateMember(updateMemberID,updateMember);
         System.out.print(updateMemberID);
@@ -162,8 +162,8 @@ public class MemberControllerImpl implements MemberController {
         MemberDTO result = memberService.searchMember(InputUtil.getInput(MemberText.SEARCH_MEMBER_ID.getText()).get());
         if(result == null ) System.out.println(MemberErrorCode.MEMBER_NOT_FOUND.getText());
         System.out.println("이름: "+result.getName()+
-                            " 아이디 : "+result.getId()+
-                            " 이메일: "+result.getEmail());
+                " 아이디 : "+result.getId()+
+                " 이메일: "+result.getEmail());
     }
     public void searchDitailMenu(){
         System.out.println(MemberText.SEARCH_MEMBER_DETAIL_HEADER.getText());
@@ -224,16 +224,16 @@ public class MemberControllerImpl implements MemberController {
 
     //로그인한 회원의 회원정보 수정
     public void loginMemberUpdate(){
-       int loginMember = LoginUtil.getLoginMember().getMemberNo();
-       MemberDTO updateMember= updateMember();
-       updateMember.setMemberNo(loginMember);
-       memberService.updateMember(LoginUtil.getLoginMember().getId(),updateMember);
+        int loginMember = LoginUtil.getLoginMember().getMemberNo();
+        MemberDTO updateMember= updateMember();
+        updateMember.setMemberNo(loginMember);
+        memberService.updateMember(LoginUtil.getLoginMember().getId(),updateMember);
         System.out.println(MemberText.UPDATE_MEMBER_SUCCESS.getText());
     }
 
     //로그인한 회원의 탈퇴
     public void loginMemberDelete(){
-       String loginMember = LoginUtil.getLoginMember().getId();
+        String loginMember = LoginUtil.getLoginMember().getId();
         memberService.deleteMember(loginMember);
     }
 
@@ -250,19 +250,10 @@ public class MemberControllerImpl implements MemberController {
 
     //로그인한 회원의 상세조회
     public void loginMemberDetailSearch(){
-       String loginMember = LoginUtil.getLoginMember().getId();
+        String loginMember = LoginUtil.getLoginMember().getId();
         MemberDTO result  = memberService.searchMember(loginMember);
         System.out.println(result);
     }
 
 
 }
-
-
-
-
-
-
-
-
-
