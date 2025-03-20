@@ -113,7 +113,7 @@ public interface InboundRepo {
      * 입고와 입고상세 join한 정보를 가져온다.
      * DTO 추후 변경
      */
-    Optional<List<InboundVO>> getAllInbound();
+    Optional<List<InboundStatusVO>> getAllInbound();
 
     /**
      * [입고 현황 조회]

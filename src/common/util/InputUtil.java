@@ -1,4 +1,7 @@
 package common.util;
+import common.inbound.InboundErrorCode;
+
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
 import java.util.Scanner;
 import java.time.LocalDate;
@@ -63,8 +66,8 @@ public class InputUtil {
 
             try {
                 return LocalDate.parse(input, DATE_FORMATTER);
-            } catch (NumberFormatException e) {
-                System.out.println("올바른 날짜를 입력하세요.");
+            } catch (DateTimeParseException e) {
+                System.out.println(InboundErrorCode.DATE_FORMATTER.getText());
             }
         }
     }
