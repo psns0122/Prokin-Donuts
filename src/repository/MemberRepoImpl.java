@@ -233,20 +233,18 @@ public class MemberRepoImpl implements MemberRepo {
     @Override
     public Optional<String> searchLoginfo(String findField, String searchField, String searchValue) {
         conn = DBUtil.getConnection();
-        try {
-            String sql = "call searchStatusMember(?,?,?)";
-            cs = conn.prepareCall(sql);
-            cs.setString(1, findField);
-            cs.setString(2, searchField);
-            cs.setString(3, searchValue);
+        String sql = "SELECT " + findField + " FROM `member` WHERE " + searchField + " = ?"; // SQL 문 수정
+        try (PreparedStatement ps = conn.prepareStatement(sql)) { // CallableStatement → PreparedStatement 변경
+            ps.setString(1, searchValue);
 
-            rs = cs.executeQuery();
-            if (rs.next()) {
-                return Optional.of(rs.getString(1)); // 첫 번째 컬럼 값 반환
-            } else return Optional.empty();
-
+            try (ResultSet rs = ps.executeQuery()) { // executeQuery() 사용
+                if (rs.next()) { // rs.next() 호출 후 데이터 가져오기
+                    String logstatus = rs.getString("logstatus");
+                    return Optional.of(logstatus);
+                }
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+           throw new RuntimeException(e);
         }
         return Optional.empty();
     }

@@ -126,12 +126,14 @@ public class MemberServiceImpl implements MemberService {
         return false;
     }
 
+
     //회원 승인 기능
     @Override
     public String approvalMember(String memberId) {
         Optional<String> approval = memberRepo.approvalMember(memberId);
         return approval.orElse(null);
     }
+
 
     //로그인 기능
     @Override
@@ -165,7 +167,7 @@ public class MemberServiceImpl implements MemberService {
     //로그인 상태 확인 기능
     @Override
     public String logstatus(String memberId){
-        Optional<String> result = memberRepo.searchLoginfo("logstatus","id",memberId);
+        Optional<String> result = memberRepo.searchLoginfo("logstatus","id", memberId);
         return result.orElse(null);
     }
 
